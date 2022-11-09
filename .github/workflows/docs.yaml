@@ -1,0 +1,81 @@
+name: publish-docs
+run-name: Publish docs from ${{ github. }}
+on:
+  workflow_dispatch:
+    inputs:
+      python_version
+
+
+
+# pool:
+#   name: Hosted VS2017
+# #Your build pipeline references the ‘py_version’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+
+# steps:
+# - task: UsePythonVersion@0
+#   displayName: 'Use Python $(py_version)'
+#   inputs:
+#     versionSpec: '$(py_version)'
+
+# - script: 'python -m pip install --upgrade pip && pip install --upgrade setuptools'
+#   displayName: 'Ensure latest pip and setuptools'
+
+# - script: 'pip install cibuildwheel && python -m cibuildwheel --output-dir dist'
+#   displayName: 'Build wheel'
+#   env:
+#     CIBW_BUILD: cp3{6,7,8,9}-*
+#     CIBW_SKIP: *musl*
+
+# - script: 'reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f'
+#   displayName: 'Enable long paths on Windows'
+#   condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
+
+# - script: 'pip install -U cython && pip install -e .[all]'
+#   displayName: 'Install package'
+
+# - script: 'python setup.py sdist'
+#   displayName: 'Build sdist'
+
+# - script: 'sudo apt-get -yq install graphviz'
+#   displayName: 'Install graphviz'
+#   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+
+# - script: 'pip install git+https://github.com/slundberg/shap.git@d1d2700acc0259f211934373826d5ff71ad514de'
+#   displayName: 'Install specific SHAP version'
+#   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+
+# - script: 'pip install "sphinx~=4.4.0" "sphinx_rtd_theme~=1.0.0" && python setup.py build_sphinx -W'
+#   displayName: 'Build documentation'
+#   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+
+# - task: PublishPipelineArtifact@1
+#   displayName: 'Publish Pipeline Artifact'
+#   inputs:
+#     targetPath: dist
+#     artifact: dist
+
+# - script: 'pip install twine && twine upload dist/*'
+#   displayName: 'Upload to pypi'
+#   condition: and(succeeded(), eq(variables['upload_to_pypi'], 'true'))
+#   env:
+#     TWINE_USERNAME: $(twine_username)
+#     TWINE_PASSWORD: $(twine_password)
+
+# - task: ArchiveFiles@2
+#   displayName: 'Archive build/sphinx/html'
+#   inputs:
+#     rootFolderOrFile: build/sphinx/html
+#     includeRootFolder: false
+#     archiveFile: html.zip
+#   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+
+# - task: AzureRmWebAppDeployment@4
+#   displayName: 'Azure App Service Deploy: econml'
+#   inputs:
+#     azureSubscription: 'Alice Lab Project'
+#     WebAppName: econml
+#     packageForLinux: html.zip
+#     enableCustomDeployment: true
+#     DeploymentType: zipDeploy
+#   condition: and(succeeded(), and(eq(variables['update_docs'], 'true'), eq(variables['Agent.OS'], 'Linux')))
+
