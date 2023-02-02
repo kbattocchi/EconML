@@ -17,6 +17,7 @@ import numbers
 import numpy as np
 import warnings
 from collections.abc import Iterable
+from scipy.linalg import sqrtm
 from scipy.stats import norm
 from econml.sklearn_extensions.model_selection import WeightedKFold, WeightedStratifiedKFold
 from econml.utilities import ndim, shape, reshape, _safe_norm_ppf, check_input_arrays
@@ -1798,6 +1799,41 @@ class StatsModelsLinearRegression(_StatsModelsWrapper):
             sample_var = sample_var * (sample_weight.reshape(-1, 1))
         return weighted_X, weighted_y, freq_weight, sample_var
 
+    def _compute_relevant_stats(self, X, y, sample_weight=None, freq_weight=None, sample_var=None):
+        WX = X * np.sqrt(freq_weight).reshape(-1, 1)
+        self._n_samples = np.shape(X)[0]
+        self._residual = y - np.matmul(X, self._param)
+        self._weighted_samples = WX
+        self._sigma_inv = np.linalg.pinv(np.matmul(WX.T, WX))
+
+    def _compute_mult_boot_t_stat(self, multiplier):
+        num_params = np.shape(self._weighted_samples)[1]
+        sample_outer_prods = np.zeros((self._n_samples, num_params, num_params))
+        for i in range(self._n_samples):
+            sample_outer_prods[i] = np.matmul(self._weighted_samples[i].reshape(-1, 1), self._weighted_samples[i].reshape(-1, 1).T)
+        hessian_inverse = self._n_samples * np.linalg.pinv(np.sum(sample_outer_prods, axis=0))
+        multiplier_boot_t_stat = None
+        if self._residual.ndim < 2:
+            multiplier_boot_t_stat = np.zeros((num_params, ))
+            epsilon_stars = self._residual * multiplier
+            sigma_star = np.sum(sample_outer_prods * (epsilon_stars**2)[:, np.newaxis, np.newaxis], axis=0) / self._n_samples
+            hessian_times_sigma_star = np.matmul(hessian_inverse, sigma_star)
+            first_part_t_stat = np.linalg.pinv(sqrtm(np.matmul(hessian_times_sigma_star, hessian_inverse)))
+            middle_part_t_stat = hessian_inverse * 1/np.sqrt(self._n_samples)
+            last_part_t_stat = np.sum(self._weighted_samples * (epsilon_stars).reshape(-1, 1), axis=0)
+            multiplier_boot_t_stat = np.matmul(np.matmul(first_part_t_stat, middle_part_t_stat), last_part_t_stat)
+        else:
+            multiplier_boot_t_stat = np.zeros((num_params, self._n_out))
+            for j in range(self._n_out):
+                epsilon_stars = self._residual[:, j] * multiplier
+                sigma_star = np.sum(sample_outer_prods * (epsilon_stars**2)[:, np.newaxis, np.newaxis], axis=0) / self._n_samples
+                hessian_times_sigma_star = np.matmul(hessian_inverse, sigma_star)
+                first_part_t_stat = np.linalg.pinv(sqrtm(np.matmul(hessian_times_sigma_star, hessian_inverse)))
+                middle_part_t_stat = hessian_inverse * 1/np.sqrt(self._n_samples)
+                last_part_t_stat = np.sum(self._weighted_samples * (epsilon_stars).reshape(-1, 1), axis=0)
+                multiplier_boot_t_stat[:, j] = np.matmul(np.matmul(first_part_t_stat, middle_part_t_stat), last_part_t_stat)
+        return multiplier_boot_t_stat
+
     def fit(self, X, y, sample_weight=None, freq_weight=None, sample_var=None):
         """
         Fits the model.
@@ -1839,11 +1875,12 @@ class StatsModelsLinearRegression(_StatsModelsWrapper):
         if rank < param.shape[0]:
             warnings.warn("Co-variance matrix is underdetermined. Inference will be invalid!")
 
-        sigma_inv = np.linalg.pinv(np.matmul(WX.T, WX))
+
         self._param = param
         var_i = sample_var + (y - np.matmul(X, param))**2
         n_obs = np.sum(freq_weight)
         df = len(param) if self._n_out == 0 else param.shape[0]
+        self._compute_relevant_stats(X, y, sample_weight, freq_weight, sample_var)
 
         if n_obs <= df:
             warnings.warn("Number of observations <= than number of parameters. Using biased variance calculation!")
@@ -1853,28 +1890,28 @@ class StatsModelsLinearRegression(_StatsModelsWrapper):
 
         if (self.cov_type is None) or (self.cov_type == 'nonrobust'):
             if y.ndim < 2:
-                self._var = correction * np.average(var_i, weights=freq_weight) * sigma_inv
+                self._var = correction * np.average(var_i, weights=freq_weight) * self._sigma_inv
             else:
                 vars = correction * np.average(var_i, weights=freq_weight, axis=0)
-                self._var = [v * sigma_inv for v in vars]
+                self._var = [v * self._sigma_inv for v in vars]
         elif (self.cov_type == 'HC0'):
             if y.ndim < 2:
                 weighted_sigma = np.matmul(WX.T, WX * var_i.reshape(-1, 1))
-                self._var = np.matmul(sigma_inv, np.matmul(weighted_sigma, sigma_inv))
+                self._var = np.matmul(self._sigma_inv, np.matmul(weighted_sigma, self._sigma_inv))
             else:
                 self._var = []
                 for j in range(self._n_out):
                     weighted_sigma = np.matmul(WX.T, WX * var_i[:, [j]])
-                    self._var.append(np.matmul(sigma_inv, np.matmul(weighted_sigma, sigma_inv)))
+                    self._var.append(np.matmul(self._sigma_inv, np.matmul(weighted_sigma, self._sigma_inv)))
         elif (self.cov_type == 'HC1'):
             if y.ndim < 2:
                 weighted_sigma = np.matmul(WX.T, WX * var_i.reshape(-1, 1))
-                self._var = correction * np.matmul(sigma_inv, np.matmul(weighted_sigma, sigma_inv))
+                self._var = correction * np.matmul(self._sigma_inv, np.matmul(weighted_sigma, self._sigma_inv))
             else:
                 self._var = []
                 for j in range(self._n_out):
                     weighted_sigma = np.matmul(WX.T, WX * var_i[:, [j]])
-                    self._var.append(correction * np.matmul(sigma_inv, np.matmul(weighted_sigma, sigma_inv)))
+                    self._var.append(correction * np.matmul(self._sigma_inv, np.matmul(weighted_sigma, self._sigma_inv)))
         else:
             raise AttributeError("Unsupported cov_type. Must be one of nonrobust, HC0, HC1.")
 

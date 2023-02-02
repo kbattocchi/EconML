@@ -49,6 +49,8 @@ def convertArg(arg, inds):
     def convertArg_(arg, inds):
         arr = np.asarray(arg)
         if arr.ndim > 0:
+            if inds is None:
+                return arr
             return arr[inds]
         else:  # arg was a scalar, so we shouldn't have converted it
             return arg

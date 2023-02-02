@@ -148,7 +148,7 @@ class BootstrapEstimator:
                 for obj, inds in zip(self._instances, indices)
             )
         else:
-            self._wrapped._set_bootstrap_params(indices, self._n_bootstrap_samples, self._verbose)
+            self._wrapped._set_bootstrap_params("final_model", indices, self._n_jobs, self._verbose)
             self._wrapped.fit(*args, **named_args)
             self._instances = [clone(self._wrapped, safe=False)]
         return self

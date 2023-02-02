@@ -817,7 +817,8 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
                                                                   sample_weight=sample_weight, groups=groups)
         return nuisances, fitted_models, fitted_inds, scores
     
-    def _set_bootstrap_params(self, indices, n_jobs, verbose):
+    def _set_bootstrap_params(self, bootstrap_type, indices, n_jobs, verbose):
+        self._bootstrap_type = bootstrap_type
         self._bootstrap_indices = indices
         self._n_jobs = n_jobs
         self._verbose = verbose
@@ -832,11 +833,13 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
             cached_values_dict = cached_values._asdict()
             del cached_values_dict["output_T"]
 
-            Parallel(n_jobs=self._n_jobs, prefer='threads', verbose=self._verbose)(
-                delayed(fit)(cloned_final_model,
-                            **{arg: convertArg(cached_values_dict[arg], inds) for arg in cached_values_dict})
-                for inds, cloned_final_model in zip(self._bootstrap_indices, self._cloned_final_models)
-            )
+            if self._bootstrap_type == "final_model":
+                Parallel(n_jobs=self._n_jobs, prefer='threads', verbose=self._verbose)(
+                    delayed(fit)(cloned_final_model,
+                                **{arg: convertArg(cached_values_dict[arg], inds) for arg in cached_values_dict})
+                    for inds, cloned_final_model in zip(self._bootstrap_indices, self._cloned_final_models)
+                )
+                
         final_model.fit(cached_values.Y, cached_values.T, **filter_none_kwargs(X=cached_values.X, 
                                                                                W=cached_values.W, 
                                                                                Z=cached_values.Z,
