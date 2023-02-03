@@ -1811,18 +1811,16 @@ class StatsModelsLinearRegression(_StatsModelsWrapper):
         sample_outer_prods = np.zeros((self._n_samples, num_params, num_params))
         for i in range(self._n_samples):
             sample_outer_prods[i] = np.matmul(self._weighted_samples[i].reshape(-1, 1), self._weighted_samples[i].reshape(-1, 1).T)
-        hessian_inverse = self._n_samples * np.linalg.pinv(np.sum(sample_outer_prods, axis=0))
+        hessian_inverse = self._n_samples * np.linalg.inv(np.sum(sample_outer_prods, axis=0))
         multiplier_boot_t_stat = None
         if self._residual.ndim < 2:
-            multiplier_boot_t_stat = np.zeros((num_params, ))
             epsilon_stars = self._residual * multiplier
-            sigma_star = np.sum(sample_outer_prods * (epsilon_stars**2)[:, np.newaxis, np.newaxis], axis=0) / self._n_samples
-            hessian_times_sigma_star = np.matmul(hessian_inverse, sigma_star)
-            first_part_t_stat = np.linalg.pinv(sqrtm(np.matmul(hessian_times_sigma_star, hessian_inverse)))
-            middle_part_t_stat = hessian_inverse * 1/np.sqrt(self._n_samples)
-            last_part_t_stat = np.sum(self._weighted_samples * (epsilon_stars).reshape(-1, 1), axis=0)
-            multiplier_boot_t_stat = np.matmul(np.matmul(first_part_t_stat, middle_part_t_stat), last_part_t_stat)
+            # Follows the logic from this paper: https://eml.berkeley.edu/~pkline/papers/ScoreFinal_web.pdf
+            middle_part_t_stat = 1/(np.sqrt(np.diag(self._var))) * 1/np.sqrt(self._n_samples)
+            last_part_t_stat = np.sum(self._weighted_samples * (epsilon_stars).reshape(-1, 1), axis=0).reshape(-1, 1)
+            multiplier_boot_t_stat = np.matmul(middle_part_t_stat, last_part_t_stat).flatten()
         else:
+            # TODO: fix the ndim >= 2 to be similar logic as ndim < 2
             multiplier_boot_t_stat = np.zeros((num_params, self._n_out))
             for j in range(self._n_out):
                 epsilon_stars = self._residual[:, j] * multiplier

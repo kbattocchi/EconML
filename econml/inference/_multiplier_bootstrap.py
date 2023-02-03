@@ -134,6 +134,9 @@ class MultiplierBootstrapEstimator:
                         'pivot': pivot_bootstrap}[self._bootstrap_type]
                 else:
                     def all_multiplier_bootstrap(arr, est):
+                        var = self._wrapped.model_final_._var
+                        N = self._wrapped.model_final_._n_samples
+                        std_err = np.sqrt(np.diag(var)) / np.sqrt(N)
                         def multiplier_bootstrap(arr, est, i):
                             if 'coef' in name:
                                 self._current_multiplier_weight = self._multiplier_weights["coef"][i]
@@ -142,21 +145,13 @@ class MultiplierBootstrapEstimator:
                             est_shape = np.shape(est)
                             if est_shape[-1] == 0:
                                 return np.empty(est_shape), np.empty(est_shape)
-                            # TODO: the computation of the std_err is wrong --> fix
-                            var = self._wrapped.model_final_._var
-                            N = self._wrapped.model_final_._n_samples
-                            std_err = np.sqrt(np.diag(var)) / np.sqrt(N)
                             boot_t_stat = self._wrapped.model_final_._compute_mult_boot_t_stat(self._current_multiplier_weight)
-                            sim = np.abs(boot_t_stat)
-                            hatc_1 = np.quantile(sim, upper / 100)
-                            hatc_2 = np.quantile(sim, lower / 100)
-                            return est - hatc_1 * std_err, est - hatc_2 * std_err
-                        lower_bound, upper_bound = np.zeros(len(est)), np.zeros(len(est))
+                            return np.amax(np.abs(boot_t_stat))
+                        all_boot_t_stat = np.zeros(self._n_bootstrap_samples)
                         for i in range(self._n_bootstrap_samples):
-                            lower_bound_i, upper_bound_i = multiplier_bootstrap(arr, est, i)
-                            lower_bound = lower_bound + lower_bound_i
-                            upper_bound = upper_bound + upper_bound_i
-                        return lower_bound/self._n_bootstrap_samples, upper_bound/self._n_bootstrap_samples
+                            all_boot_t_stat[i] = multiplier_bootstrap(arr, est, i)
+                        hatc = np.quantile(all_boot_t_stat, upper / 100)
+                        return est - hatc * std_err, est + hatc * std_err
                     fn = all_multiplier_bootstrap
 
                 return proxy(can_call, prefix, fn)
