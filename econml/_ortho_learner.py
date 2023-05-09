@@ -553,10 +553,11 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
 
     def _gen_cloned_ortho_learner_model_finals(self, num_clone_final_models):
         self._clone_model_finals = True
-        self._cloned_final_models = [clone(self._ortho_learner_model_final, safe=False) for _ in range(num_clone_final_models)]
+        self._cloned_final_models = [clone(self._ortho_learner_model_final, safe=False)
+                                     for _ in range(num_clone_final_models)]
         self._current_cloned_index = 0
         self._current_cloned_final_model = self._cloned_final_models[self._current_cloned_index]
-    
+
     def _set_current_cloned_ortho_learner_model_final(self, clone_index):
         self._current_cloned_index = clone_index
         self._current_cloned_final_model = self._cloned_final_models[self._current_cloned_index]
@@ -571,7 +572,7 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
                 final_T = cached_values.output_T
         return cached_values._replace(T=final_T)
 
-    def _fit_cached_values(self, Y, T, *, X=None, W=None, Z=None, sample_weight=None, freq_weight=None, sample_var=None, groups=None, 
+    def _fit_cached_values(self, Y, T, *, X=None, W=None, Z=None, sample_weight=None, freq_weight=None, sample_var=None, groups=None,
                            cache_values=False, inference=None, only_final=False, check_input=True):
         if check_input:
             Y, T, X, W, Z, sample_weight, freq_weight, sample_var, groups = check_input_arrays(
@@ -632,17 +633,17 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
         if self.mc_iters is not None:
             if self.mc_agg == 'mean':
                 nuisances = tuple(np.mean(nuisance_mc_variants, axis=0)
-                                    for nuisance_mc_variants in zip(*all_nuisances))
+                                  for nuisance_mc_variants in zip(*all_nuisances))
             elif self.mc_agg == 'median':
                 nuisances = tuple(np.median(nuisance_mc_variants, axis=0)
-                                    for nuisance_mc_variants in zip(*all_nuisances))
+                                  for nuisance_mc_variants in zip(*all_nuisances))
             else:
                 raise ValueError(
                     "Parameter `mc_agg` must be one of {'mean', 'median'}. Got {}".format(self.mc_agg))
 
         Y, T, X, W, Z, sample_weight, freq_weight, sample_var = (self._subinds_check_none(arr, fitted_inds)
-                                                                    for arr in (Y, T, X, W, Z, sample_weight,
-                                                                                freq_weight, sample_var))
+                                                                 for arr in (Y, T, X, W, Z, sample_weight,
+                                                                             freq_weight, sample_var))
         nuisances = tuple([self._subinds_check_none(nuis, fitted_inds) for nuis in nuisances])
         cached_values = CachedValues(nuisances=nuisances,
                                      Y=Y, T=T, X=X, W=W, Z=Z,
@@ -710,7 +711,7 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
         -------
         self : object
         """
-        self._fit_init(Y=Y, T=T, X=X, W=W, Z=Z, sample_weight=sample_weight, 
+        self._fit_init(Y=Y, T=T, X=X, W=W, Z=Z, sample_weight=sample_weight,
                        freq_weight=freq_weight, sample_var=sample_var, groups=groups,
                        cache_values=cache_values, inference=inference, check_input=check_input)
         cached_values = None
@@ -816,7 +817,7 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
                                                                   Y, T, X=X, W=W, Z=Z,
                                                                   sample_weight=sample_weight, groups=groups)
         return nuisances, fitted_models, fitted_inds, scores
-    
+
     def _set_bootstrap_params(self, bootstrap_type, indices, n_jobs, verbose):
         self._bootstrap_type = bootstrap_type
         self._bootstrap_indices = indices
@@ -836,12 +837,12 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
             if self._bootstrap_type == "final_model":
                 Parallel(n_jobs=self._n_jobs, prefer='threads', verbose=self._verbose)(
                     delayed(fit)(cloned_final_model,
-                                **{arg: convertArg(cached_values_dict[arg], inds) for arg in cached_values_dict})
+                                 **{arg: convertArg(cached_values_dict[arg], inds) for arg in cached_values_dict})
                     for inds, cloned_final_model in zip(self._bootstrap_indices, self._cloned_final_models)
                 )
-                
-        final_model.fit(cached_values.Y, cached_values.T, **filter_none_kwargs(X=cached_values.X, 
-                                                                               W=cached_values.W, 
+
+        final_model.fit(cached_values.Y, cached_values.T, **filter_none_kwargs(X=cached_values.X,
+                                                                               W=cached_values.W,
                                                                                Z=cached_values.Z,
                                                                                nuisances=cached_values.nuisances,
                                                                                sample_weight=cached_values.sample_weight,
@@ -850,8 +851,8 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
                                                                                groups=cached_values.groups))
         self.score_ = None
         if hasattr(final_model, 'score'):
-            self.score_ = final_model.score(cached_values.Y, cached_values.T, **filter_none_kwargs(X=cached_values.X, 
-                                                                                                   W=cached_values.W, 
+            self.score_ = final_model.score(cached_values.Y, cached_values.T, **filter_none_kwargs(X=cached_values.X,
+                                                                                                   W=cached_values.W,
                                                                                                    Z=cached_values.Z,
                                                                                                    nuisances=cached_values.nuisances,
                                                                                                    sample_weight=cached_values.sample_weight,
@@ -953,7 +954,7 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
 
         return self._ortho_learner_model_final.score(Y, T, nuisances=nuisances,
                                                      **filter_none_kwargs(X=X, W=W, Z=Z,
-                                                                          sample_weight=sample_weight, groups=groups))
+                                                                          sample_weight=sample_weight, groups=groups))  # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
     @property
     def ortho_learner_model_final_(self):
