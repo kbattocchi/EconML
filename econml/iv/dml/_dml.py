@@ -794,6 +794,10 @@ class _BaseDMLIVNuisanceSelector(ModelSelector):
         T_res = TXZ_pred.reshape(T.shape) - TX_pred.reshape(T.shape)
         return Y_res, T_res
 
+    @property
+    def needs_fit(self):
+        return self._model_y_xw.needs_fit or self._model_t_xw.needs_fit or self._model_t_xwz.needs_fit
+
 
 class _BaseDMLIVModelFinal(_ModelFinal):
     """

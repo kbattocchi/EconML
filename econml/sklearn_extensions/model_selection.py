@@ -509,7 +509,7 @@ class SklearnCVSelector(SingleModelSelector):
     @staticmethod
     def _convert_model(model):
         if isinstance(model, Pipeline):
-            inner_model, name = model.steps[-1]
+            name, inner_model = model.steps[-1]
             best_model, score = SklearnCVSelector._convert_model(inner_model)
             return Pipeline(steps=[*model.steps[:-1], (name, best_model)]), score
 
