@@ -194,8 +194,8 @@ class _BaseDRIVNuisanceCovarianceSelector(ModelSelector):
             else:
                 # fit on T*T_proj, covariance will be computed by E[T_res * T_proj] = E[T*T_proj] - E[T]^2
                 # return shape (n,)
-                T_pred = T - T_res
-                T_proj = T_pred + Z_res
+                T_pred = T - T_res.reshape(T.shape)
+                T_proj = T_pred + Z_res.reshape(T.shape)
                 target = (T * T_proj).reshape(T.shape[0],)
         else:
             if self._fit_cov_directly:
@@ -270,7 +270,6 @@ class _BaseDRIVNuisanceCovarianceSelector(ModelSelector):
                 cov = TZ_pred - T_pred * Z_pred
 
         # check nuisances outcome shape
-        # Y_res could be a vector or 1-dimensional 2d-array
         assert cov.ndim == 1, "Nuisance outcome should be vector!"
 
         return (cov,)

@@ -180,6 +180,9 @@ def _crossfit(models: Union[ModelSelector, List[ModelSelector]], folds, use_ray,
                 return self
             def predict(self, X, y, W=None):
                 return self._model.predict(X)
+            @property
+            def needs_fit(self):
+                return False
         np.random.seed(123)
         X = np.random.normal(size=(5000, 3))
         y = X[:, 0] + np.random.normal(size=(5000,))
@@ -224,6 +227,10 @@ def _crossfit(models: Union[ModelSelector, List[ModelSelector]], folds, use_ray,
         fitted_inds = np.arange(n)
 
     accumulated_nuisances = ()
+    # NOTE: if any model is missing scores we will just return None even if another model
+    #       has scores. this is because we don't know how many scores are missing
+    #       for the models that are missing them, so we don't know how to pad the array
+    calculate_scores = True
     accumulated_scores = ()
 
     # for convenience we allos a single model to be passed in lieu of a singleton list
@@ -240,7 +247,7 @@ def _crossfit(models: Union[ModelSelector, List[ModelSelector]], folds, use_ray,
         if model.needs_fit:
             model.train(True, *accumulated_args, **kwargs)
 
-        calculate_scores = hasattr(model, 'score')
+        calculate_scores &= hasattr(model, 'score')
 
         model_list.append([])  # add a new empty list of clones for this model
 
@@ -257,8 +264,6 @@ def _crossfit(models: Union[ModelSelector, List[ModelSelector]], folds, use_ray,
                     scores = (scores,)
                 # scores entries should be lists of scores, so make each entry a singleton list
                 scores = tuple([s] for s in scores)
-            else:
-                scores = (None for _ in nuisances)
 
         else:
             fold_refs = []
@@ -294,7 +299,10 @@ def _crossfit(models: Union[ModelSelector, List[ModelSelector]], folds, use_ray,
                 model_list[-1].append(model_out)
 
         accumulated_nuisances += nuisances
-        accumulated_scores += (scores if calculate_scores else (None for _ in nuisances))
+        if calculate_scores:
+            accumulated_scores += scores
+        else:
+            accumulated_scores = None
 
     if unwrap_model_output:
         model_list = model_list[0]
@@ -443,6 +451,9 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
                 return self
             def predict(self, Y, T, W=None):
                 return Y - self._model_y.predict(W), T - self._model_t.predict(W)
+            @property
+            def needs_fit(self):
+                return False
         class ModelFinal:
             def __init__(self):
                 return
@@ -497,6 +508,9 @@ class _OrthoLearner(TreatmentExpansionMixin, LinearCateEstimator):
                 return self
             def predict(self, Y, T, W=None):
                 return Y - self._model_y.predict(W), T - self._model_t.predict_proba(W)[:, 1:]
+            @property
+            def needs_fit(self):
+                return False
         class ModelFinal:
             def __init__(self):
                 return
