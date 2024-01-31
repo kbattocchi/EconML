@@ -74,9 +74,12 @@ class TestFederatedLearning(unittest.TestCase):
 
             for cov_type in ['HC0', 'HC1', 'nonrobust']:
                 with self.subTest(n_t=n_t, cov_type=cov_type):
-                    est_all = LinearDRLearner(model_propensity=t_model, model_regression=y_model)
-                    est_h1 = LinearDRLearner(model_propensity=t_model, model_regression=y_model)
-                    est_h2 = LinearDRLearner(model_propensity=t_model, model_regression=y_model)
+                    est_all = LinearDRLearner(model_propensity=t_model, model_regression=y_model,
+                                              enable_federation=True)
+                    est_h1 = LinearDRLearner(model_propensity=t_model, model_regression=y_model,
+                                             enable_federation=True)
+                    est_h2 = LinearDRLearner(model_propensity=t_model, model_regression=y_model,
+                                             enable_federation=True)
 
                     est_all.fit(Y, T, X=X, W=W,
                                 inference=StatsModelsInferenceDiscrete(cov_type=cov_type))
@@ -150,9 +153,12 @@ class TestFederatedLearning(unittest.TestCase):
                                 with self.subTest(d_x=d_x, d_t=d_t, d_y=d_y,
                                                   weights=(weights is not None), fw=(freq_weights is not None),
                                                   cov_type=cov_type):
-                                    est_all = LinearDML(model_t=t_model, model_y=y_model, linear_first_stages=False)
-                                    est_h1 = LinearDML(model_t=t_model, model_y=y_model, linear_first_stages=False)
-                                    est_h2 = LinearDML(model_t=t_model, model_y=y_model, linear_first_stages=False)
+                                    est_all = LinearDML(model_t=t_model, model_y=y_model, linear_first_stages=False,
+                                                        enable_federation=True)
+                                    est_h1 = LinearDML(model_t=t_model, model_y=y_model, linear_first_stages=False,
+                                                       enable_federation=True)
+                                    est_h2 = LinearDML(model_t=t_model, model_y=y_model, linear_first_stages=False,
+                                                       enable_federation=True)
 
                                     est_all.fit(Y, T, X=X, W=W,
                                                 sample_weight=weights,
