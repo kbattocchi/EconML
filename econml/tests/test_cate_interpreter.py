@@ -13,11 +13,10 @@ try:
     from graphviz import Graph
     g = Graph()
     g.render()
+    import matplotlib
+    matplotlib.use('Agg')
 except Exception:
     graphviz_works = False
-
-import matplotlib
-matplotlib.use('Agg')
 
 
 @pytest.mark.skipif(not graphviz_works, reason="graphviz must be installed to run CATE interpreter tests")
