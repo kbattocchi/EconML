@@ -6,6 +6,7 @@
 import numpy as np
 import pandas as pd
 import scipy.sparse
+import sklearn
 import sparse as sp
 import itertools
 import inspect
@@ -18,7 +19,7 @@ from sklearn.linear_model import LassoCV, MultiTaskLassoCV, Lasso, MultiTaskLass
 from functools import reduce, wraps
 from sklearn.utils import check_array, check_X_y
 from sklearn.utils.validation import assert_all_finite
-from sklearn.preprocessing import PolynomialFeatures, LabelEncoder
+from sklearn.preprocessing import OneHotEncoder, PolynomialFeatures, LabelEncoder
 import warnings
 from warnings import warn
 from collections.abc import Iterable
@@ -1508,3 +1509,14 @@ def strata_from_discrete_arrays(arrs):
         curr_array = temp + curr_array * len(enc.classes_)
 
     return curr_array
+
+
+def one_hot_encoder(sparse=False, **kwargs):
+    """
+    Wrapper for sklearn's OneHotEncoder that handles the name change from `sparse` to `sparse_output`
+    between sklearn versions 1.1 and 1.2.
+    """
+    if sklearn.__version__ >= "1.2":
+        return OneHotEncoder(sparse_output=sparse, **kwargs)
+    else:
+        return OneHotEncoder(sparse=sparse, **kwargs)
