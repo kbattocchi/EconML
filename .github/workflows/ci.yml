@@ -168,6 +168,10 @@ jobs:
         PYTEST_ADDOPTS: '-m "notebook"'
         NOTEBOOK_DIR_PATTERN: ${{ matrix.pattern }}
         COVERAGE_PROCESS_START: 'pyproject.toml'
+        COVERAGE_DEBUG: 'config,trace'
+        COVERAGE_DEBUG_FILE: 'coverage_debug.log'
+    - name: Write out debug log
+      run: cat coverage_debug.log
     - name: Make coverage filename unique
       run: mv .coverage .coverage.${{ env.id_string }}
       # Run whether or not the tests passed, but only if they ran at all
