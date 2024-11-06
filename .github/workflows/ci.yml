@@ -418,19 +418,6 @@ jobs:
       with:
         name: ${{ matrix.output-name }}
         path: ${{ matrix.output-name }}.txt
-        
-  merge-lkg:
-    name: "Merge last known good versions"
-    needs: [generate-lkg]
-    if: success() || failure()
-    runs-on: ubuntu-latest
-    steps:
-    - name: "Merge last known good versions"
-      uses: actions/upload-artifact/merge@v4
-      with:
-        name: lkg
-        pattern: "lkg*"
-        delete-merged: true
 
   build:
     name: Build package
