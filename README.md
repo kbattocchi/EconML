@@ -781,9 +781,11 @@ isolation would require a separately controlled destination.
 #### Testing and rollback
 
 For a build-only run, set **`publish: false`** and optionally `ref`. This runs publisher regression
-checks, builds HTML, runs the selected doctests, uploads `docs` and an immutable `docs-candidate`,
-and tests Pages packaging as `docs-build-pages`. It does not read or write the archive or require
-Pages configuration. Reusable PR/nightly CI uses this mode.
+checks, builds HTML, runs the selected doctests, uploads `docs-<attempt>` and an immutable
+`docs-candidate-<attempt>`, and tests Pages packaging as `docs-build-pages-<attempt>`. Artifact names
+include the run attempt so retries cannot collide with earlier uploads; a failed-publisher retry
+still consumes the original candidate ID. Build-only runs do not read or write the archive or
+require Pages configuration. Reusable PR/nightly CI uses this mode.
 
 For an end-to-end fork test, configure that fork's Pages and environments first, then dispatch the
 workflow from the feature branch. Its `prod` environment must allow that branch. For example:

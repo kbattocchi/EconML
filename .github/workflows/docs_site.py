@@ -45,6 +45,8 @@ def files_in(tree, names=None):
     def visit(path):
         if path.is_symlink():
             raise ValueError(f"Symlinks are not allowed in documentation: {path}")
+        if path.name == ".git":
+            raise ValueError(f"Nested Git metadata is not documentation: {path}")
         if path.is_file():
             files.append(path)
         elif path.is_dir():
@@ -68,8 +70,10 @@ def checksum(tree, names=None):
     return digest.hexdigest()
 
 
-def check_html(tree):
+def check_html(tree, *, allow_git=False):
     """Require a real landing page and reject unsafe tree entries before copying."""
+    if not allow_git and ((tree / ".git").exists() or (tree / ".git").is_symlink()):
+        raise ValueError(f"Git metadata is not documentation: {tree}")
     files_in(tree)
     if not (tree / "index.html").is_file():
         raise ValueError(f"Documentation has no index.html: {tree}")
@@ -109,6 +113,7 @@ def add_navigation(tree, version_id, *, at_root=False, source_sha=None, names=No
 
 def validate_manifest(archive, manifest):
     """Verify immutable trees and the stable root before any state is replaced."""
+    files_in(archive)
     if manifest.get("schema") != 1 or not isinstance(manifest.get("versions"), list):
         raise ValueError("Unsupported or malformed documentation manifest")
     identifiers = []
@@ -175,7 +180,7 @@ def bootstrap(archive, output, version, commit):
     identifier = release_id(version)
     if SHA.fullmatch(commit) is None:
         raise ValueError("Bootstrap requires the original HTML archive commit")
-    check_html(archive)
+    check_html(archive, allow_git=True)
     options = (archive / "_static" / "documentation_options.js").read_text(encoding="utf-8")
     if re.search(r"\bVERSION:\s*['\"]" + re.escape(version) + r"['\"]", options) is None:
         raise ValueError(f"Existing site is not the expected {version} snapshot")
@@ -202,7 +207,9 @@ def bootstrap(archive, output, version, commit):
 
 def render_navigation(output, manifest):
     shared = output / "_versions"
-    shared.mkdir(exist_ok=True)
+    if shared.exists():
+        shutil.rmtree(shared)
+    shared.mkdir()
     for name in ("versions.js", "versions.css"):
         shutil.copy2(ASSETS / name, shared / name)
     links = []
@@ -223,6 +230,8 @@ def assemble(archive, candidate, output, mode, expected_sha, bootstrap_version="
     """Create a new site without mutating either the archive or candidate input."""
     if output.exists():
         raise ValueError(f"Output directory already exists: {output}")
+    if any(output.resolve().is_relative_to(source.resolve()) for source in (archive, candidate)):
+        raise ValueError("Output must not be inside an input directory")
     if mode not in {"release", "prerelease"}:
         raise ValueError(f"Unknown publication mode: {mode}")
     info = read_json(candidate / "build.json")

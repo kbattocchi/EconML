@@ -176,7 +176,7 @@ def test_bootstrap_refuses_to_mislabel_an_unknown_snapshot(inputs, tmp_path):
         assemble(inputs, tmp_path / "site")
 
 
-@pytest.mark.parametrize("invalid", ["sha", "inventory", "body", "reserved"])
+@pytest.mark.parametrize("invalid", ["sha", "inventory", "body", "reserved", "git", "nested-git"])
 def test_rejects_invalid_candidate_before_publication(inputs, tmp_path, invalid):
     if invalid == "sha":
         SITE.write_json(inputs[1] / "build.json", {"source_sha": "d" * 40})
@@ -184,10 +184,20 @@ def test_rejects_invalid_candidate_before_publication(inputs, tmp_path, invalid)
         (inputs[1] / "html" / "objects.inv").unlink()
     elif invalid == "body":
         (inputs[1] / "html" / "index.html").write_text("Not a full page")
+    elif invalid == "git":
+        (inputs[1] / "html" / ".git").touch()
+    elif invalid == "nested-git":
+        (inputs[1] / "html" / "_static" / ".git").touch()
     else:
         (inputs[1] / "html" / "versions.json").touch()
     with pytest.raises(ValueError):
         assemble(inputs, tmp_path / "site")
+
+
+@pytest.mark.parametrize("input_index", [0, 1])
+def test_output_cannot_be_nested_under_either_input(inputs, input_index):
+    with pytest.raises(ValueError, match="inside an input"):
+        assemble(inputs, inputs[input_index] / "output")
 
 
 @pytest.mark.skipif(os.name == "nt", reason="Windows symlink creation requires special privileges")
@@ -218,6 +228,25 @@ def test_navigation_is_idempotent_and_version_list_is_not_baked_into_archived_pa
     page = (tree / "index.html").read_text()
     assert "0.17.1" not in page
     assert "All documentation versions" in page
+
+
+def test_shared_navigation_is_replaced_as_a_unit(inputs, tmp_path):
+    first, second = tmp_path / "first", tmp_path / "second"
+    assemble(inputs, first)
+    (first / "_versions" / "obsolete.js").write_text("obsolete")
+    (first / "_versions" / "versions.js").write_text("broken")
+    assemble((first, inputs[1]), second)
+    assert not (second / "_versions" / "obsolete.js").exists()
+    assert (second / "_versions" / "versions.js").read_bytes() == (SITE.ASSETS / "versions.js").read_bytes()
+
+
+@pytest.mark.skipif(os.name == "nt", reason="Windows symlink creation requires special privileges")
+def test_shared_archive_symlinks_are_rejected_before_copying(inputs, tmp_path):
+    first = tmp_path / "first"
+    assemble(inputs, first)
+    (first / "_versions" / "linked").symlink_to(inputs[1], target_is_directory=True)
+    with pytest.raises(ValueError, match="Symlinks"):
+        assemble((first, inputs[1]), tmp_path / "second")
 
 
 def test_cli_emits_usable_site_and_provenance(inputs, tmp_path):

@@ -129,11 +129,25 @@ def test_archive_assembly_persistence_and_deploy_share_lock_and_stale_guard():
     assert "rsync -a --delete --exclude=.git site/ docs-store/" in steps[persist_index]["run"]
 
 
+def test_reruns_do_not_collide_with_previous_attempt_artifacts():
+    """Failed-job reruns retain the candidate ID but upload a fresh deployment artifact."""
+    for job in WORKFLOW["jobs"].values():
+        for step in job.get("steps", []):
+            if step.get("uses", "").startswith(("actions/upload-artifact@", "actions/upload-pages-artifact@")):
+                assert "${{ github.run_attempt }}" in step["with"]["name"]
+    publisher = WORKFLOW["jobs"]["publish-docs"]
+    download = next(
+        step for step in publisher["steps"] if step.get("uses", "").startswith("actions/download-artifact@")
+    )
+    assert download["with"]["artifact-ids"] == "${{ needs.create_docs.outputs.candidate-id }}"
+
+
 @pytest.mark.parametrize(
     "mode,source,latest,current",
     [("prerelease", "a" * 40, "a" * 40, "true"),
      ("prerelease", "a" * 40, "b" * 40, "false"),
-     ("release", "a" * 40, "b" * 40, "true")],
+     ("release", "a" * 40, "b" * 40, "true"),
+     ("prerelease", "a" * 40, "", None)],
 )
 def test_stale_guard_executes_for_current_superseded_and_release_builds(tmp_path, mode, source, latest, current):
     """Execute the actual workflow guard; only superseded prereleases should be skipped."""
@@ -148,7 +162,33 @@ def test_stale_guard_executes_for_current_superseded_and_release_builds(tmp_path
         ],
         env={**os.environ, "MODE": mode, "SOURCE_SHA": source, "LATEST": latest,
              "GITHUB_OUTPUT": output.as_posix(), "GITHUB_STEP_SUMMARY": summary.as_posix()},
-        capture_output=True, text=True, check=True,
+        capture_output=True, text=True,
     )
+    if current is None:
+        assert result.returncode != 0
+        assert "Could not resolve" in result.stdout
+        assert not output.read_text()
+        return
+    result.check_returncode()
     assert f"current={current}" in output.read_text()
     assert ("Skipping superseded" in result.stdout) == (current == "false")
+
+
+@pytest.mark.parametrize(
+    "publish,mode,ref,valid",
+    [("true", "release", "", False),
+     ("true", "release", "v0.17.1", True),
+     ("true", "prerelease", "unreviewed-branch", False),
+     ("true", "prerelease", "", True),
+     ("true", "unknown", "", False),
+     ("false", "release", "", True)],
+)
+def test_publication_request_requires_explicit_release_or_unoverridden_main(publish, mode, ref, valid):
+    """Run the actual input guard, including the build-only CI path."""
+    guard = WORKFLOW["jobs"]["create_docs"]["steps"][0]["run"]
+    result = subprocess.run(
+        [shutil.which("bash"), "-c", "set -euo pipefail;\n" + guard],
+        env={**os.environ, "PUBLISH": publish, "MODE": mode, "SOURCE_REF": ref},
+        capture_output=True, text=True,
+    )
+    assert (result.returncode == 0) == valid
