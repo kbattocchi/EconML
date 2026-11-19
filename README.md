@@ -795,6 +795,15 @@ gh workflow run publish-documentation.yml --repo YOUR-ACCOUNT/EconML --ref docs-
   -f publish=true -f publication=release -f ref=RELEASE-COMMIT-SHA
 ```
 
+The fork also needs the real initial documentation snapshot. A placeholder `gh-pages` containing
+only an `index.html` is deliberately rejected. If necessary, seed a new `docs-archive` branch from
+upstream's preserved `gh-pages` snapshot before testing, without replacing the fork's `gh-pages`:
+
+```sh
+git fetch https://github.com/py-why/EconML.git gh-pages
+git push https://github.com/YOUR-ACCOUNT/EconML.git FETCH_HEAD:refs/heads/docs-archive
+```
+
 The dispatchable workflow must already exist on the fork's default branch, but the updated version
 can run from the selected branch without merging it. A manual **`publication: prerelease`** test
 always builds current `main` and rejects a `ref` override; allow the workflow branch in the fork's
