@@ -25,15 +25,71 @@
     }
 
     const main = document.querySelector(".rst-content");
-    if (panel.dataset.version === "prerelease" && main) {
+    if (panel.dataset.version === "prerelease") {
+        showStableNotice(`${currentLabel.textContent}. `);
+    }
+
+    function versionPage(home) {
+        const current = new URL(window.location.href);
+        if (!current.pathname.startsWith(base.pathname)) {
+            throw new Error("Current page is outside the documentation site");
+        }
+        let page = current.pathname.slice(base.pathname.length);
+        const prefix = `${panel.dataset.version}/`;
+        if (page.startsWith(prefix)) {
+            page = page.slice(prefix.length);
+        }
+        if (!page || page.endsWith("/")) {
+            page += "index.html";
+        }
+        const target = new URL(`./${page}`, home);
+        target.search = current.search;
+        target.hash = current.hash;
+        return target;
+    }
+
+    async function navigateToVersion(home) {
+        const target = versionPage(home);
+        const probe = new URL(target);
+        probe.hash = "";
+        const response = await fetch(probe, {method: "HEAD", cache: "no-cache"});
+        if (response.status === 404) {
+            window.location.assign(home);
+        } else if (response.ok) {
+            window.location.assign(target.href);
+        } else {
+            throw new Error(`HTTP ${response.status}`);
+        }
+    }
+
+    function showStableNotice(message) {
+        if (!main) {
+            return;
+        }
         const banner = document.createElement("div");
-        banner.className = "econml-docs-prerelease";
+        banner.className = "econml-docs-notice";
         banner.setAttribute("role", "note");
-        banner.textContent = `${currentLabel.textContent}. `;
+        banner.textContent = message;
+        const home = new URL("index.html", base).href;
         const stable = document.createElement("a");
-        stable.href = new URL("index.html", base).href;
+        stable.href = versionPage(home).href;
         stable.textContent = "Read the stable documentation.";
-        banner.append(stable);
+        const noticeStatus = document.createElement("span");
+        noticeStatus.setAttribute("role", "status");
+        stable.addEventListener("click", async (event) => {
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+                return;
+            }
+            event.preventDefault();
+            noticeStatus.textContent = "Checking the stable documentation...";
+            try {
+                await navigateToVersion(home);
+            } catch (error) {
+                noticeStatus.textContent = "Could not check the stable documentation. Try again.";
+                console.error("Could not open the stable documentation:", error);
+            }
+        });
+        banner.append(stable, noticeStatus);
         main.prepend(banner);
     }
 
@@ -42,29 +98,7 @@
         status.textContent = "Checking the selected version...";
         const currentOption = Array.from(select.options).find((option) => option.dataset.current === "true");
         try {
-            const current = new URL(window.location.href);
-            if (!current.pathname.startsWith(base.pathname)) {
-                throw new Error("Current page is outside the documentation site");
-            }
-            let page = current.pathname.slice(base.pathname.length);
-            const prefix = `${panel.dataset.version}/`;
-            if (page.startsWith(prefix)) {
-                page = page.slice(prefix.length);
-            }
-            if (!page || page.endsWith("/")) {
-                page += "index.html";
-            }
-            const target = new URL(`./${page}`, select.value);
-            target.search = current.search;
-            const response = await fetch(target, {method: "HEAD", cache: "no-cache"});
-            if (response.status === 404) {
-                window.location.assign(select.value);
-            } else if (response.ok) {
-                target.hash = current.hash;
-                window.location.assign(target.href);
-            } else {
-                throw new Error(`HTTP ${response.status}`);
-            }
+            await navigateToVersion(select.value);
         } catch (error) {
             select.value = currentOption.value;
             select.disabled = false;
@@ -100,6 +134,13 @@
             });
             if (!seen.has(panel.dataset.version) || !seen.has(manifest.stable) || manifest.stable === "prerelease") {
                 throw new Error("Missing current or stable documentation");
+            }
+            if (panel.dataset.version !== "prerelease" && panel.dataset.version !== manifest.stable) {
+                const current = manifest.versions.find((entry) => entry.id === panel.dataset.version);
+                const stable = manifest.versions.find((entry) => entry.id === manifest.stable);
+                showStableNotice(
+                    `You are reading the ${current.label} documentation, not the current stable release (${stable.label}). `
+                );
             }
             select.replaceChildren(...options);
             select.addEventListener("change", switchVersion);

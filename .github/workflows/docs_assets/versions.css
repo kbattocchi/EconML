@@ -96,12 +96,17 @@
     font: inherit;
 }
 
-.econml-docs-prerelease {
+.econml-docs-prerelease,
+.econml-docs-notice {
     margin-bottom: 1.5rem;
     padding: .75rem 1rem;
     border-left: .25rem solid #b77900;
     background: #fff4d6;
     color: #442e00;
+}
+
+.econml-docs-notice [role="status"] {
+    display: block;
 }
 
 @media print {

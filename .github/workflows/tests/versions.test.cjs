@@ -104,6 +104,10 @@ function versions() {
     };
 }
 
+function clickEvent(options = {}) {
+    return {button: 0, ...options, preventDefault() { this.defaultPrevented = true; }};
+}
+
 for (const base of ["https://www.pywhy.org/EconML/", "https://kbattocchi.github.io/EconML/", "https://example.test/"]) {
     test(`archived page sees new versions and keeps the same API page within ${base}`, async () => {
         const {select, errors, probes, context} = await load({base, manifest: versions()});
@@ -136,10 +140,10 @@ test("prerelease pages remove their mount prefix when switching to a release", a
     await select.callback();
     assert.equal(context.navigated, "https://example.test/EconML/v0.17.1/spec/estimation/dml.html#example");
     const banner = main.children[0];
-    assert.equal(banner.className, "econml-docs-prerelease");
+    assert.equal(banner.className, "econml-docs-notice");
     assert.equal(banner.attributes.role, "note");
     assert.match(banner.textContent, /not yet released.*abcdef123456/);
-    assert.equal(banner.children[0].href, "https://example.test/EconML/index.html");
+    assert.equal(banner.children[0].href, "https://example.test/EconML/spec/estimation/dml.html#example");
 });
 
 for (const page of ["v0.16.0/", "v0.16.0/index.html", "v0.16.0/spec/"]) {
@@ -162,7 +166,9 @@ test("only a missing page falls back to the version landing page without its obs
     assert.equal(context.navigated, "https://example.test/EconML/prerelease/index.html");
 });
 
-for (const options of [{headStatus: 500}, {headReject: true}, {page: "https://example.test/outside/index.html"}]) {
+for (const options of [
+    {headStatus: 500}, {headReject: true}, {page: "https://example.test/outside/index.html", themed: false},
+]) {
     test(`failed existence check stays on the page and allows retry: ${JSON.stringify(options)}`, async () => {
         const {select, status, errors, context} = await load({manifest: versions(), ...options});
         select.value = select.options[0].value;
@@ -192,7 +198,84 @@ test("theme pages get a native collapsible sidebar panel, not a content overlay"
     assert.equal(details.children[0].tagName, "summary");
     assert.equal(details.children[0].textContent, "Version: v0.16.0");
     assert.equal(select.parentElement.className, "rst-other-versions");
-    assert.equal(main.children.length, 0);
+    assert.equal(main.children.length, 1);
+});
+
+test("archived releases identify the current stable release using shared manifest metadata", async () => {
+    const {main} = await load({manifest: versions()});
+    const banner = main.children[0];
+    assert.equal(banner.attributes.role, "note");
+    assert.match(banner.textContent, /0\.16\.0.*not the current stable release \(0\.17\.1\)/);
+    assert.equal(banner.children[0].href,
+        "https://example.test/EconML/_autosummary/econml.dml.LinearDML.html#fit");
+});
+
+for (const page of ["index.html", "v0.17.1/index.html"]) {
+    test(`current stable docs do not get an outdated-version notice at ${page}`, async () => {
+        const {main, select} = await load({manifest: versions(), currentVersion: "v0.17.1", page});
+        assert.equal(main.children.length, 0);
+        assert.equal(select.hidden, false);
+    });
+}
+
+for (const currentVersion of ["prerelease", "v0.16.0"]) {
+    test(`${currentVersion} banner keeps the corresponding stable page, query and current anchor`, async () => {
+        const page = `${currentVersion}/_autosummary/econml.dml.LinearDML.html?q=forest#fit`;
+        const {main, context, probes} = await load({manifest: versions(), currentVersion, page});
+        const link = main.children[0].children[0];
+        assert.equal(link.href, "https://example.test/EconML/_autosummary/econml.dml.LinearDML.html?q=forest#fit");
+        context.window.location.href = context.window.location.href.replace("#fit", "#effect");
+        const event = clickEvent();
+        await link.callback(event);
+        assert.equal(event.defaultPrevented, true);
+        assert.deepEqual(probes, ["https://example.test/EconML/_autosummary/econml.dml.LinearDML.html?q=forest"]);
+        assert.equal(context.navigated,
+            "https://example.test/EconML/_autosummary/econml.dml.LinearDML.html?q=forest#effect");
+    });
+}
+
+test("a missing stable page falls back to the stable home, not a 404 or obsolete anchor", async () => {
+    const {main, context} = await load({
+        manifest: versions(), currentVersion: "prerelease", page: "prerelease/future.html#new", headStatus: 404,
+    });
+    await main.children[0].children[0].callback(clickEvent());
+    assert.equal(context.navigated, "https://example.test/EconML/index.html");
+});
+
+for (const options of [{headStatus: 500}, {headReject: true}]) {
+    test(`stable-banner navigation reports an unexpected failure without leaving: ${JSON.stringify(options)}`, async () => {
+        const {main, context, errors} = await load({manifest: versions(), ...options});
+        const [link, status] = main.children[0].children;
+        await link.callback(clickEvent());
+        assert.equal(context.navigated, undefined);
+        assert.equal(status.attributes.role, "status");
+        assert.match(status.textContent, /Could not check the stable documentation\. Try again/);
+        assert.equal(errors.length, 1);
+    });
+}
+
+test("modified banner clicks retain native new-tab behavior with the corresponding page as the href", async () => {
+    for (const options of [{ctrlKey: true}, {metaKey: true}, {shiftKey: true}, {altKey: true}, {button: 1}]) {
+        const {main, probes, context} = await load({manifest: versions()});
+        const link = main.children[0].children[0];
+        const event = clickEvent(options);
+        await link.callback(event);
+        assert.equal(event.defaultPrevented, undefined);
+        assert.equal(context.navigated, undefined);
+        assert.equal(probes.length, 0);
+        assert.equal(link.href, "https://example.test/EconML/_autosummary/econml.dml.LinearDML.html#fit");
+    }
+});
+
+test("the prerelease warning and stable link remain usable if the manifest cannot load", async () => {
+    const {main, select, context} = await load({
+        manifest: versions(), currentVersion: "prerelease",
+        page: "prerelease/_autosummary/econml.dml.LinearDML.html#fit", reject: true,
+    });
+    assert.equal(select.hidden, true);
+    assert.match(main.children[0].textContent, /not yet released/);
+    await main.children[0].children[0].callback(clickEvent());
+    assert.equal(context.navigated, "https://example.test/EconML/_autosummary/econml.dml.LinearDML.html#fit");
 });
 
 test("an unrecognized theme retains an inline working picker and static fallback", async () => {
