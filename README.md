@@ -768,10 +768,16 @@ site is deployed. If deployment fails, rerun the failed job with the same candid
 
 The picker is a small, theme-independent HTML hook inserted during assembly, including once into
 the preserved 0.16.0 pages. Shared JavaScript fetches `versions.json` with cache revalidation; adding
-a release updates the picker on existing pages without rewriting them. Version switching initially
-goes to version landing pages, not corresponding API pages or anchors. Without JavaScript, or if
-the manifest cannot load, the static all-versions link remains available. Shared UI changes must
-remain compatible with retained hooks.
+a release updates the picker on existing pages without rewriting them. On Read the Docs theme
+pages, it becomes a collapsible panel at the bottom of the navigation sidebar. Prerelease pages also
+show an unreleased-documentation banner in the main content.
+
+Switching versions checks for the corresponding page with a HEAD request and retains its query
+string and anchor when the page exists. A 404 falls back to the selected version's landing page;
+network/server errors leave the current page open and show a retry message. Renamed pages and
+anchors are not automatically mapped between releases. Without JavaScript, or if the manifest
+cannot load, the static all-versions link remains available; unrecognized themes retain an inline
+picker instead of an overlay. Shared UI changes must remain compatible with retained hooks.
 
 **Environments are not directory-level isolation.** Pages replaces the entire site each time.
 Archive checks and promotion rules protect against mistakes in reviewed workflows, not a malicious
