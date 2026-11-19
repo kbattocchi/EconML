@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dynamic Double Machine Learning &mdash; econml 0.16.0 documentation</title>
+  <title>Dynamic Double Machine Learning &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>window.MathJax = {"tex": {"macros": {"vec": ["{\\bf #1}", 1], "ldot": ["\\left\\langle #1, #2 \\right\\rangle", 2], "E": "\\mathbb{E}", "T": "\\mathcal{T}", "argmin": "\\mathrm{argmin}", "Var": "\\mathrm{Var}"}}}</script>
@@ -42,7 +42,7 @@
               <img src="../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -415,6 +415,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -433,7 +434,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -899,12 +899,12 @@ structure of the implemented CATE estimators is as follows.</p>
 <blockquote>
 <div><div class="graphviz"><img src="../../_images/inheritance-dd08097e28f4382b17a7c0072f1f3a4bfbcc5e0d.png" alt="Inheritance diagram of econml.panel.dml.DynamicDML" usemap="#inheritance6fd62b14fa" class="inheritance graphviz" /></div>
 <map id="inheritance6fd62b14fa" name="inheritance6fd62b14fa">
-<area shape="poly" id="node1" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.BaseCateEstimator" target="_top" title="Base class for all CATE estimators in this package." alt="" coords="325,41,321,30,307,20,286,12,260,7,230,5,201,7,175,12,154,20,140,30,136,41,140,52,154,62,175,70,201,76,230,77,260,76,286,70,307,62,321,52"/>
-<area shape="poly" id="node5" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.LinearCateEstimator" target="_top" title="Base class for CATE estimators in this package where the outcome is linear given some treatment featurization." alt="" coords="208,161,203,150,188,140,166,132,138,127,107,125,75,127,47,132,25,140,10,150,5,161,10,172,25,182,47,190,75,195,107,197,138,195,166,190,188,182,203,172"/>
-<area shape="poly" id="node6" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.TreatmentExpansionMixin" target="_top" title="Mixin which automatically handles promotions of scalar treatments to the appropriate shape." alt="" coords="477,161,471,150,453,140,426,132,392,127,354,125,317,127,283,132,255,140,238,150,232,161,238,172,255,182,283,190,317,195,354,197,392,195,426,190,453,182,471,172"/>
-<area shape="poly" id="node2" href="../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML" target="_top" title="CATE estimator for dynamic treatment effect estimation." alt="" coords="432,401,429,390,419,380,404,372,385,367,364,365,342,367,323,372,308,380,298,390,295,401,298,412,308,422,323,430,342,435,364,437,385,435,404,430,419,422,429,412"/>
-<area shape="poly" id="node3" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.LinearModelFinalCateEstimatorMixin" target="_top" title="Base class for models where the final stage is a linear model." alt="" coords="667,281,658,270,634,260,597,252,550,247,498,245,446,247,399,252,362,260,338,270,330,281,338,292,362,302,399,310,446,315,498,317,550,315,597,310,634,302,658,292"/>
-<area shape="poly" id="node4" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner" target="_top" title="Base class for all orthogonal learners." alt="" coords="306,281,302,270,291,260,275,252,254,247,230,245,207,247,186,252,170,260,159,270,155,281,159,292,170,302,186,310,207,315,230,317,254,315,275,310,291,302,302,292"/>
+<area shape="poly" id="node1" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.BaseCateEstimator" target="_top" title="Base class for all CATE estimators in this package." alt="" coords="325,41,320,30,307,20,286,12,259,7,230,5,200,7,174,12,153,20,139,30,135,41,139,52,153,62,174,70,200,75,230,77,259,75,286,70,307,62,320,52"/>
+<area shape="poly" id="node5" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.LinearCateEstimator" target="_top" title="Base class for CATE estimators in this package where the outcome is linear given some treatment featurization." alt="" coords="208,160,203,149,188,139,166,131,138,126,106,125,75,126,47,131,25,139,10,149,5,160,10,171,25,181,47,189,75,194,106,196,138,194,166,189,188,181,203,171"/>
+<area shape="poly" id="node6" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.TreatmentExpansionMixin" target="_top" title="Mixin which automatically handles promotions of scalar treatments to the appropriate shape." alt="" coords="477,160,471,149,453,139,426,131,392,126,354,125,316,126,282,131,255,139,238,149,232,160,238,171,255,181,282,189,316,194,354,196,392,194,426,189,453,181,471,171"/>
+<area shape="poly" id="node2" href="../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML" target="_top" title="CATE estimator for dynamic treatment effect estimation." alt="" coords="432,399,429,388,419,378,404,370,385,365,364,363,342,365,323,370,308,378,298,388,295,399,298,410,308,420,323,428,342,433,364,435,385,433,404,428,419,420,429,410"/>
+<area shape="poly" id="node3" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.LinearModelFinalCateEstimatorMixin" target="_top" title="Base class for models where the final stage is a linear model." alt="" coords="667,280,658,269,634,259,597,251,550,246,497,244,445,246,398,251,360,259,336,269,328,280,336,291,360,301,398,309,445,314,497,315,550,314,597,309,634,301,658,291"/>
+<area shape="poly" id="node4" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner" target="_top" title="Base class for all orthogonal learners." alt="" coords="305,280,301,269,290,259,274,251,253,246,230,244,207,246,186,251,169,259,158,269,155,280,158,291,169,301,186,309,207,314,230,315,253,314,274,309,290,301,301,291"/>
 </map></div></blockquote>
 <p>Below we give a brief description of each of these classes:</p>
 <blockquote>
@@ -965,5 +965,17 @@ For more details about this model and underlying assumptions, see <a class="refe
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

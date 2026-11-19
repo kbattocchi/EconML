@@ -8,6 +8,7 @@
 
    .. autosummary::
    
+      add_constant
       add_intercept
       broadcast_unit_treatments
       check_high_dimensional
@@ -27,7 +28,6 @@
       issparse
       jacify_featurizer
       ndim
-      one_hot_encoder
       parse_final_model_params
       reshape
       reshape_Y_T

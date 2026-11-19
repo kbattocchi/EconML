@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.utilities &mdash; econml 0.16.0 documentation</title>
+  <title>econml.utilities &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../_static/documentation_options.js?v=a8455094"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -40,7 +40,7 @@
               <img src="../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -413,6 +413,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -431,7 +432,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -864,65 +864,65 @@
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.add_intercept" title="econml.utilities.add_intercept"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_intercept</span></code></a>(X)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.add_constant" title="econml.utilities.add_constant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_constant</span></code></a>(data[, prepend, has_constant])</p></td>
+<td><p>Add a column of ones to an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.add_intercept" title="econml.utilities.add_intercept"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_intercept</span></code></a>(X)</p></td>
 <td><p>Add an intercept feature to an array by prepending a column of ones.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.broadcast_unit_treatments" title="econml.utilities.broadcast_unit_treatments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">broadcast_unit_treatments</span></code></a>(X, d_t)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.broadcast_unit_treatments" title="econml.utilities.broadcast_unit_treatments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">broadcast_unit_treatments</span></code></a>(X, d_t)</p></td>
 <td><p>Generate <cite>d_t</cite> unit treatments for each row of <cite>X</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_high_dimensional</span></code>(X, T, *, threshold[, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_high_dimensional</span></code>(X, T, *, threshold[, ...])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.check_input_arrays" title="econml.utilities.check_input_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_input_arrays</span></code></a>(*args[, validate_len, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.check_input_arrays" title="econml.utilities.check_input_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_input_arrays</span></code></a>(*args[, validate_len, ...])</p></td>
 <td><p>Cast input sequences into numpy arrays.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.check_inputs" title="econml.utilities.check_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_inputs</span></code></a>(Y, T, X[, W, multi_output_T, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.check_inputs" title="econml.utilities.check_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_inputs</span></code></a>(Y, T, X[, W, multi_output_T, ...])</p></td>
 <td><p>Input validation for CATE estimators.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.check_models" title="econml.utilities.check_models"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_models</span></code></a>(models, n)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.check_models" title="econml.utilities.check_models"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_models</span></code></a>(models, n)</p></td>
 <td><p>Input validation for metalearner models.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.concatenate" title="econml.utilities.concatenate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate</span></code></a>(XS[, axis])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.concatenate" title="econml.utilities.concatenate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate</span></code></a>(XS[, axis])</p></td>
 <td><p>Join a sequence of arrays along an existing axis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.cross_product" title="econml.utilities.cross_product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_product</span></code></a>(*XS)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.cross_product" title="econml.utilities.cross_product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_product</span></code></a>(*XS)</p></td>
 <td><p>Compute the cross product of features.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.deprecated" title="econml.utilities.deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deprecated</span></code></a>(message[, category])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.deprecated" title="econml.utilities.deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deprecated</span></code></a>(message[, category])</p></td>
 <td><p>Enable decorating a method or class to providing a warning when it is used.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.einsum_sparse" title="econml.utilities.einsum_sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">einsum_sparse</span></code></a>(subscripts, *arrs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.einsum_sparse" title="econml.utilities.einsum_sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">einsum_sparse</span></code></a>(subscripts, *arrs)</p></td>
 <td><p>Evaluate the Einstein summation convention on the operands.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.filter_none_kwargs" title="econml.utilities.filter_none_kwargs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_none_kwargs</span></code></a>(**kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.filter_none_kwargs" title="econml.utilities.filter_none_kwargs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_none_kwargs</span></code></a>(**kwargs)</p></td>
 <td><p>Filter out any keyword arguments that are None.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.get_feature_names_or_default" title="econml.utilities.get_feature_names_or_default"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_feature_names_or_default</span></code></a>(featurizer, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.get_feature_names_or_default" title="econml.utilities.get_feature_names_or_default"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_feature_names_or_default</span></code></a>(featurizer, ...)</p></td>
 <td><p>Extract feature names from sklearn transformers.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.get_input_columns" title="econml.utilities.get_input_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_input_columns</span></code></a>(X[, prefix])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.get_input_columns" title="econml.utilities.get_input_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_input_columns</span></code></a>(X[, prefix])</p></td>
 <td><p>Extract column names from dataframe-like input object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.hstack" title="econml.utilities.hstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hstack</span></code></a>(XS)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.hstack" title="econml.utilities.hstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hstack</span></code></a>(XS)</p></td>
 <td><p>Stack arrays in sequence horizontally (column wise).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.inverse_onehot" title="econml.utilities.inverse_onehot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_onehot</span></code></a>(T)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.inverse_onehot" title="econml.utilities.inverse_onehot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_onehot</span></code></a>(T)</p></td>
 <td><p>Given a one-hot encoding of a value, return a vector reversing the encoding to get numeric treatment indices.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.iscoo" title="econml.utilities.iscoo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iscoo</span></code></a>(X)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.iscoo" title="econml.utilities.iscoo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iscoo</span></code></a>(X)</p></td>
 <td><p>Determine whether an input is a <cite>sparse.COO</cite> array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.issparse" title="econml.utilities.issparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">issparse</span></code></a>(X)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.issparse" title="econml.utilities.issparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">issparse</span></code></a>(X)</p></td>
 <td><p>Determine whether an input is sparse.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.jacify_featurizer" title="econml.utilities.jacify_featurizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jacify_featurizer</span></code></a>(featurizer)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.jacify_featurizer" title="econml.utilities.jacify_featurizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jacify_featurizer</span></code></a>(featurizer)</p></td>
 <td><p>Convert a featurizer into a wrapper class that includes a function for calculating the jacobian.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.ndim" title="econml.utilities.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a>(X)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.ndim" title="econml.utilities.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a>(X)</p></td>
 <td><p>Return the number of array dimensions.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.one_hot_encoder" title="econml.utilities.one_hot_encoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_hot_encoder</span></code></a>([sparse])</p></td>
-<td><p>Create a <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneHotEncoder</span></code></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_final_model_params</span></code>(coef, intercept, ...)</p></td>
 <td><p></p></td>
@@ -983,8 +983,8 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.MissingModule" title="econml.utilities.MissingModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MissingModule</span></code></a>(msg, exn)</p></td>
 <td><p>Placeholder to stand in for a module that couldn't be imported, delaying ImportErrors until use.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.MultiModelWrapper" title="econml.utilities.MultiModelWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiModelWrapper</span></code></a>([model_list])</p></td>
-<td><p>Helper class for training different models for each treatment.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#econml.utilities.MultiModelWrapper" title="econml.utilities.MultiModelWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiModelWrapper</span></code></a>(*models[, n_categories, ...])</p></td>
+<td><p>Train a separate underlying model for each treatment category.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#econml.utilities.SeparateModel" title="econml.utilities.SeparateModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeparateModel</span></code></a>(*models)</p></td>
 <td><p>Splits the data based on the last feature and trains a separate model for each subsample.</p></td>
@@ -1000,7 +1000,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="econml.utilities.IdentityFeatures">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">IdentityFeatures</span></span><a class="reference internal" href="../_modules/econml/utilities.html#IdentityFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.IdentityFeatures" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html#sklearn.base.TransformerMixin" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html#sklearn.base.TransformerMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></a></p>
 <p>Featurizer that just returns the input data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="econml.utilities.IdentityFeatures.fit">
@@ -1019,7 +1019,8 @@ and returns a transformed version of <cite>X</cite>.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>array-like of shape (n_samples, n_features)</em>) – Input samples.</p></li>
 <li><p><strong>y</strong> (<em>array-like of shape (n_samples,) or (n_samples, n_outputs),                 default=None</em>) – Target values (None for unsupervised transformations).</p></li>
-<li><p><strong>**fit_params</strong> (<em>dict</em>) – Additional fit parameters.</p></li>
+<li><p><strong>**fit_params</strong> (<em>dict</em>) – Additional fit parameters.
+Pass only if the estimator accepts additional params in its <cite>fit</cite> method.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1035,7 +1036,7 @@ and returns a transformed version of <cite>X</cite>.</p>
 <dt class="sig sig-object py" id="econml.utilities.IdentityFeatures.set_output">
 <span class="sig-name descname"><span class="pre">set_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#econml.utilities.IdentityFeatures.set_output" title="Link to this definition"></a></dt>
 <dd><p>Set output container.</p>
-<p>See <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/miscellaneous/plot_set_output.html#sphx-glr-auto-examples-miscellaneous-plot-set-output-py" title="(in scikit-learn v1.7)"><span>Introducing the set_output API</span></a>
+<p>See <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/miscellaneous/plot_set_output.html#sphx-glr-auto-examples-miscellaneous-plot-set-output-py" title="(in scikit-learn v1.9)"><span>Introducing the set_output API</span></a>
 for an example on how to use the API.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1070,7 +1071,7 @@ for an example on how to use the API.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="econml.utilities.MissingModule">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">MissingModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#MissingModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.MissingModule" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Placeholder to stand in for a module that couldn’t be imported, delaying ImportErrors until use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1084,30 +1085,68 @@ for an example on how to use the API.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="econml.utilities.MultiModelWrapper">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">MultiModelWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#MultiModelWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.MultiModelWrapper" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Helper class for training different models for each treatment.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">MultiModelWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_categories</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'drop_first'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#MultiModelWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.MultiModelWrapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Train a separate underlying model for each treatment category.</p>
+<p>Wraps a collection of base estimators, dispatching each row to the
+estimator for its treatment category, based on a one-hot encoding of the
+treatment that is concatenated onto the right of the feature matrix.</p>
+<p>Most EconML estimators internally one-hot-encode discrete treatments using
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.preprocessing.OneHotEncoder</span></code></a> with <code class="docutils literal notranslate"><span class="pre">drop='first'</span></code> (the
+control category becomes a row of all zeros and is not represented by an
+explicit column) and concatenate that encoding to the right of the feature
+matrix before handing it to first-stage models. <code class="docutils literal notranslate"><span class="pre">MultiModelWrapper</span></code>’s
+default <code class="docutils literal notranslate"><span class="pre">encoding='drop_first'</span></code> matches this convention, making it
+suitable as a wrapper for first-stage models passed to e.g.
+<a class="reference internal" href="econml.dr.DRLearner.html#econml.dr.DRLearner" title="econml.dr.DRLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">DRLearner</span></code></a> and its subclasses. The alternative
+<code class="docutils literal notranslate"><span class="pre">encoding='full'</span></code> expects a full <code class="docutils literal notranslate"><span class="pre">K</span></code>-column one-hot encoding instead
+(no dropped category), which is the convention used internally by
+<a class="reference internal" href="econml.orf.DROrthoForest.html#econml.orf.DROrthoForest" title="econml.orf.DROrthoForest"><code class="xref py py-class docutils literal notranslate"><span class="pre">DROrthoForest</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">model_Y</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>model_list</strong> (<em>array_like, shape (n_T, )</em>) – List of models to be trained separately for each treatment group.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*models</strong> (<em>estimators</em>) – Either <code class="docutils literal notranslate"><span class="pre">K</span></code> estimators (one per treatment category, the first one
+used for the control category), or a single estimator that will be
+cloned <code class="docutils literal notranslate"><span class="pre">n_categories</span></code> times.</p></li>
+<li><p><strong>n_categories</strong> (<em>int, optional</em>) – The number of treatment categories <code class="docutils literal notranslate"><span class="pre">K</span></code>. Required when exactly one
+positional model is passed (so it can be cloned <code class="docutils literal notranslate"><span class="pre">K</span></code> times). When
+multiple positional models are passed, this must be either <code class="docutils literal notranslate"><span class="pre">None</span></code>
+or equal to the number of models.</p></li>
+<li><p><strong>encoding</strong> (<em>{‘drop_first’, ‘full’, ‘label’}, default ‘drop_first’</em>) – The expected encoding of the treatment block at the right of the
+input matrix.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'drop_first'</span></code>: the last <code class="docutils literal notranslate"><span class="pre">K</span> <span class="pre">-</span> <span class="pre">1</span></code> columns are a drop-first
+one-hot encoding (the all-zero row is the control category).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'full'</span></code>: the last <code class="docutils literal notranslate"><span class="pre">K</span></code> columns are a full one-hot encoding
+(column <code class="docutils literal notranslate"><span class="pre">0</span></code> is the control category).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'label'</span></code>: the last column is an integer category index in
+<code class="docutils literal notranslate"><span class="pre">{0,</span> <span class="pre">...,</span> <span class="pre">K</span> <span class="pre">-</span> <span class="pre">1}</span></code>.</p></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="econml.utilities.MultiModelWrapper.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#MultiModelWrapper.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.MultiModelWrapper.fit" title="Link to this definition"></a></dt>
-<dd><p>Fit underlying list of models with weighted inputs.</p>
+<dd><p>Fit each underlying model on its category’s rows.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>array_like, shape (n_samples, n_features + n_treatments)</em>) – Training data. The last n_T columns should be a one-hot encoding of the treatment assignment.</p></li>
-<li><p><strong>y</strong> (<em>array_like, shape (n_samples, )</em>) – Target values.</p></li>
+<li><p><strong>Xt</strong> (<em>array_like, shape (n_samples, n_features + width)</em>) – Training data. <code class="docutils literal notranslate"><span class="pre">width</span></code> depends on <code class="docutils literal notranslate"><span class="pre">encoding</span></code>:
+<code class="docutils literal notranslate"><span class="pre">n_categories</span> <span class="pre">-</span> <span class="pre">1</span></code> for <code class="docutils literal notranslate"><span class="pre">'drop_first'</span></code> (the default),
+<code class="docutils literal notranslate"><span class="pre">n_categories</span></code> for <code class="docutils literal notranslate"><span class="pre">'full'</span></code>, or <code class="docutils literal notranslate"><span class="pre">1</span></code> for <code class="docutils literal notranslate"><span class="pre">'label'</span></code>.
+The trailing block must be a treatment encoding of the
+corresponding form.</p></li>
+<li><p><strong>y</strong> (<em>array_like</em>) – Target values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>array_like, optional</em>) – Per-sample weights, forwarded to each underlying model.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>self</strong></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>an instance of the class</p>
+<dd class="field-odd"><p><a class="reference internal" href="#econml.utilities.MultiModelWrapper" title="econml.utilities.MultiModelWrapper">MultiModelWrapper</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1115,16 +1154,17 @@ for an example on how to use the API.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="econml.utilities.MultiModelWrapper.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#MultiModelWrapper.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.MultiModelWrapper.predict" title="Link to this definition"></a></dt>
-<dd><p>Predict using the linear model.</p>
+<dd><p>Predict by dispatching each row to its category’s model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>array_like, shape (n_samples, n_features + n_treatments)</em>) – Samples. The last n_T columns should be a one-hot encoding of the treatment assignment.</p>
+<dd class="field-odd"><p><strong>Xt</strong> (<em>array_like, shape (n_samples, n_features + width)</em>) – Samples to predict for. See <a class="reference internal" href="#econml.utilities.MultiModelWrapper.fit" title="econml.utilities.MultiModelWrapper.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a> for the expected layout.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>C</strong> – Returns predicted values.</p>
+<dd class="field-even"><p><strong>C</strong> – Predictions, with category-specific predictions reassembled in
+the original row order.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>array, shape (n_samples, )</p>
+<dd class="field-odd"><p>array, shape (n_samples, …)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1134,15 +1174,22 @@ for an example on how to use the API.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="econml.utilities.SeparateModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">SeparateModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">models</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#SeparateModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.SeparateModel" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Splits the data based on the last feature and trains a separate model for each subsample.</p>
 <p>At predict time, it uses the last feature to choose which model to use to predict.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span><a class="reference internal" href="#econml.utilities.MultiModelWrapper" title="econml.utilities.MultiModelWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiModelWrapper</span></code></a> with <code class="docutils literal notranslate"><span class="pre">encoding='label'</span></code> instead,
+which has the same trailing-integer-column dispatch behavior.
+<code class="docutils literal notranslate"><span class="pre">MultiModelWrapper</span></code> additionally supports the one-hot encodings
+produced by EconML’s discrete-treatment estimators (see its
+<code class="docutils literal notranslate"><span class="pre">encoding</span></code> parameter).</p>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="econml.utilities.Summary">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">Summary</span></span><a class="reference internal" href="../_modules/econml/utilities.html#Summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.Summary" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Result summary.</p>
 <p>Construction does not take any parameters. Tables and text can be added
 with the <cite>add_</cite> methods.</p>
@@ -1153,7 +1200,7 @@ with the <cite>add_</cite> methods.</p>
 tables are not saved separately.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of table</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of table</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1165,7 +1212,7 @@ tables are not saved separately.</p>
 and explanations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1190,7 +1237,7 @@ and explanations.</p>
 <dd class="field-odd"><p><strong>csv</strong> – concatenated summary tables in comma delimited format</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1204,7 +1251,7 @@ and explanations.</p>
 <dd class="field-odd"><p><strong>html</strong> – concatenated summary tables in HTML format</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1218,13 +1265,12 @@ and explanations.</p>
 <dd class="field-odd"><p><strong>latex</strong> – summary tables and extra text as string of Latex</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This currently merges tables with different number of columns.
-It is recommended to use <cite>as_latex_tabular</cite> directly on the individual
-tables.</p>
+<p>Tables with the same number of columns are merged. Tables with different
+numbers of columns are rendered as separate tabular environments.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1236,7 +1282,7 @@ tables.</p>
 <dd class="field-odd"><p><strong>txt</strong> – summary tables and extra text as one string</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1246,7 +1292,7 @@ tables.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="econml.utilities.WeightedModelWrapper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">WeightedModelWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'weighted'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#WeightedModelWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.WeightedModelWrapper" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Helper class for assiging weights to models without this option.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1299,6 +1345,41 @@ to the normalized weights and creates a dataset larger than the original.</p></l
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="econml.utilities.add_constant">
+<span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">add_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prepend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_constant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'skip'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#add_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.add_constant" title="Link to this definition"></a></dt>
+<dd><p>Add a column of ones to an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>array_like</em>) – A column-ordered design matrix. Any input accepted by
+<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.asarray.html#numpy.asarray" title="(in NumPy v2.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.asarray()</span></code></a> is allowed, including pandas
+<code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> and <code class="docutils literal notranslate"><span class="pre">Series</span></code> objects.</p></li>
+<li><p><strong>prepend</strong> (<em>bool, default True</em>) – If True the constant is in the first column, else appended.</p></li>
+<li><p><strong>has_constant</strong> (<em>{‘skip’, ‘add’, ‘raise’}, default ‘skip’</em>) – Behavior when <em>data</em> already contains a constant column.
+<code class="docutils literal notranslate"><span class="pre">'skip'</span></code> returns <em>data</em> unchanged, <code class="docutils literal notranslate"><span class="pre">'raise'</span></code> raises
+<code class="docutils literal notranslate"><span class="pre">ValueError</span></code>, <code class="docutils literal notranslate"><span class="pre">'add'</span></code> adds another column of ones anyway.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The array with a ones column prepended (or appended).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This differs from <code class="xref py py-func docutils literal notranslate"><span class="pre">statsmodels.tools.add_constant()</span></code> in that the
+return value is always a NumPy <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> preserves
+pandas input types (<code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> in → <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> out with a
+<code class="docutils literal notranslate"><span class="pre">'const'</span></code> column; <code class="docutils literal notranslate"><span class="pre">Series</span></code> in → <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> out). Here, pandas
+inputs are converted via <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.asarray.html#numpy.asarray" title="(in NumPy v2.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.asarray()</span></code></a>, which takes the
+underlying values in row-storage order — the same data ordering
+<code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> operates on — but column names and the row index are
+not carried through to the result. Callers that need to preserve
+pandas metadata should reattach it after the call.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="econml.utilities.add_intercept">
 <span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">add_intercept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#add_intercept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.add_intercept" title="Link to this definition"></a></dt>
 <dd><p>Add an intercept feature to an array by prepending a column of ones.</p>
@@ -1338,7 +1419,7 @@ and the generated <cite>T</cite> array</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="econml.utilities.check_input_arrays">
-<span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">check_input_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_all_finite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#check_input_arrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.check_input_arrays" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">check_input_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_all_finite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_2d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#check_input_arrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.check_input_arrays" title="Link to this definition"></a></dt>
 <dd><p>Cast input sequences into numpy arrays.</p>
 <p>Only inputs that are sequence-like will be converted, all other inputs will be left as is.
 When <cite>validate_len</cite> is True, the sequences will be checked for equal length.</p>
@@ -1355,6 +1436,7 @@ Specifies data type of result. If None, the dtype of the input is preserved.
 If “numeric”, dtype is preserved unless array.dtype is object.
 If dtype is a list of types, conversion on the first type is only
 performed if the dtype of the input is not in the list.</p></li>
+<li><p><strong>ensure_2d</strong> (<em>bool, default False</em>) – Whether to raise an error if an input array is not 2D.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1419,7 +1501,7 @@ cannot be infinite.</p></li>
 <dd class="field-even"><p><strong>models</strong></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)">tuple</a> of estimator</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> or <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)">tuple</a> of estimator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1451,12 +1533,8 @@ corresponding to <cite>axis</cite> (the first, by default).</p></li>
 <dd><p>Compute the cross product of features.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X1</strong> (<em>n x d1 matrix</em>) – First matrix of n samples of d1 features
-(or an n-element vector, which will be treated as an n x 1 matrix)</p></li>
-<li><p><strong>X2</strong> (<em>n x d2 matrix</em>) – Second matrix of n samples of d2 features
-(or an n-element vector, which will be treated as an n x 1 matrix)</p></li>
-</ul>
+<dd class="field-odd"><p><strong>*XS</strong> (<em>n x d_i matrices</em>) – Matrices of n samples of d_i features
+(or n-element vectors, which will be treated as n x 1 matrices)</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>A</strong> – Matrix of n samples of d1*d2*… cross product features,
@@ -1477,7 +1555,7 @@ arranged in form such that each row t of X12 contains:
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>message</strong> (<em>str</em>) – The deprecation message to use</p></li>
-<li><p><strong>category</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a>, default <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FutureWarning" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">FutureWarning</span></code></a>) – The warning category to use</p></li>
+<li><p><strong>category</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#type" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a>, default <a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#FutureWarning" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">FutureWarning</span></code></a>) – The warning category to use</p></li>
 </ul>
 </dd>
 </dl>
@@ -1520,7 +1598,7 @@ so that stripping them out when they are not set enables more uses to succeed.</
 <dd class="field-even"><p><strong>filtered_kwargs</strong> – The input dictionary, but with all entries having value None removed</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1542,7 +1620,7 @@ so that stripping them out when they are not set enables more uses to succeed.</
 <dd class="field-even"><p><strong>feature_names_out</strong> – The feature names</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1601,7 +1679,7 @@ None if the input array is not in the supported types.</p>
 <dd class="field-even"><p><strong>A</strong> – The un-encoded 0-based category indices</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>vector of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a> (shape (n,))</p>
+<dd class="field-odd"><p>vector of <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)">int</a> (shape (n,))</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1618,7 +1696,7 @@ None if the input array is not in the supported types.</p>
 <dd class="field-even"><p>Whether the input is a <cite>COO</cite> array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1637,7 +1715,7 @@ types are considered sparse.</p>
 <dd class="field-even"><p>Whether the input is sparse</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1652,14 +1730,6 @@ types are considered sparse.</p>
 <dt class="sig sig-object py" id="econml.utilities.ndim">
 <span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">ndim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#ndim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.ndim" title="Link to this definition"></a></dt>
 <dd><p>Return the number of array dimensions.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="econml.utilities.one_hot_encoder">
-<span class="sig-prename descclassname"><span class="pre">econml.utilities.</span></span><span class="sig-name descname"><span class="pre">one_hot_encoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/utilities.html#one_hot_encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.utilities.one_hot_encoder" title="Link to this definition"></a></dt>
-<dd><p>Create a <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneHotEncoder</span></code></a>.</p>
-<p>This handles the breaking name change from <cite>sparse</cite> to <cite>sparse_output</cite>
-between sklearn versions 1.1 and 1.2.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -1720,7 +1790,7 @@ between sklearn versions 1.1 and 1.2.</p>
 <dd class="field-even"><p><strong>new_args</strong> – Output of reshaped arrays</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of array</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of array</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1787,13 +1857,13 @@ were vectors, as in the specification of <cite>BaseCateEstimator.marginal_effect
 <dd><p>Return the number of elements in the array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>a</strong> (<em>array_like</em>) – Input data</p>
+<dd class="field-odd"><p><strong>X</strong> (<em>array_like</em>) – Input data</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The number of elements of the array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1807,7 +1877,7 @@ For example, if axis=0 it will be the first dimension and if axis=-1 it will be 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>arrays</strong> (<em>sequence of array_like</em>) – Each array must have the same shape</p></li>
+<li><p><strong>XS</strong> (<em>sequence of array_like</em>) – Each array must have the same shape</p></li>
 <li><p><strong>axis</strong> (<em>int, optional</em>) – The axis in the result array along which the input arrays are stacked</p></li>
 </ul>
 </dd>
@@ -1904,7 +1974,7 @@ be dictionaries</p>
 <dd class="field-even"><p><strong>output</strong> – The output dictionary with first- and second-level keys swapped</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1961,5 +2031,17 @@ be dictionaries</p>
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

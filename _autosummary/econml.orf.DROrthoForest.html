@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.orf.DROrthoForest &mdash; econml 0.16.0 documentation</title>
+  <title>econml.orf.DROrthoForest &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../_static/documentation_options.js?v=a8455094"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>window.MathJax = {"tex": {"macros": {"vec": ["{\\bf #1}", 1], "ldot": ["\\left\\langle #1, #2 \\right\\rangle", 2], "E": "\\mathbb{E}", "T": "\\mathcal{T}", "argmin": "\\mathrm{argmin}", "Var": "\\mathrm{Var}"}}}</script>
@@ -42,7 +42,7 @@
               <img src="../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -415,6 +415,7 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -433,7 +434,6 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -864,7 +864,7 @@
 <h1>econml.orf.DROrthoForest<a class="headerlink" href="#econml-orf-drorthoforest" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="econml.orf.DROrthoForest">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.orf.</span></span><span class="sig-name descname"><span class="pre">DROrthoForest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trees=500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_leaf_size=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsample_ratio=0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_reg=0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propensity_model=LogisticRegression(multi_class='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty='l1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver='saga')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_Y=&lt;econml.sklearn_extensions.linear_model.WeightedLassoCVWrapper</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propensity_model_final=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_Y_final=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categories='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs=-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend='loky'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing=False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/orf/_ortho_forest.html#DROrthoForest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.orf.DROrthoForest" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.orf.</span></span><span class="sig-name descname"><span class="pre">DROrthoForest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trees=500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_leaf_size=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsample_ratio=0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_reg=0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propensity_model=LogisticRegression(penalty='l1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver='saga')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_Y=&lt;econml.sklearn_extensions.linear_model.WeightedLassoCVWrapper</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propensity_model_final=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_Y_final=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categories='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs=-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend='loky'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing=False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/orf/_ortho_forest.html#DROrthoForest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.orf.DROrthoForest" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseOrthoForest</span></code></p>
 <p>OrthoForest for discrete treatments using the doubly robust moment function.</p>
 <p>A two-forest approach for learning heterogeneous treatment effects using
@@ -882,19 +882,23 @@ Parameter is ignored when bootstrap=True.</p></li>
 <li><p><strong>lambda_reg</strong> (<em>float, default 0.01</em>) – The regularization coefficient in the ell_2 penalty imposed on the
 locally linear part of the second stage fit. This is not applied to
 the local intercept, only to the coefficient of the linear component.</p></li>
-<li><p><strong>propensity_model</strong> (<em>estimator, default sklearn.linear_model.LogisticRegression(penalty=’l1’,                                                                                   solver=’saga’,                                                                                   multi_class=’auto’)</em>) – Model for estimating propensity of treatment at each leaf.
+<li><p><strong>propensity_model</strong> (<em>estimator, default sklearn.linear_model.LogisticRegression(penalty=’l1’,                                                                                   solver=’saga’)</em>) – Model for estimating propensity of treatment at each leaf.
 Will be trained on features and controls (concatenated). Must implement <cite>fit</cite> and <cite>predict_proba</cite> methods.</p></li>
 <li><p><strong>model_Y</strong> (<em>estimator, default sklearn.linear_model.LassoCV(cv=3)</em>) – Estimator for learning potential outcomes at each leaf.
 Will be trained on features, controls and one hot encoded treatments (concatenated).
-If different models per treatment arm are desired, see the <a class="reference internal" href="econml.utilities.html#econml.utilities.MultiModelWrapper" title="econml.utilities.MultiModelWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiModelWrapper</span></code></a>
-helper class. The model(s) must implement <cite>fit</cite> and <cite>predict</cite> methods.</p></li>
+If different models per treatment arm are desired, wrap them in
+<a class="reference internal" href="econml.utilities.html#econml.utilities.MultiModelWrapper" title="econml.utilities.MultiModelWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiModelWrapper</span></code></a> with <code class="docutils literal notranslate"><span class="pre">encoding='full'</span></code> (DROrthoForest
+passes a full one-hot encoding rather than a drop-first one to
+<code class="docutils literal notranslate"><span class="pre">model_Y</span></code>). The model(s) must implement <cite>fit</cite> and <cite>predict</cite> methods.</p></li>
 <li><p><strong>propensity_model_final</strong> (<em>estimator, optional</em>) – Model for estimating propensity of treatment at at prediction time.
 Will be trained on features and controls (concatenated). Must implement <cite>fit</cite> and <cite>predict_proba</cite> methods.
 If parameter is set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, it defaults to the value of <cite>propensity_model</cite> parameter.</p></li>
 <li><p><strong>model_Y_final</strong> (<em>estimator, optional</em>) – Estimator for learning potential outcomes at prediction time.
 Will be trained on features, controls and one hot encoded treatments (concatenated).
-If different models per treatment arm are desired, see the <a class="reference internal" href="econml.utilities.html#econml.utilities.MultiModelWrapper" title="econml.utilities.MultiModelWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiModelWrapper</span></code></a>
-helper class. The model(s) must implement <cite>fit</cite> and <cite>predict</cite> methods.
+If different models per treatment arm are desired, wrap them in
+<a class="reference internal" href="econml.utilities.html#econml.utilities.MultiModelWrapper" title="econml.utilities.MultiModelWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiModelWrapper</span></code></a> with <code class="docutils literal notranslate"><span class="pre">encoding='full'</span></code> (DROrthoForest
+passes a full one-hot encoding rather than a drop-first one to
+<code class="docutils literal notranslate"><span class="pre">model_Y</span></code>). The model(s) must implement <cite>fit</cite> and <cite>predict</cite> methods.
 If parameter is set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, it defaults to the value of <cite>model_Y</cite> parameter.</p></li>
 <li><p><strong>categories</strong> (<em>‘auto’ or list</em>) – The categories to use when encoding discrete treatments (or ‘auto’ to use the unique sorted values).
 The first category will be treated as the control treatment.</p></li>
@@ -905,9 +909,9 @@ computationally heavy, it is recommended to set <cite>n_jobs</cite> to -1.</p></
 <li><p><strong>verbose</strong> (<em>int, default 3</em>) – Verbosity level</p></li>
 <li><p><strong>batch_size</strong> (<em>int or ‘auto’, default ‘auto’</em>) – Batch_size of jobs for parallelism</p></li>
 <li><p><strong>random_state</strong> (<em>int, RandomState instance, or None, default None</em>) – If int, random_state is the seed used by the random number generator;
-If <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance, random_state is the random number generator;
-If None, the random number generator is the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance used
-by <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html#module-numpy.random" title="(in NumPy v2.3)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">np.random</span></code></a>.</p></li>
+If <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance, random_state is the random number generator;
+If None, the random number generator is the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance used
+by <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html#module-numpy.random" title="(in NumPy v2.5)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">np.random</span></code></a>.</p></li>
 <li><p><strong>allow_missing</strong> (<em>bool</em>) – Whether to allow missing values in W. If True, will need to supply nuisance_models
 that can handle missing values.</p></li>
 </ul>
@@ -915,7 +919,7 @@ that can handle missing values.</p></li>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="econml.orf.DROrthoForest.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trees=500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_leaf_size=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsample_ratio=0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_reg=0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propensity_model=LogisticRegression(multi_class='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty='l1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver='saga')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_Y=&lt;econml.sklearn_extensions.linear_model.WeightedLassoCVWrapper</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propensity_model_final=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_Y_final=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categories='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs=-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend='loky'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing=False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/orf/_ortho_forest.html#DROrthoForest.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.orf.DROrthoForest.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trees=500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_leaf_size=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsample_ratio=0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_reg=0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propensity_model=LogisticRegression(penalty='l1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver='saga')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_Y=&lt;econml.sklearn_extensions.linear_model.WeightedLassoCVWrapper</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propensity_model_final=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_Y_final=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categories='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs=-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend='loky'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing=False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/orf/_ortho_forest.html#DROrthoForest.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.orf.DROrthoForest.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -1037,7 +1041,7 @@ the population of X variables.</p>
 Note that when Y is a vector rather than a 2-dimensional array, the result will be a scalar</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a> or (d_y,) array</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a> or (d_y,) array</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1062,7 +1066,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1106,7 +1110,7 @@ from the dataframe.</p>
 <dd class="field-even"><p><strong>out_feature_names</strong> – Returns feature names.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a> or None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a> or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1125,7 +1129,7 @@ it defaults to the column names from the dataframe.</p>
 <dd class="field-even"><p><strong>output_names</strong> – Returns output names.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1144,7 +1148,7 @@ it defaults to the column names from the dataframe.</p>
 <dd class="field-even"><p><strong>out_treatment_names</strong> – Returns (possibly expanded) treatment names.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1185,7 +1189,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1246,7 +1250,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1319,7 +1323,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1419,7 +1423,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1494,7 +1498,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1626,5 +1630,17 @@ corresponding names).</p>
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

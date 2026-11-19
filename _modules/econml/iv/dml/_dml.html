@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.iv.dml._dml &mdash; econml 0.16.0 documentation</title>
+  <title>econml.iv.dml._dml &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -858,7 +858,7 @@
 <span></span><span class="c1"># Copyright (c) PyWhy contributors. All rights reserved.</span>
 <span class="c1"># Licensed under the MIT License.</span>
 
-<span class="sd">&quot;&quot;&quot;Orthogonal IV for Heterogeneous Treatment Effects.</span>
+<span class="sd">"""Orthogonal IV for Heterogeneous Treatment Effects.</span>
 
 <span class="sd">A Double/Orthogonal machine learning approach to estimation of heterogeneous</span>
 <span class="sd">treatment effect with an endogenous treatment and an instrument. It</span>
@@ -868,7 +868,7 @@
 <span class="sd">Vasilis Syrgkanis, Victor Lei, Miruna Oprescu, Maggie Hei, Keith Battocchi, Greg Lewis</span>
 <span class="sd">https://arxiv.org/abs/1905.10176</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">clone</span>
@@ -923,25 +923,25 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_y_xw</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_y_xw</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
             <span class="n">Y_X_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_y_xw</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Target</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">Y_X_score</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xw</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xw</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
             <span class="n">T_X_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xw</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Target</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">T_X_score</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_projection</span><span class="p">:</span>
             <span class="c1"># concat W and Z</span>
             <span class="n">WZ</span> <span class="o">=</span> <span class="n">_combine</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xwz</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xwz</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
                 <span class="n">T_XZ_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xwz</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">WZ</span><span class="p">,</span> <span class="n">Target</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">T_XZ_score</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">return</span> <span class="n">Y_X_score</span><span class="p">,</span> <span class="n">T_X_score</span><span class="p">,</span> <span class="n">T_XZ_score</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_z_xw</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_z_xw</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
                 <span class="n">Z_X_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_z_xw</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Target</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">Z_X_score</span> <span class="o">=</span> <span class="kc">None</span>
@@ -984,8 +984,8 @@
             <span class="n">add_intercept_trans</span> <span class="o">=</span> <span class="n">FunctionTransformer</span><span class="p">(</span><span class="n">add_intercept</span><span class="p">,</span>
                                                       <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">featurizer</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_featurizer</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;featurize&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_featurizer</span><span class="p">),</span>
-                                             <span class="p">(</span><span class="s1">&#39;add_intercept&#39;</span><span class="p">,</span> <span class="n">add_intercept_trans</span><span class="p">)])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_featurizer</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">'featurize'</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_featurizer</span><span class="p">),</span>
+                                             <span class="p">(</span><span class="s1">'add_intercept'</span><span class="p">,</span> <span class="n">add_intercept_trans</span><span class="p">)])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_featurizer</span> <span class="o">=</span> <span class="n">add_intercept_trans</span>
         <span class="k">else</span><span class="p">:</span>
@@ -999,7 +999,7 @@
                 <span class="n">F</span> <span class="o">=</span> <span class="n">X</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_cate_intercept</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Cannot have X=None and also not allow for a CATE intercept!&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Cannot have X=None and also not allow for a CATE intercept!"</span><span class="p">)</span>
             <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">cross_product</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
 
@@ -1035,7 +1035,7 @@
         <span class="k">if</span> <span class="n">T_res</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">T_res</span> <span class="o">=</span> <span class="n">T_res</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">effects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Y_res</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">T_res</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="n">Y_res_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,ik-&gt;ij&#39;</span><span class="p">,</span> <span class="n">effects</span><span class="p">,</span> <span class="n">T_res</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Y_res</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">Y_res_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">'ijk,ik-&gt;ij'</span><span class="p">,</span> <span class="n">effects</span><span class="p">,</span> <span class="n">T_res</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Y_res</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">cross_product</span><span class="p">(</span><span class="n">Z_res</span><span class="p">,</span> <span class="n">Y_res</span> <span class="o">-</span> <span class="n">Y_res_pred</span><span class="p">),</span> <span class="n">weights</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
                                   <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -1046,7 +1046,7 @@
 <div class="viewcode-block" id="OrthoIV">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.OrthoIV.html#econml.iv.dml.OrthoIV">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">OrthoIV</span><span class="p">(</span><span class="n">LinearModelFinalCateEstimatorMixin</span><span class="p">,</span> <span class="n">_OrthoLearner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Implementation of the orthogonal/double ml method for CATE estimation with IV.</span>
 
 <span class="sd">    As described in section 4.2:</span>
@@ -1062,37 +1062,37 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model_y_xw: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_y_xw: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the outcome to the features and controls (:math:`\\E[Y | X, W]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_outcome` is True</span>
 <span class="sd">          and a regressor otherwise</span>
 
-<span class="sd">    model_t_xw: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_t_xw: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the treatment to the features and controls (:math:`\\E[T | X, W]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_treatment` is True</span>
 <span class="sd">          and a regressor otherwise</span>
 
-<span class="sd">    model_t_xwz: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_t_xwz: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the treatment to the features, controls, and instrument (:math:`\\E[T | X, W, Z]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_treatment` is True</span>
 <span class="sd">          and a regressor otherwise</span>
 
-<span class="sd">    model_z_xw: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_z_xw: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the instrument to the features and controls (:math:`\\E[Z | X, W]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_instrument` is True</span>
@@ -1124,8 +1124,8 @@
 <span class="sd">    discrete_instrument: bool, default False</span>
 <span class="sd">        Whether the instrument values should be treated as categorical, rather than continuous, quantities</span>
 
-<span class="sd">    categories: &#39;auto&#39; or list, default &#39;auto&#39;</span>
-<span class="sd">        The categories to use when encoding discrete treatments (or &#39;auto&#39; to use the unique sorted values).</span>
+<span class="sd">    categories: 'auto' or list, default 'auto'</span>
+<span class="sd">        The categories to use when encoding discrete treatments (or 'auto' to use the unique sorted values).</span>
 <span class="sd">        The first category will be treated as the control treatment.</span>
 
 <span class="sd">    cv: int, cross-validation generator or an iterable, default 2</span>
@@ -1148,7 +1148,7 @@
 <span class="sd">    mc_iters: int, optional</span>
 <span class="sd">        The number of times to rerun the first stage models to reduce the variance of the nuisances.</span>
 
-<span class="sd">    mc_agg: {&#39;mean&#39;, &#39;median&#39;}, default &#39;mean&#39;</span>
+<span class="sd">    mc_agg: {'mean', 'median'}, default 'mean'</span>
 <span class="sd">        How to aggregate the nuisance value for each sample across the `mc_iters` monte carlo iterations of</span>
 <span class="sd">        cross-fitting.</span>
 
@@ -1203,28 +1203,28 @@
 <span class="sd">        est.fit(Y=y, T=T, Z=Z, X=X)</span>
 
 <span class="sd">    &gt;&gt;&gt; est.effect(X[:3])</span>
-<span class="sd">    array([-4.28039...,  6.02945..., -2.86845...])</span>
+<span class="sd">    array([-4.28039,  6.02945, -2.86845])</span>
 <span class="sd">    &gt;&gt;&gt; est.effect_interval(X[:3])</span>
-<span class="sd">    (array([-7.20723... ,  1.75413..., -5.20891...]),</span>
-<span class="sd">    array([-1.35355..., 10.30477..., -0.52799...]))</span>
+<span class="sd">    (array([-7.20723 ,  1.75413, -5.20891]),</span>
+<span class="sd">    array([-1.35355, 10.30477, -0.52799]))</span>
 <span class="sd">    &gt;&gt;&gt; est.coef_</span>
-<span class="sd">    array([ 4.51656...,  0.78512...,  0.23706...,  0.24127..., -0.47167...])</span>
+<span class="sd">    array([ 4.51656,  0.78512,  0.23706,  0.24127, -0.47167])</span>
 <span class="sd">    &gt;&gt;&gt; est.coef__interval()</span>
-<span class="sd">    (array([ 3.15599..., -0.35785..., -0.89798..., -0.90529..., -1.62444...]),</span>
-<span class="sd">    array([5.87712..., 1.92810..., 1.37211..., 1.38783..., 0.68110...]))</span>
+<span class="sd">    (array([ 3.15599, -0.35785, -0.89798, -0.90529, -1.62444]),</span>
+<span class="sd">    array([5.87712, 1.92810, 1.37211, 1.38783, 0.68110]))</span>
 <span class="sd">    &gt;&gt;&gt; est.intercept_</span>
-<span class="sd">    -0.13668...</span>
+<span class="sd">    -0.13668</span>
 <span class="sd">    &gt;&gt;&gt; est.intercept__interval()</span>
-<span class="sd">    (-1.27031..., 0.99694...)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    (-1.27031, 0.99694)</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="OrthoIV.__init__">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.OrthoIV.html#econml.iv.dml.OrthoIV.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                 <span class="n">model_y_xw</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-                 <span class="n">model_t_xw</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-                 <span class="n">model_t_xwz</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-                 <span class="n">model_z_xw</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                 <span class="n">model_y_xw</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+                 <span class="n">model_t_xw</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+                 <span class="n">model_t_xwz</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+                 <span class="n">model_z_xw</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
                  <span class="n">projection</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">featurizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">fit_cate_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1232,10 +1232,10 @@
                  <span class="n">discrete_treatment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">treatment_featurizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">discrete_instrument</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">categories</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                 <span class="n">categories</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>
                  <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                  <span class="n">mc_iters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">'mean'</span><span class="p">,</span>
                  <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">allow_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_y_xw</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">model_y_xw</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1259,13 +1259,13 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_allowed_missing_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_missing</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">'W'</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_missing</span> <span class="k">else</span> <span class="p">[]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_featurizer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">featurizer</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_model_final</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">StatsModels2SLS</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;HC0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StatsModels2SLS</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">"HC0"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_ortho_learner_model_final</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_OrthoIVModelFinal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gen_model_final</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_featurizer</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_cate_intercept</span><span class="p">)</span>
@@ -1298,8 +1298,8 @@
 <div class="viewcode-block" id="OrthoIV.fit">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.OrthoIV.html#econml.iv.dml.OrthoIV.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">cache_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+            <span class="n">cache_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Estimate the counterfactual model from data, i.e. estimates function :math:`\\theta(\\cdot)`.</span>
 
 <span class="sd">        Parameters</span>
@@ -1325,25 +1325,25 @@
 <span class="sd">            compute the mean outcome represented by observation i.</span>
 <span class="sd">        groups: (n,) vector, optional</span>
 <span class="sd">            All rows corresponding to the same group will be kept together during splitting.</span>
-<span class="sd">            If groups is not None, the `cv` argument passed to this class&#39;s initializer</span>
-<span class="sd">            must support a &#39;groups&#39; argument to its split method.</span>
+<span class="sd">            If groups is not None, the `cv` argument passed to this class's initializer</span>
+<span class="sd">            must support a 'groups' argument to its split method.</span>
 <span class="sd">        cache_values: bool, default False</span>
 <span class="sd">            Whether to cache inputs and first stage results, which will allow refitting a different final model</span>
 <span class="sd">        inference: str, :class:`.Inference` instance, or None</span>
-<span class="sd">            Method for performing inference.  This estimator supports &#39;bootstrap&#39;</span>
-<span class="sd">            (or an instance of:class:`.BootstrapInference`) and &#39;auto&#39;</span>
+<span class="sd">            Method for performing inference.  This estimator supports 'bootstrap'</span>
+<span class="sd">            (or an instance of:class:`.BootstrapInference`) and 'auto'</span>
 <span class="sd">            (or an instance of :class:`.LinearModelFinalInference`)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self: OrthoIV instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_z_xw</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;In the case of projection=True, model_z_xw will not be fitted, &quot;</span>
-                                               <span class="s2">&quot;please leave it when initializing the estimator!&quot;</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_z_xw</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">,</span> <span class="p">(</span><span class="s2">"In the case of projection=True, model_z_xw will not be fitted, "</span>
+                                               <span class="s2">"please leave it when initializing the estimator!"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_t_xwz</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;In the case of projection=False, model_t_xwz will not be fitted, &quot;</span>
-                                                <span class="s2">&quot;please leave it when initializing the estimator!&quot;</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_t_xwz</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">,</span> <span class="p">(</span><span class="s2">"In the case of projection=False, model_t_xwz will not be fitted, "</span>
+                                                <span class="s2">"please leave it when initializing the estimator!"</span><span class="p">)</span>
         <span class="c1">#  Replacing fit from _OrthoLearner, to reorder arguments and improve the docstring</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span>
                            <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">freq_weight</span><span class="o">=</span><span class="n">freq_weight</span><span class="p">,</span> <span class="n">sample_var</span><span class="o">=</span><span class="n">sample_var</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span>
@@ -1352,7 +1352,7 @@
 
 <div class="viewcode-block" id="OrthoIV.refit_final">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.OrthoIV.html#econml.iv.dml.OrthoIV.refit_final">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">refit_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refit_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">refit_final</span><span class="p">(</span><span class="n">inference</span><span class="o">=</span><span class="n">inference</span><span class="p">)</span></div>
 
     <span class="n">refit_final</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">_OrthoLearner</span><span class="o">.</span><span class="n">refit_final</span><span class="o">.</span><span class="vm">__doc__</span>
@@ -1360,7 +1360,7 @@
 <div class="viewcode-block" id="OrthoIV.score">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.OrthoIV.html#econml.iv.dml.OrthoIV.score">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Score the fitted CATE model on a new data set.</span>
 
 <span class="sd">        Generates nuisance parameters</span>
@@ -1390,14 +1390,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        score: float</span>
 <span class="sd">            The MSE of the final CATE model on the new data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Replacing score from _OrthoLearner, to enforce Z to be required and improve the docstring</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">featurizer_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted featurizer.</span>
 
 <span class="sd">        Returns</span>
@@ -1405,7 +1405,7 @@
 <span class="sd">        featurizer: object of type(`featurizer`)</span>
 <span class="sd">            An instance of the fitted featurizer that was used to preprocess X in the final CATE model training.</span>
 <span class="sd">            Available only when featurizer is not None and X is not None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ortho_learner_model_final_</span><span class="o">.</span><span class="n">_featurizer</span>
 
     <span class="nd">@property</span>
@@ -1417,7 +1417,7 @@
 <div class="viewcode-block" id="OrthoIV.cate_feature_names">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.OrthoIV.html#econml.iv.dml.OrthoIV.cate_feature_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cate_feature_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the output feature names.</span>
 
 <span class="sd">        Parameters</span>
@@ -1433,12 +1433,12 @@
 <span class="sd">            final CATE model for each treatment is linear. It is the names of the features that are associated</span>
 <span class="sd">            with each entry of the :meth:`coef_` parameter. Available only when the featurizer is not None and has</span>
 <span class="sd">            a method: `get_feature_names(feature_names)`. Otherwise None is returned.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Handles the corner case when X=None but featurizer might be not None</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">feature_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">feature_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span><span class="p">[</span><span class="s2">&quot;feature_names&quot;</span><span class="p">]</span>
+            <span class="n">feature_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span><span class="p">[</span><span class="s2">"feature_names"</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_featurizer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">feature_names</span>
         <span class="k">return</span> <span class="n">get_feature_names_or_default</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_featurizer</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">)</span></div>
@@ -1451,7 +1451,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">model_cate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted final CATE model.</span>
 
 <span class="sd">        Returns</span>
@@ -1459,12 +1459,12 @@
 <span class="sd">        model_cate: object of type(model_final)</span>
 <span class="sd">            An instance of the model_final object that was fitted after calling fit which corresponds</span>
 <span class="sd">            to the constant marginal CATE model.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ortho_learner_model_final_</span><span class="o">.</span><span class="n">_model_final</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">models_y_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted models for :math:`\\E[Y | X]`.</span>
 
 <span class="sd">        Returns</span>
@@ -1473,12 +1473,12 @@
 <span class="sd">            A nested list of instances of the `model_y_xw` object. Number of sublist equals to number of monte carlo</span>
 <span class="sd">            iterations, each element in the sublist corresponds to a crossfitting</span>
 <span class="sd">            fold and is the model instance that was fitted for that training fold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[[</span><span class="n">mdl</span><span class="o">.</span><span class="n">_model_y_xw</span><span class="o">.</span><span class="n">best_model</span><span class="o">.</span><span class="n">_model</span> <span class="k">for</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="n">mdls</span><span class="p">]</span> <span class="k">for</span> <span class="n">mdls</span> <span class="ow">in</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">models_nuisance_</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">models_t_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted models for :math:`\\E[T | X]`.</span>
 
 <span class="sd">        Returns</span>
@@ -1487,12 +1487,12 @@
 <span class="sd">            A nested list of instances of the `model_t_xw` object. Number of sublist equals to number of monte carlo</span>
 <span class="sd">            iterations, each element in the sublist corresponds to a crossfitting</span>
 <span class="sd">            fold and is the model instance that was fitted for that training fold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[[</span><span class="n">mdl</span><span class="o">.</span><span class="n">_model_t_xw</span><span class="o">.</span><span class="n">best_model</span><span class="o">.</span><span class="n">_model</span> <span class="k">for</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="n">mdls</span><span class="p">]</span> <span class="k">for</span> <span class="n">mdls</span> <span class="ow">in</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">models_nuisance_</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">models_z_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted models for :math:`\\E[Z | X]`.</span>
 
 <span class="sd">        Returns</span>
@@ -1501,14 +1501,14 @@
 <span class="sd">            A nested list of instances of the `model_z_xw` object. Number of sublist equals to number of monte carlo</span>
 <span class="sd">            iterations, each element in the sublist corresponds to a crossfitting</span>
 <span class="sd">            fold and is the model instance that was fitted for that training fold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Projection model is fitted for instrument! Use models_t_xwz.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Projection model is fitted for instrument! Use models_t_xwz."</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[[</span><span class="n">mdl</span><span class="o">.</span><span class="n">_model_z_xw</span><span class="o">.</span><span class="n">best_model</span><span class="o">.</span><span class="n">_model</span> <span class="k">for</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="n">mdls</span><span class="p">]</span> <span class="k">for</span> <span class="n">mdls</span> <span class="ow">in</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">models_nuisance_</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">models_t_xwz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted models for :math:`\\E[T | X, Z]`.</span>
 
 <span class="sd">        Returns</span>
@@ -1517,33 +1517,33 @@
 <span class="sd">            A nested list of instances of the `model_t_xwz` object. Number of sublist equals to number of monte carlo</span>
 <span class="sd">            iterations, each element in the sublist corresponds to a crossfitting</span>
 <span class="sd">            fold and is the model instance that was fitted for that training fold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Direct model is fitted for instrument! Use models_z_xw.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Direct model is fitted for instrument! Use models_z_xw."</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[[</span><span class="n">mdl</span><span class="o">.</span><span class="n">_model_t_xwz</span><span class="o">.</span><span class="n">best_model</span><span class="o">.</span><span class="n">_model</span> <span class="k">for</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="n">mdls</span><span class="p">]</span> <span class="k">for</span> <span class="n">mdls</span> <span class="ow">in</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">models_nuisance_</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">nuisance_scores_y_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the scores for y_xw model on the out-of-sample training data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the scores for y_xw model on the out-of-sample training data."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nuisance_scores_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">nuisance_scores_t_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the scores for t_xw model on the out-of-sample training data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the scores for t_xw model on the out-of-sample training data."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nuisance_scores_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">nuisance_scores_z_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the scores for z_xw model on the out-of-sample training data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the scores for z_xw model on the out-of-sample training data."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Projection model is fitted for instrument! Use nuisance_scores_t_xwz.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Projection model is fitted for instrument! Use nuisance_scores_t_xwz."</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nuisance_scores_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">nuisance_scores_t_xwz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the scores for t_xwz model on the out-of-sample training data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the scores for t_xwz model on the out-of-sample training data."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Direct model is fitted for instrument! Use nuisance_scores_z_xw.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Direct model is fitted for instrument! Use nuisance_scores_z_xw."</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nuisance_scores_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
     <span class="nd">@property</span>
@@ -1561,34 +1561,34 @@
     <span class="nd">@model_final</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">model_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parameter `model_final` cannot be altered for this estimator!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Parameter `model_final` cannot be altered for this estimator!"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">residuals_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the residuals.</span>
 
 <span class="sd">        Returns a tuple (y_res, T_res,Z_res, X, W, Z), of the residuals from the first stage estimation</span>
 <span class="sd">        along with the associated X, W and Z. Samples are not guaranteed to be in the same</span>
 <span class="sd">        order as the input order.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_cached_values&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Estimator is not fitted yet!&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_cached_values'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Estimator is not fitted yet!"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;`fit` was called with `cache_values=False`. &quot;</span>
-                                 <span class="s2">&quot;Set to `True` to enable residual storage.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"`fit` was called with `cache_values=False`. "</span>
+                                 <span class="s2">"Set to `True` to enable residual storage."</span><span class="p">)</span>
         <span class="n">Y_res</span><span class="p">,</span> <span class="n">T_res</span><span class="p">,</span> <span class="n">Z_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">nuisances</span>
         <span class="k">return</span> <span class="n">Y_res</span><span class="p">,</span> <span class="n">T_res</span><span class="p">,</span> <span class="n">Z_res</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">Z</span></div>
 
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_BaseDMLIVNuisanceSelector</span><span class="p">(</span><span class="n">ModelSelector</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Nuisance model for DMLIV.</span>
 
 <span class="sd">    Fits the three models at fit time and at predict time returns :math:`Y-\\E[Y|X]` and</span>
 <span class="sd">    :math:`\\E[T|X,Z]-\\E[T|X]` as residuals.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_y_xw</span><span class="p">:</span> <span class="n">ModelSelector</span><span class="p">,</span> <span class="n">model_t_xw</span><span class="p">:</span> <span class="n">ModelSelector</span><span class="p">,</span> <span class="n">model_t_xwz</span><span class="p">:</span> <span class="n">ModelSelector</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model_y_xw</span> <span class="o">=</span> <span class="n">model_y_xw</span>
@@ -1608,15 +1608,15 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># note that groups are not passed to score because they are only used for fitting</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_y_xw</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_y_xw</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
             <span class="n">Y_X_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_y_xw</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="o">**</span><span class="n">filter_none_kwargs</span><span class="p">(</span><span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">Y_X_score</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xw</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xw</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
             <span class="n">T_X_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xw</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">filter_none_kwargs</span><span class="p">(</span><span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">T_X_score</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xwz</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xwz</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
             <span class="c1"># concat W and Z</span>
             <span class="n">WZ</span> <span class="o">=</span> <span class="n">_combine</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">T_XZ_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_t_xwz</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">WZ</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">filter_none_kwargs</span><span class="p">(</span><span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">))</span>
@@ -1640,7 +1640,7 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_BaseDMLIVModelFinal</span><span class="p">(</span><span class="n">_ModelFinal</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Final model for DMLIV.</span>
 
 <span class="sd">    At fit time, fits a residual on residual regression with a heterogeneous coefficient</span>
@@ -1651,7 +1651,7 @@
 
 <span class="sd">    and at predict time returns :math:`\\theta(X)`. The score method returns the MSE of this final</span>
 <span class="sd">    residual on residual regression.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">pass</span>
 
@@ -1662,7 +1662,7 @@
     <span class="c1"># override only so that we can enforce Z to be required</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">cache_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Estimate the counterfactual model from data, i.e. estimates function :math:`\\theta(\\cdot)`.</span>
 
 <span class="sd">        Parameters</span>
@@ -1688,24 +1688,24 @@
 <span class="sd">            compute the mean outcome represented by observation i.</span>
 <span class="sd">        groups: (n,) vector, optional</span>
 <span class="sd">            All rows corresponding to the same group will be kept together during splitting.</span>
-<span class="sd">            If groups is not None, the `cv` argument passed to this class&#39;s initializer</span>
-<span class="sd">            must support a &#39;groups&#39; argument to its split method.</span>
+<span class="sd">            If groups is not None, the `cv` argument passed to this class's initializer</span>
+<span class="sd">            must support a 'groups' argument to its split method.</span>
 <span class="sd">        cache_values: bool, default False</span>
 <span class="sd">            Whether to cache inputs and first stage results, which will allow refitting a different final model</span>
 <span class="sd">        inference: str, :class:`.Inference` instance, or None</span>
-<span class="sd">            Method for performing inference.  This estimator supports &#39;bootstrap&#39;</span>
+<span class="sd">            Method for performing inference.  This estimator supports 'bootstrap'</span>
 <span class="sd">            (or an instance of :class:`.BootstrapInference`)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span>
                            <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">freq_weight</span><span class="o">=</span><span class="n">freq_weight</span><span class="p">,</span> <span class="n">sample_var</span><span class="o">=</span><span class="n">sample_var</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span>
                            <span class="n">cache_values</span><span class="o">=</span><span class="n">cache_values</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="n">inference</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Score the fitted CATE model on a new data set.</span>
 
 <span class="sd">        Generates nuisance parameters</span>
@@ -1734,7 +1734,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        score: float</span>
 <span class="sd">            The MSE of the final CATE model on the new data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Replacing score from _OrthoLearner, to enforce Z to be required and improve the docstring</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
 
@@ -1755,7 +1755,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">model_cate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted final CATE model.</span>
 
 <span class="sd">        Returns</span>
@@ -1763,12 +1763,12 @@
 <span class="sd">        model_cate: object of type(model_final)</span>
 <span class="sd">            An instance of the model_final object that was fitted after calling fit which corresponds</span>
 <span class="sd">            to the constant marginal CATE model.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ortho_learner_model_final_</span><span class="o">.</span><span class="n">_model_final</span><span class="o">.</span><span class="n">_model</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">models_y_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted models for :math:`\\E[Y | X]`.</span>
 
 <span class="sd">        Returns</span>
@@ -1777,12 +1777,12 @@
 <span class="sd">            A nested list of instances of the `model_y_xw` object. Number of sublist equals to number of monte carlo</span>
 <span class="sd">            iterations, each element in the sublist corresponds to a crossfitting</span>
 <span class="sd">            fold and is the model instance that was fitted for that training fold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[[</span><span class="n">mdl</span><span class="o">.</span><span class="n">_model_y_xw</span><span class="o">.</span><span class="n">best_model</span><span class="o">.</span><span class="n">_model</span> <span class="k">for</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="n">mdls</span><span class="p">]</span> <span class="k">for</span> <span class="n">mdls</span> <span class="ow">in</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">models_nuisance_</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">models_t_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted models for :math:`\\E[T | X]`.</span>
 
 <span class="sd">        Returns</span>
@@ -1791,12 +1791,12 @@
 <span class="sd">            A nested list of instances of the `model_t_xw` object. Number of sublist equals to number of monte carlo</span>
 <span class="sd">            iterations, each element in the sublist corresponds to a crossfitting</span>
 <span class="sd">            fold and is the model instance that was fitted for that training fold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[[</span><span class="n">mdl</span><span class="o">.</span><span class="n">_model_t_xw</span><span class="o">.</span><span class="n">best_model</span><span class="o">.</span><span class="n">_model</span> <span class="k">for</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="n">mdls</span><span class="p">]</span> <span class="k">for</span> <span class="n">mdls</span> <span class="ow">in</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">models_nuisance_</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">models_t_xwz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the fitted models for :math:`\\E[T | X, Z]`.</span>
 
 <span class="sd">        Returns</span>
@@ -1805,43 +1805,43 @@
 <span class="sd">            A nested list of instances of the `model_t_xwz` object. Number of sublist equals to number of monte carlo</span>
 <span class="sd">            iterations, each element in the sublist corresponds to a crossfitting</span>
 <span class="sd">            fold and is the model instance that was fitted for that training fold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[[</span><span class="n">mdl</span><span class="o">.</span><span class="n">_model_t_xwz</span><span class="o">.</span><span class="n">best_model</span><span class="o">.</span><span class="n">_model</span> <span class="k">for</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="n">mdls</span><span class="p">]</span> <span class="k">for</span> <span class="n">mdls</span> <span class="ow">in</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">models_nuisance_</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">nuisance_scores_y_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the scores for y_xw model on the out-of-sample training data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the scores for y_xw model on the out-of-sample training data."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nuisance_scores_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">nuisance_scores_t_xw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the scores for t_xw model on the out-of-sample training data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the scores for t_xw model on the out-of-sample training data."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nuisance_scores_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">nuisance_scores_t_xwz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the scores for t_xwz model on the out-of-sample training data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the scores for t_xwz model on the out-of-sample training data."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nuisance_scores_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">residuals_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the residuals.</span>
 
 <span class="sd">        Returns a tuple (y_res, T_res, X, W, Z), of the residuals from the first stage estimation</span>
 <span class="sd">        along with the associated X, W and Z. Samples are not guaranteed to be in the same</span>
 <span class="sd">        order as the input order.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_cached_values&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Estimator is not fitted yet!&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_cached_values'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Estimator is not fitted yet!"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;`fit` was called with `cache_values=False`. &quot;</span>
-                                 <span class="s2">&quot;Set to `True` to enable residual storage.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"`fit` was called with `cache_values=False`. "</span>
+                                 <span class="s2">"Set to `True` to enable residual storage."</span><span class="p">)</span>
         <span class="n">Y_res</span><span class="p">,</span> <span class="n">T_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">nuisances</span>
         <span class="k">return</span> <span class="n">Y_res</span><span class="p">,</span> <span class="n">T_res</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">Z</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">cate_feature_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the output feature names.</span>
 
 <span class="sd">        Parameters</span>
@@ -1857,12 +1857,12 @@
 <span class="sd">            final constant marginal CATE model is linear. It is the names of the features that are associated</span>
 <span class="sd">            with each entry of the :meth:`coef_` parameter. Not available when the featurizer is not None and</span>
 <span class="sd">            does not have a method: `get_feature_names(feature_names)`. Otherwise None is returned.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Handles the corner case when X=None but featurizer might be not None</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">feature_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">feature_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span><span class="p">[</span><span class="s2">&quot;feature_names&quot;</span><span class="p">]</span>
+            <span class="n">feature_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span><span class="p">[</span><span class="s2">"feature_names"</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_featurizer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">feature_names</span>
         <span class="k">return</span> <span class="n">get_feature_names_or_default</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_featurizer</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">)</span>
@@ -1871,7 +1871,7 @@
 <div class="viewcode-block" id="DMLIV">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.DMLIV.html#econml.iv.dml.DMLIV">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DMLIV</span><span class="p">(</span><span class="n">_BaseDMLIV</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The base class for parametric DMLIV estimators to estimate a CATE.</span>
 
 <span class="sd">    It accepts three generic machine</span>
@@ -1889,28 +1889,28 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model_y_xw: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_y_xw: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the outcome to the features and controls (:math:`\\E[Y | X, W]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_outcome` is True</span>
 <span class="sd">          and a regressor otherwise</span>
 
-<span class="sd">    model_t_xw: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_t_xw: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the treatment to the features and controls (:math:`\\E[T | X, W]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_treatment` is True</span>
 <span class="sd">          and a regressor otherwise</span>
 
-<span class="sd">    model_t_xwz: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_t_xwz: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the treatment to the features, controls, and instrument (:math:`\\E[T | X, W, Z]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_treatment` is True</span>
@@ -1941,8 +1941,8 @@
 <span class="sd">        The final CATE will be trained on the outcome of featurizer.fit_transform(T).</span>
 <span class="sd">        If featurizer=None, then CATE is trained on T.</span>
 
-<span class="sd">    categories: &#39;auto&#39; or list, default &#39;auto&#39;</span>
-<span class="sd">        The categories to use when encoding discrete treatments (or &#39;auto&#39; to use the unique sorted values).</span>
+<span class="sd">    categories: 'auto' or list, default 'auto'</span>
+<span class="sd">        The categories to use when encoding discrete treatments (or 'auto' to use the unique sorted values).</span>
 <span class="sd">        The first category will be treated as the control treatment.</span>
 
 <span class="sd">    cv: int, cross-validation generator or an iterable, default 2</span>
@@ -1972,7 +1972,7 @@
 <span class="sd">    mc_iters: int, optional</span>
 <span class="sd">        The number of times to rerun the first stage models to reduce the variance of the nuisances.</span>
 
-<span class="sd">    mc_agg: {&#39;mean&#39;, &#39;median&#39;}, default &#39;mean&#39;</span>
+<span class="sd">    mc_agg: {'mean', 'median'}, default 'mean'</span>
 <span class="sd">        How to aggregate the nuisance value for each sample across the `mc_iters` monte carlo iterations of</span>
 <span class="sd">        cross-fitting.</span>
 
@@ -2020,20 +2020,20 @@
 <span class="sd">        est.fit(Y=y, T=T, Z=Z, X=X)</span>
 
 <span class="sd">    &gt;&gt;&gt; est.effect(X[:3])</span>
-<span class="sd">    array([-3.83456...,  5.32010..., -2.78127...])</span>
+<span class="sd">    array([-3.83456,  5.32010, -2.78127])</span>
 <span class="sd">    &gt;&gt;&gt; est.coef_</span>
-<span class="sd">    array([ 4.03977...,  0.89360...,  0.12047...,  0.37971..., -0.66072...])</span>
+<span class="sd">    array([ 4.03977,  0.89360,  0.12047,  0.37971, -0.66072])</span>
 <span class="sd">    &gt;&gt;&gt; est.intercept_</span>
-<span class="sd">    -0.18452...</span>
+<span class="sd">    -0.18452</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="DMLIV.__init__">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.DMLIV.html#econml.iv.dml.DMLIV.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                 <span class="n">model_y_xw</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-                 <span class="n">model_t_xw</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-                 <span class="n">model_t_xwz</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                 <span class="n">model_y_xw</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+                 <span class="n">model_t_xw</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+                 <span class="n">model_t_xwz</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
                  <span class="n">model_final</span><span class="o">=</span><span class="n">StatsModelsLinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
                  <span class="n">featurizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">fit_cate_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -2041,10 +2041,10 @@
                  <span class="n">discrete_treatment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">treatment_featurizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">discrete_instrument</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">categories</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                 <span class="n">categories</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>
                  <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                  <span class="n">mc_iters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">'mean'</span><span class="p">,</span>
                  <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">allow_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_y_xw</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">model_y_xw</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -2100,7 +2100,7 @@
 <div class="viewcode-block" id="DMLIV.shap_values">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.DMLIV.html#econml.iv.dml.DMLIV.shap_values">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">shap_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">treatment_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">background_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;featurizer_&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">featurizer_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"featurizer_"</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">featurizer_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">featurizer_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="n">feature_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cate_feature_names</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_shap_explain_joint_linear_model_cate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_final_</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">,</span>
@@ -2115,7 +2115,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">coef_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The coefficients in the linear model of the constant marginal treatment effect.</span>
 
 <span class="sd">        Returns</span>
@@ -2127,14 +2127,14 @@
 <span class="sd">            the number of outcomes. Dimensions are omitted if the original input was</span>
 <span class="sd">            a vector and not a 2D array. For binary treatment the n_t dimension is</span>
 <span class="sd">            also omitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">parse_final_model_params</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_final_</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_final_</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span>
                                         <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias_part_of_coef</span><span class="p">,</span>
                                         <span class="bp">self</span><span class="o">.</span><span class="n">fit_cate_intercept_</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">intercept_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The intercept in the linear model of the constant marginal treatment effect.</span>
 
 <span class="sd">        Returns</span>
@@ -2144,9 +2144,9 @@
 <span class="sd">            the number of outcomes. Dimensions are omitted if the original input was</span>
 <span class="sd">            a vector and not a 2D array. For binary treatment the n_t dimension is</span>
 <span class="sd">            also omitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_cate_intercept_</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;No intercept was fitted!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"No intercept was fitted!"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parse_final_model_params</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_final_</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_final_</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span>
                                         <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias_part_of_coef</span><span class="p">,</span>
                                         <span class="bp">self</span><span class="o">.</span><span class="n">fit_cate_intercept_</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
@@ -2154,7 +2154,7 @@
 <div class="viewcode-block" id="DMLIV.summary">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.DMLIV.html#econml.iv.dml.DMLIV.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">treatment_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get a summary of coefficient and intercept in the linear model of the constant marginal treatment effect.</span>
 
 <span class="sd">        Parameters</span>
@@ -2173,7 +2173,7 @@
 <span class="sd">        smry : Summary instance</span>
 <span class="sd">            this holds the summary tables and text, which can be printed or</span>
 <span class="sd">            converted to various output formats.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Get input names</span>
         <span class="n">treatment_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cate_treatment_names</span><span class="p">(</span><span class="n">treatment_names</span><span class="p">)</span>
         <span class="n">output_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cate_output_names</span><span class="p">(</span><span class="n">output_names</span><span class="p">)</span>
@@ -2181,27 +2181,27 @@
         <span class="c1"># Summary</span>
         <span class="n">smry</span> <span class="o">=</span> <span class="n">Summary</span><span class="p">()</span>
 
-        <span class="n">extra_txt</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&lt;sub&gt;A linear parametric conditional average treatment effect (CATE) model was fitted:&quot;</span><span class="p">]</span>
+        <span class="n">extra_txt</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"&lt;sub&gt;A linear parametric conditional average treatment effect (CATE) model was fitted:"</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_treatment_featurizer</span><span class="p">:</span>
-            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;$Y = </span><span class="se">\\</span><span class="s2">Theta(X)</span><span class="se">\\</span><span class="s2">cdot </span><span class="se">\\</span><span class="s2">psi(T) + g(X, W) + </span><span class="se">\\</span><span class="s2">epsilon$&quot;</span><span class="p">)</span>
-            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;where $</span><span class="se">\\</span><span class="s2">psi(T)$ is the output of the `treatment_featurizer&quot;</span><span class="p">)</span>
+            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"$Y = </span><span class="se">\\</span><span class="s2">Theta(X)</span><span class="se">\\</span><span class="s2">cdot </span><span class="se">\\</span><span class="s2">psi(T) + g(X, W) + </span><span class="se">\\</span><span class="s2">epsilon$"</span><span class="p">)</span>
+            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"where $</span><span class="se">\\</span><span class="s2">psi(T)$ is the output of the `treatment_featurizer"</span><span class="p">)</span>
             <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="s2">&quot;and for every outcome $i$ and featurized treatment $j$ the CATE $</span><span class="se">\\</span><span class="s2">Theta_</span><span class="si">{ij}</span><span class="s2">(X)$ has the form:&quot;</span><span class="p">)</span>
+                <span class="s2">"and for every outcome $i$ and featurized treatment $j$ the CATE $</span><span class="se">\\</span><span class="s2">Theta_</span><span class="si">{ij}</span><span class="s2">(X)$ has the form:"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;$Y = </span><span class="se">\\</span><span class="s2">Theta(X)</span><span class="se">\\</span><span class="s2">cdot T + g(X, W) + </span><span class="se">\\</span><span class="s2">epsilon$&quot;</span><span class="p">)</span>
+            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"$Y = </span><span class="se">\\</span><span class="s2">Theta(X)</span><span class="se">\\</span><span class="s2">cdot T + g(X, W) + </span><span class="se">\\</span><span class="s2">epsilon$"</span><span class="p">)</span>
             <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="s2">&quot;where for every outcome $i$ and treatment $j$ the CATE $</span><span class="se">\\</span><span class="s2">Theta_</span><span class="si">{ij}</span><span class="s2">(X)$ has the form:&quot;</span><span class="p">)</span>
+                <span class="s2">"where for every outcome $i$ and treatment $j$ the CATE $</span><span class="se">\\</span><span class="s2">Theta_</span><span class="si">{ij}</span><span class="s2">(X)$ has the form:"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">featurizer</span><span class="p">:</span>
-            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">Theta_</span><span class="si">{ij}</span><span class="s2">(X) = </span><span class="se">\\</span><span class="s2">phi(X)&#39; coef_</span><span class="si">{ij}</span><span class="s2"> + cate</span><span class="se">\\</span><span class="s2">_intercept_</span><span class="si">{ij}</span><span class="s2">$&quot;</span><span class="p">)</span>
-            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;where $</span><span class="se">\\</span><span class="s2">phi(X)$ is the output of the `featurizer`&quot;</span><span class="p">)</span>
+            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"$</span><span class="se">\\</span><span class="s2">Theta_</span><span class="si">{ij}</span><span class="s2">(X) = </span><span class="se">\\</span><span class="s2">phi(X)' coef_</span><span class="si">{ij}</span><span class="s2"> + cate</span><span class="se">\\</span><span class="s2">_intercept_</span><span class="si">{ij}</span><span class="s2">$"</span><span class="p">)</span>
+            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"where $</span><span class="se">\\</span><span class="s2">phi(X)$ is the output of the `featurizer`"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">Theta_</span><span class="si">{ij}</span><span class="s2">(X) = X&#39; coef_</span><span class="si">{ij}</span><span class="s2"> + cate</span><span class="se">\\</span><span class="s2">_intercept_</span><span class="si">{ij}</span><span class="s2">$&quot;</span><span class="p">)</span>
+            <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"$</span><span class="se">\\</span><span class="s2">Theta_</span><span class="si">{ij}</span><span class="s2">(X) = X' coef_</span><span class="si">{ij}</span><span class="s2"> + cate</span><span class="se">\\</span><span class="s2">_intercept_</span><span class="si">{ij}</span><span class="s2">$"</span><span class="p">)</span>
 
-        <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Coefficient Results table portrays the $coef_</span><span class="si">{ij}</span><span class="s2">$ parameter vector for &quot;</span>
-                         <span class="s2">&quot;each outcome $i$ and treatment $j$. &quot;</span>
-                         <span class="s2">&quot;Intercept Results table portrays the $cate</span><span class="se">\\</span><span class="s2">_intercept_</span><span class="si">{ij}</span><span class="s2">$ parameter.&lt;/sub&gt;&quot;</span><span class="p">)</span>
+        <span class="n">extra_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Coefficient Results table portrays the $coef_</span><span class="si">{ij}</span><span class="s2">$ parameter vector for "</span>
+                         <span class="s2">"each outcome $i$ and treatment $j$. "</span>
+                         <span class="s2">"Intercept Results table portrays the $cate</span><span class="se">\\</span><span class="s2">_intercept_</span><span class="si">{ij}</span><span class="s2">$ parameter.&lt;/sub&gt;"</span><span class="p">)</span>
 
         <span class="n">smry</span><span class="o">.</span><span class="n">add_extra_txt</span><span class="p">(</span><span class="n">extra_txt</span><span class="p">)</span>
         <span class="n">d_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span> <span class="k">else</span> <span class="mi">1</span>
@@ -2210,7 +2210,7 @@
         <span class="k">def</span><span class="w"> </span><span class="nf">_reshape_array</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
                 <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">arr</span><span class="p">])</span>
-            <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;coefficient&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">'coefficient'</span><span class="p">:</span>
                 <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">arr</span>
@@ -2218,10 +2218,10 @@
         <span class="c1"># coefficient</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># X is None</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;X is None, please call intercept_inference to learn the constant!&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"X is None, please call intercept_inference to learn the constant!"</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">coef_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">_reshape_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s2">&quot;coefficient&quot;</span><span class="p">),</span> <span class="n">decimals</span><span class="p">)</span>
-                <span class="n">coef_headers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;point_estimate&quot;</span><span class="p">]</span>
+                <span class="n">coef_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">_reshape_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s2">"coefficient"</span><span class="p">),</span> <span class="n">decimals</span><span class="p">)</span>
+                <span class="n">coef_headers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"point_estimate"</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">d_t</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">d_y</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">output_names</span><span class="p">,</span> <span class="n">treatment_names</span><span class="p">))</span>
                 <span class="k">elif</span> <span class="n">d_t</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -2230,32 +2230,32 @@
                     <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">output_names</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">feature_names</span><span class="p">))</span>
-                <span class="n">coef_stubs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ind_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind_value</span> <span class="ow">in</span> <span class="n">index</span><span class="p">]</span>
-                <span class="n">coef_title</span> <span class="o">=</span> <span class="s1">&#39;Coefficient Results&#39;</span>
+                <span class="n">coef_stubs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ind_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind_value</span> <span class="ow">in</span> <span class="n">index</span><span class="p">]</span>
+                <span class="n">coef_title</span> <span class="o">=</span> <span class="s1">'Coefficient Results'</span>
                 <span class="n">smry</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="n">coef_array</span><span class="p">,</span> <span class="n">coef_headers</span><span class="p">,</span> <span class="n">coef_stubs</span><span class="p">,</span> <span class="n">coef_title</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coefficient Results: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Coefficient Results: "</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
         <span class="c1"># intercept</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_cate_intercept</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;No intercept was fitted!&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"No intercept was fitted!"</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">intercept_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">_reshape_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="s2">&quot;intercept&quot;</span><span class="p">),</span> <span class="n">decimals</span><span class="p">)</span>
-                <span class="n">intercept_headers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;point_estimate&quot;</span><span class="p">]</span>
+                <span class="n">intercept_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">_reshape_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="s2">"intercept"</span><span class="p">),</span> <span class="n">decimals</span><span class="p">)</span>
+                <span class="n">intercept_headers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"point_estimate"</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">d_t</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">d_y</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">&quot;cate_intercept&quot;</span><span class="p">],</span> <span class="n">output_names</span><span class="p">,</span> <span class="n">treatment_names</span><span class="p">))</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">"cate_intercept"</span><span class="p">],</span> <span class="n">output_names</span><span class="p">,</span> <span class="n">treatment_names</span><span class="p">))</span>
                 <span class="k">elif</span> <span class="n">d_t</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">&quot;cate_intercept&quot;</span><span class="p">],</span> <span class="n">treatment_names</span><span class="p">))</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">"cate_intercept"</span><span class="p">],</span> <span class="n">treatment_names</span><span class="p">))</span>
                 <span class="k">elif</span> <span class="n">d_y</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">&quot;cate_intercept&quot;</span><span class="p">],</span> <span class="n">output_names</span><span class="p">))</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">"cate_intercept"</span><span class="p">],</span> <span class="n">output_names</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">&quot;cate_intercept&quot;</span><span class="p">]))</span>
-                <span class="n">intercept_stubs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ind_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind_value</span> <span class="ow">in</span> <span class="n">index</span><span class="p">]</span>
-                <span class="n">intercept_title</span> <span class="o">=</span> <span class="s1">&#39;CATE Intercept Results&#39;</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">"cate_intercept"</span><span class="p">]))</span>
+                <span class="n">intercept_stubs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ind_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind_value</span> <span class="ow">in</span> <span class="n">index</span><span class="p">]</span>
+                <span class="n">intercept_title</span> <span class="o">=</span> <span class="s1">'CATE Intercept Results'</span>
                 <span class="n">smry</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="n">intercept_array</span><span class="p">,</span> <span class="n">intercept_headers</span><span class="p">,</span> <span class="n">intercept_stubs</span><span class="p">,</span> <span class="n">intercept_title</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CATE Intercept Results: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"CATE Intercept Results: "</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">smry</span><span class="o">.</span><span class="n">tables</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">smry</span></div>
 </div>
@@ -2265,7 +2265,7 @@
 <div class="viewcode-block" id="NonParamDMLIV">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.NonParamDMLIV.html#econml.iv.dml.NonParamDMLIV">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NonParamDMLIV</span><span class="p">(</span><span class="n">_BaseDMLIV</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The base class for non-parametric DMLIV.</span>
 
 <span class="sd">    Allows for an arbitrary square loss based ML</span>
@@ -2293,28 +2293,28 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model_y_xw: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_y_xw: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the outcome to the features and controls (:math:`\\E[Y | X, W]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_outcome` is True</span>
 <span class="sd">          and a regressor otherwise</span>
 
-<span class="sd">    model_t_xw: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_t_xw: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the treatment to the features and controls (:math:`\\E[T | X, W]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_treatment` is True</span>
 <span class="sd">          and a regressor otherwise</span>
 
-<span class="sd">    model_t_xwz: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_t_xwz: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the treatment to the features, controls, and instrument (:math:`\\E[T | X, W, Z]`).</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_treatment` is True</span>
@@ -2341,8 +2341,8 @@
 <span class="sd">    discrete_instrument: bool, default False</span>
 <span class="sd">        Whether the instrument values should be treated as categorical, rather than continuous, quantities</span>
 
-<span class="sd">    categories: &#39;auto&#39; or list, default &#39;auto&#39;</span>
-<span class="sd">        The categories to use when encoding discrete treatments (or &#39;auto&#39; to use the unique sorted values).</span>
+<span class="sd">    categories: 'auto' or list, default 'auto'</span>
+<span class="sd">        The categories to use when encoding discrete treatments (or 'auto' to use the unique sorted values).</span>
 <span class="sd">        The first category will be treated as the control treatment.</span>
 
 <span class="sd">    cv: int, cross-validation generator or an iterable, default 2</span>
@@ -2365,7 +2365,7 @@
 <span class="sd">    mc_iters: int, optional</span>
 <span class="sd">        The number of times to rerun the first stage models to reduce the variance of the nuisances.</span>
 
-<span class="sd">    mc_agg: {&#39;mean&#39;, &#39;median&#39;}, default &#39;mean&#39;</span>
+<span class="sd">    mc_agg: {'mean', 'median'}, default 'mean'</span>
 <span class="sd">        How to aggregate the nuisance value for each sample across the `mc_iters` monte carlo iterations of</span>
 <span class="sd">        cross-fitting.</span>
 
@@ -2425,26 +2425,26 @@
 <span class="sd">        est.fit(Y=y, T=T, Z=Z, X=X)</span>
 
 <span class="sd">    &gt;&gt;&gt; est.effect(X[:3])</span>
-<span class="sd">    array([-5.98684...,  9.03751..., -3.56817...])</span>
+<span class="sd">    array([-5.98684,  9.03751, -3.56817])</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="NonParamDMLIV.__init__">
 <a class="viewcode-back" href="../../../../_autosummary/econml.iv.dml.NonParamDMLIV.html#econml.iv.dml.NonParamDMLIV.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                 <span class="n">model_y_xw</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-                 <span class="n">model_t_xw</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-                 <span class="n">model_t_xwz</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                 <span class="n">model_y_xw</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+                 <span class="n">model_t_xw</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+                 <span class="n">model_t_xwz</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
                  <span class="n">model_final</span><span class="p">,</span>
                  <span class="n">discrete_outcome</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">discrete_treatment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">treatment_featurizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">discrete_instrument</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">featurizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">categories</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                 <span class="n">categories</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>
                  <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                  <span class="n">mc_iters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">'mean'</span><span class="p">,</span>
                  <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">allow_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_y_xw</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">model_y_xw</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -2529,5 +2529,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

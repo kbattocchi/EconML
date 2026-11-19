@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.dml.causal_forest &mdash; econml 0.16.0 documentation</title>
+  <title>econml.dml.causal_forest &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -868,14 +868,16 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.dml</span><span class="w"> </span><span class="kn">import</span> <span class="n">_make_first_stage_selector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..inference</span><span class="w"> </span><span class="kn">import</span> <span class="n">NormalInferenceResults</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..inference._inference</span><span class="w"> </span><span class="kn">import</span> <span class="n">Inference</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..utilities</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">check_input_arrays</span><span class="p">,</span>
-                         <span class="n">cross_product</span><span class="p">,</span> <span class="n">Summary</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">shape</span><span class="p">,</span> <span class="n">check_input_arrays</span><span class="p">,</span> <span class="n">Summary</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..grf</span><span class="w"> </span><span class="kn">import</span> <span class="n">CausalForest</span><span class="p">,</span> <span class="n">MultiOutputGRF</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.._cate_estimator</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearCateEstimator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.._shap</span><span class="w"> </span><span class="kn">import</span> <span class="n">_shap_explain_multitask_model_cate</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.._ortho_learner</span><span class="w"> </span><span class="kn">import</span> <span class="n">_OrthoLearner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.._lazy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_LazyModule</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..validate.sensitivity_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">sensitivity_interval</span><span class="p">,</span> <span class="n">RV</span><span class="p">,</span> <span class="n">dml_sensitivity_values</span><span class="p">,</span>
                                              <span class="n">sensitivity_summary</span><span class="p">)</span>
+
+<span class="n">_score</span> <span class="o">=</span> <span class="n">_LazyModule</span><span class="p">(</span><span class="s2">"econml.score"</span><span class="p">)</span>  <span class="c1"># lazy: avoid circular import</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_CausalForestFinalWrapper</span><span class="p">:</span>
@@ -894,15 +896,15 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">F</span> <span class="o">=</span> <span class="n">X</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Cannot use this method with X=None. Consider &quot;</span>
-                                 <span class="s2">&quot;using the LinearDML estimator.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Cannot use this method with X=None. Consider "</span>
+                                 <span class="s2">"using the LinearDML estimator."</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">F</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_ate_and_stderr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drpreds</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">drpreds</span> <span class="o">=</span> <span class="n">drpreds</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
         <span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">drpreds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">)</span>
-        <span class="n">nonnan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">drpreds</span><span class="p">))</span>
+        <span class="n">nonnan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">drpreds</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">stderr</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">drpreds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nonnan</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">point</span><span class="p">,</span> <span class="n">stderr</span>
 
@@ -926,15 +928,15 @@
             <span class="n">oob_preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">oob_predict</span><span class="p">(</span><span class="n">fts</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_oob_preds</span> <span class="o">=</span> <span class="n">oob_preds</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">oob_preds</span><span class="p">)):</span>
-                <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Could not generate out-of-bag predictions on some training data. &quot;</span>
-                     <span class="s2">&quot;Consider increasing the number of trees. `ate_` results will take the &quot;</span>
-                     <span class="s2">&quot;average of the subset of training data for which out-of-bag predictions &quot;</span>
-                     <span class="s2">&quot;where available.&quot;</span><span class="p">)</span>
-            <span class="n">residuals</span> <span class="o">=</span> <span class="n">Y_res</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,ik-&gt;ij&#39;</span><span class="p">,</span> <span class="n">oob_preds</span><span class="p">,</span> <span class="n">T_res</span><span class="p">)</span>
+                <span class="n">warn</span><span class="p">(</span><span class="s2">"Could not generate out-of-bag predictions on some training data. "</span>
+                     <span class="s2">"Consider increasing the number of trees. `ate_` results will take the "</span>
+                     <span class="s2">"average of the subset of training data for which out-of-bag predictions "</span>
+                     <span class="s2">"where available."</span><span class="p">)</span>
+            <span class="n">residuals</span> <span class="o">=</span> <span class="n">Y_res</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">'ijk,ik-&gt;ij'</span><span class="p">,</span> <span class="n">oob_preds</span><span class="p">,</span> <span class="n">T_res</span><span class="p">)</span>
             <span class="n">propensities</span> <span class="o">=</span> <span class="n">T</span> <span class="o">-</span> <span class="n">T_res</span>
             <span class="n">VarT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">propensities</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">propensities</span><span class="p">),</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
             <span class="n">drpreds</span> <span class="o">=</span> <span class="n">oob_preds</span>
-            <span class="n">drpreds</span> <span class="o">+=</span> <span class="n">cross_product</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">T_res</span> <span class="o">/</span> <span class="n">VarT</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Y_res</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">T_res</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">drpreds</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">'ij,ik-&gt;ijk'</span><span class="p">,</span> <span class="n">residuals</span><span class="p">,</span> <span class="n">T_res</span> <span class="o">/</span> <span class="n">VarT</span><span class="p">)</span>
             <span class="n">drpreds</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">oob_preds</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ate_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ate_stderr_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ate_and_stderr</span><span class="p">(</span><span class="n">drpreds</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">att_</span> <span class="o">=</span> <span class="p">[]</span>
@@ -955,11 +957,11 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ate_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discrete_treatment</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATE calculation on training data &quot;</span>
-                                 <span class="s2">&quot;is available only on discrete treatments!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Doubly Robust ATE calculation on training data "</span>
+                                 <span class="s2">"is available only on discrete treatments!"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drate</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATE calculation on training data &quot;</span>
-                                 <span class="s2">&quot;is available only when `drate=True`!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Doubly Robust ATE calculation on training data "</span>
+                                 <span class="s2">"is available only when `drate=True`!"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ate</span>
 
     <span class="nd">@ate_</span><span class="o">.</span><span class="n">setter</span>
@@ -969,11 +971,11 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ate_stderr_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discrete_treatment</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATE calculation on training data &quot;</span>
-                                 <span class="s2">&quot;is available only on discrete treatments!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Doubly Robust ATE calculation on training data "</span>
+                                 <span class="s2">"is available only on discrete treatments!"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drate</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATE calculation on training data &quot;</span>
-                                 <span class="s2">&quot;is available only when `drate=True`!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Doubly Robust ATE calculation on training data "</span>
+                                 <span class="s2">"is available only when `drate=True`!"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ate_stderr</span>
 
     <span class="nd">@ate_stderr_</span><span class="o">.</span><span class="n">setter</span>
@@ -983,11 +985,11 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">att_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discrete_treatment</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATT calculation on training data &quot;</span>
-                                 <span class="s2">&quot;is available only on discrete treatments!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Doubly Robust ATT calculation on training data "</span>
+                                 <span class="s2">"is available only on discrete treatments!"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drate</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATT calculation on training data &quot;</span>
-                                 <span class="s2">&quot;is available only when `drate=True`!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Doubly Robust ATT calculation on training data "</span>
+                                 <span class="s2">"is available only when `drate=True`!"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_att</span>
 
     <span class="nd">@att_</span><span class="o">.</span><span class="n">setter</span>
@@ -997,11 +999,11 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">att_stderr_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discrete_treatment</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATT calculation on training data &quot;</span>
-                                 <span class="s2">&quot;is available only on discrete treatments!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Doubly Robust ATT calculation on training data "</span>
+                                 <span class="s2">"is available only on discrete treatments!"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drate</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATT calculation on training data &quot;</span>
-                                 <span class="s2">&quot;is available only when `drate=True`!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Doubly Robust ATT calculation on training data "</span>
+                                 <span class="s2">"is available only when `drate=True`!"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_att_stderr</span>
 
     <span class="nd">@att_stderr_</span><span class="o">.</span><span class="n">setter</span>
@@ -1013,11 +1015,11 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">prefit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_final</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">model_final_</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">featurizer</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">featurizer_</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="s1">&#39;featurizer_&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">featurizer</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">featurizer_</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="s1">'featurizer_'</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="c1"># once the estimator has been fit, it&#39;s kosher to store d_t here</span>
-        <span class="c1"># (which needs to have been expanded if there&#39;s a discrete treatment)</span>
+        <span class="c1"># once the estimator has been fit, it's kosher to store d_t here</span>
+        <span class="c1"># (which needs to have been expanded if there's a discrete treatment)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_est</span> <span class="o">=</span> <span class="n">estimator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">_d_t</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">_d_y</span>
@@ -1029,21 +1031,21 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">const_marginal_effect_inference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This inference method currently does not support X=None!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"This inference method currently does not support X=None!"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">featurizer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">featurizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="n">pred</span><span class="p">,</span> <span class="n">pred_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_final</span><span class="o">.</span><span class="n">predict_and_var</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">)</span>
         <span class="n">pred_stderr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">pred_var</span><span class="p">,</span> <span class="n">axis1</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis2</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">NormalInferenceResults</span><span class="p">(</span><span class="n">d_t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">d_t</span><span class="p">,</span> <span class="n">d_y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">d_y</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span>
-                                      <span class="n">pred_stderr</span><span class="o">=</span><span class="n">pred_stderr</span><span class="p">,</span> <span class="n">mean_pred_stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inf_type</span><span class="o">=</span><span class="s1">&#39;effect&#39;</span><span class="p">)</span>
+                                      <span class="n">pred_stderr</span><span class="o">=</span><span class="n">pred_stderr</span><span class="p">,</span> <span class="n">mean_pred_stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inf_type</span><span class="o">=</span><span class="s1">'effect'</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">effect_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_inference</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="n">T0</span><span class="p">,</span> <span class="n">T1</span><span class="o">=</span><span class="n">T1</span><span class="p">)</span><span class="o">.</span><span class="n">conf_int</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">effect_inference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">T1</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This inference method currently does not support X=None!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"This inference method currently does not support X=None!"</span><span class="p">)</span>
         <span class="n">X</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">T1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_est</span><span class="o">.</span><span class="n">_expand_treatments</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">T1</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">featurizer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">featurizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -1054,14 +1056,14 @@
         <span class="n">pred</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">)</span>
         <span class="n">pred_stderr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pred_var</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">NormalInferenceResults</span><span class="p">(</span><span class="n">d_t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d_y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">d_y</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span>
-                                      <span class="n">pred_stderr</span><span class="o">=</span><span class="n">pred_stderr</span><span class="p">,</span> <span class="n">mean_pred_stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inf_type</span><span class="o">=</span><span class="s1">&#39;effect&#39;</span><span class="p">)</span>
+                                      <span class="n">pred_stderr</span><span class="o">=</span><span class="n">pred_stderr</span><span class="p">,</span> <span class="n">mean_pred_stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inf_type</span><span class="o">=</span><span class="s1">'effect'</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">marginal_effect_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">marginal_effect_inference</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">conf_int</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">marginal_effect_inference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This inference method currently does not support X=None!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"This inference method currently does not support X=None!"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_est</span><span class="o">.</span><span class="n">_original_treatment_featurizer</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">const_marginal_effect_inference</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="n">X</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_est</span><span class="o">.</span><span class="n">_expand_treatments</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1109,13 +1111,13 @@
             <span class="n">me_stderr</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">me_index</span><span class="p">)]</span> <span class="o">=</span> <span class="n">e_stderr</span>
 
         <span class="k">return</span> <span class="n">NormalInferenceResults</span><span class="p">(</span><span class="n">d_t</span><span class="o">=</span><span class="n">d_t_orig</span><span class="p">,</span> <span class="n">d_y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">d_y</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">me_pred</span><span class="p">,</span>
-                                      <span class="n">pred_stderr</span><span class="o">=</span><span class="n">me_stderr</span><span class="p">,</span> <span class="n">mean_pred_stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inf_type</span><span class="o">=</span><span class="s1">&#39;effect&#39;</span><span class="p">)</span>
+                                      <span class="n">pred_stderr</span><span class="o">=</span><span class="n">me_stderr</span><span class="p">,</span> <span class="n">mean_pred_stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inf_type</span><span class="o">=</span><span class="s1">'effect'</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="CausalForestDML">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CausalForestDML</span><span class="p">(</span><span class="n">_BaseDML</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A Causal Forest [cfdml1]_ combined with DML-based residualization of the treatment and outcome variables.</span>
 
 <span class="sd">    It fits a forest that solves the local moment equation problem:</span>
@@ -1128,19 +1130,19 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model_y: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_y: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the outcome to the features.</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_outcome` is True</span>
 <span class="sd">          and a regressor otherwise</span>
 
-<span class="sd">    model_t: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_t: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the treatment to the features.</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_treatment` is True</span>
@@ -1162,8 +1164,8 @@
 <span class="sd">    discrete_treatment: bool, default ``False``</span>
 <span class="sd">        Whether the treatment values should be treated as categorical, rather than continuous, quantities</span>
 
-<span class="sd">    categories: &#39;auto&#39; or list, default &#39;auto&#39;</span>
-<span class="sd">        The categories to use when encoding discrete treatments (or &#39;auto&#39; to use the unique sorted values).</span>
+<span class="sd">    categories: 'auto' or list, default 'auto'</span>
+<span class="sd">        The categories to use when encoding discrete treatments (or 'auto' to use the unique sorted values).</span>
 <span class="sd">        The first category will be treated as the control treatment.</span>
 
 <span class="sd">    cv: int, cross-validation generator or an iterable, default 2</span>
@@ -1185,7 +1187,7 @@
 <span class="sd">    mc_iters: int, optional</span>
 <span class="sd">        The number of times to rerun the first stage models to reduce the variance of the nuisances.</span>
 
-<span class="sd">    mc_agg: {&#39;mean&#39;, &#39;median&#39;}, default &#39;mean&#39;</span>
+<span class="sd">    mc_agg: {'mean', 'median'}, default 'mean'</span>
 <span class="sd">        How to aggregate the nuisance value for each sample across the `mc_iters` monte carlo iterations of</span>
 <span class="sd">        cross-fitting.</span>
 
@@ -1197,12 +1199,12 @@
 <span class="sd">    n_estimators : int, default 100</span>
 <span class="sd">        Number of trees</span>
 
-<span class="sd">    criterion : {``&quot;mse&quot;``, ``&quot;het&quot;``}, default &quot;mse&quot;</span>
+<span class="sd">    criterion : {``"mse"``, ``"het"``}, default "mse"</span>
 <span class="sd">        The function to measure the quality of a split. Supported criteria</span>
-<span class="sd">        are ``&quot;mse&quot;`` for the mean squared error in a linear moment estimation tree and ``&quot;het&quot;`` for</span>
+<span class="sd">        are ``"mse"`` for the mean squared error in a linear moment estimation tree and ``"het"`` for</span>
 <span class="sd">        heterogeneity score.</span>
 
-<span class="sd">        - The ``&quot;mse&quot;`` criterion finds splits that minimize the score</span>
+<span class="sd">        - The ``"mse"`` criterion finds splits that minimize the score</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -1227,7 +1229,7 @@
 <span class="sd">          with a large minimum eigenvalue of the child jacobian ``E[(T;1) @ (T;1).T | X in child]``,</span>
 <span class="sd">          which leads to smaller variance of the estimate and stronger identification of the parameters.</span>
 
-<span class="sd">        - The &quot;het&quot; criterion finds splits that maximize the pure parameter heterogeneity score</span>
+<span class="sd">        - The "het" criterion finds splits that maximize the pure parameter heterogeneity score</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -1274,12 +1276,12 @@
 <span class="sd">        leaf as a percentage of the total variance of the treatment vector on the whole sample. This avoids</span>
 <span class="sd">        performing splits where either the variance of the treatment is small and hence the local parameter</span>
 <span class="sd">        is not well identified and has high variance. The proxy of variance is different for different criterion,</span>
-<span class="sd">        primarily for computational efficiency reasons. If ``criterion=&#39;het&#39;``, then this constraint translates to::</span>
+<span class="sd">        primarily for computational efficiency reasons. If ``criterion='het'``, then this constraint translates to::</span>
 
 <span class="sd">            for all i in {1, ..., T.shape[1]}:</span>
 <span class="sd">                Var(T[i] | X in leaf) &gt; `min_var_fraction_leaf` * Var(T[i])</span>
 
-<span class="sd">        If ``criterion=&#39;mse&#39;``, because the criterion stores more information about the leaf for</span>
+<span class="sd">        If ``criterion='mse'``, because the criterion stores more information about the leaf for</span>
 <span class="sd">        every candidate split, then this constraint imposes further constraints on the pairwise correlations</span>
 <span class="sd">        of different coordinates of each treatment, i.e.::</span>
 
@@ -1301,15 +1303,15 @@
 <span class="sd">        dependence as it only uses local correlation structure of the treatment T to decide whether</span>
 <span class="sd">        a split is feasible.</span>
 
-<span class="sd">    max_features : int, float, {&quot;auto&quot;, &quot;sqrt&quot;, &quot;log2&quot;}, or None, default None</span>
+<span class="sd">    max_features : int, float, {"auto", "sqrt", "log2"}, or None, default None</span>
 <span class="sd">        The number of features to consider when looking for the best split:</span>
 
 <span class="sd">        - If int, then consider `max_features` features at each split.</span>
 <span class="sd">        - If float, then `max_features` is a fraction and `int(max_features * n_features)` features</span>
 <span class="sd">          are considered at each split.</span>
-<span class="sd">        - If &quot;auto&quot;, then `max_features=n_features`.</span>
-<span class="sd">        - If &quot;sqrt&quot;, then `max_features=sqrt(n_features)`.</span>
-<span class="sd">        - If &quot;log2&quot;, then `max_features=log2(n_features)`.</span>
+<span class="sd">        - If "auto", then `max_features=n_features`.</span>
+<span class="sd">        - If "sqrt", then `max_features=sqrt(n_features)`.</span>
+<span class="sd">        - If "log2", then `max_features=log2(n_features)`.</span>
 <span class="sd">        - If None, then `max_features=n_features`.</span>
 
 <span class="sd">        Note: the search for a split does not stop until at least one</span>
@@ -1417,10 +1419,10 @@
 <span class="sd">        est.fit(y, T, X=X, W=None)</span>
 
 <span class="sd">    &gt;&gt;&gt; est.effect(X[:3])</span>
-<span class="sd">    array([0.62769..., 1.64575..., 0.68497...])</span>
+<span class="sd">    array([0.62769, 1.64575, 0.68497])</span>
 <span class="sd">    &gt;&gt;&gt; est.effect_interval(X[:3])</span>
-<span class="sd">    (array([0.18798..., 1.17144..., 0.10788...]),</span>
-<span class="sd">    array([1.06739..., 2.12006..., 1.26205...]))</span>
+<span class="sd">    (array([0.18798, 1.17144, 0.10788]),</span>
+<span class="sd">    array([1.06739, 2.12006, 1.26205]))</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -1446,35 +1448,35 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [cfdml1] Athey, Susan, Julie Tibshirani, and Stefan Wager. &quot;Generalized random forests.&quot;</span>
+<span class="sd">    .. [cfdml1] Athey, Susan, Julie Tibshirani, and Stefan Wager. "Generalized random forests."</span>
 <span class="sd">        The Annals of Statistics 47.2 (2019): 1148-1178</span>
 <span class="sd">        https://arxiv.org/pdf/1610.01271.pdf</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="CausalForestDML.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                 <span class="n">model_y</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
-                 <span class="n">model_t</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                 <span class="n">model_y</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>
+                 <span class="n">model_t</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>
                  <span class="n">featurizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">treatment_featurizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">discrete_outcome</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">discrete_treatment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">categories</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                 <span class="n">categories</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>
                  <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                  <span class="n">mc_iters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">'mean'</span><span class="p">,</span>
                  <span class="n">drate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                  <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                 <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">,</span>
+                 <span class="n">criterion</span><span class="o">=</span><span class="s2">"mse"</span><span class="p">,</span>
                  <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                  <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                  <span class="n">min_weight_fraction_leaf</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
                  <span class="n">min_var_fraction_leaf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">min_var_leaf_on_val</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">max_features</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                 <span class="n">max_features</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
                  <span class="n">min_impurity_decrease</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
                  <span class="n">max_samples</span><span class="o">=</span><span class="mf">.45</span><span class="p">,</span>
                  <span class="n">min_balancedness_tol</span><span class="o">=</span><span class="mf">.45</span><span class="p">,</span>
@@ -1530,7 +1532,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_allowed_missing_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_missing</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">'W'</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_missing</span> <span class="k">else</span> <span class="p">[]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_inference_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">options</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_get_inference_options</span><span class="p">()</span>
@@ -1575,17 +1577,17 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">tunable_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">,</span> <span class="s1">&#39;criterion&#39;</span><span class="p">,</span> <span class="s1">&#39;max_depth&#39;</span><span class="p">,</span> <span class="s1">&#39;min_samples_split&#39;</span><span class="p">,</span> <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;min_weight_fraction_leaf&#39;</span><span class="p">,</span> <span class="s1">&#39;min_var_fraction_leaf&#39;</span><span class="p">,</span> <span class="s1">&#39;min_var_leaf_on_val&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;max_features&#39;</span><span class="p">,</span> <span class="s1">&#39;min_impurity_decrease&#39;</span><span class="p">,</span> <span class="s1">&#39;max_samples&#39;</span><span class="p">,</span> <span class="s1">&#39;min_balancedness_tol&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;honest&#39;</span><span class="p">,</span> <span class="s1">&#39;inference&#39;</span><span class="p">,</span> <span class="s1">&#39;fit_intercept&#39;</span><span class="p">,</span> <span class="s1">&#39;subforest_size&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">'n_estimators'</span><span class="p">,</span> <span class="s1">'criterion'</span><span class="p">,</span> <span class="s1">'max_depth'</span><span class="p">,</span> <span class="s1">'min_samples_split'</span><span class="p">,</span> <span class="s1">'min_samples_leaf'</span><span class="p">,</span>
+                <span class="s1">'min_weight_fraction_leaf'</span><span class="p">,</span> <span class="s1">'min_var_fraction_leaf'</span><span class="p">,</span> <span class="s1">'min_var_leaf_on_val'</span><span class="p">,</span>
+                <span class="s1">'max_features'</span><span class="p">,</span> <span class="s1">'min_impurity_decrease'</span><span class="p">,</span> <span class="s1">'max_samples'</span><span class="p">,</span> <span class="s1">'min_balancedness_tol'</span><span class="p">,</span>
+                <span class="s1">'honest'</span><span class="p">,</span> <span class="s1">'inference'</span><span class="p">,</span> <span class="s1">'fit_intercept'</span><span class="p">,</span> <span class="s1">'subforest_size'</span><span class="p">]</span>
 
 <div class="viewcode-block" id="CausalForestDML.tune">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.tune">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">tune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">params</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+             <span class="n">params</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Tunes the major hyperparameters of the final stage causal forest based on out-of-sample R-score performance.</span>
 
 <span class="sd">        It trains small forests of size 100 trees on a grid of parameters and tests the</span>
@@ -1608,35 +1610,36 @@
 <span class="sd">            Weights for each row</span>
 <span class="sd">        groups: (n,) vector, optional</span>
 <span class="sd">            All rows corresponding to the same group will be kept together during splitting.</span>
-<span class="sd">            If groups is not None, the `cv` argument passed to this class&#39;s initializer</span>
-<span class="sd">            must support a &#39;groups&#39; argument to its split method.</span>
-<span class="sd">        params: dict or &#39;auto&#39;, default &#39;auto&#39;</span>
+<span class="sd">            If groups is not None, the `cv` argument passed to this class's initializer</span>
+<span class="sd">            must support a 'groups' argument to its split method.</span>
+<span class="sd">        params: dict or 'auto', default 'auto'</span>
 <span class="sd">            A dictionary that contains the grid of hyperparameters to try, i.e.</span>
-<span class="sd">            {&#39;param1&#39;: [value1, value2, ...], &#39;param2&#39;: [value1, value2, ...], ...}</span>
-<span class="sd">            If `params=&#39;auto&#39;`, then a default grid is used.</span>
+<span class="sd">            {'param1': [value1, value2, ...], 'param2': [value1, value2, ...], ...}</span>
+<span class="sd">            If `params='auto'`, then a default grid is used.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self : CausalForestDML object</span>
 <span class="sd">            The tuned causal forest object. This is the same object (not a copy) as the original one, but where</span>
 <span class="sd">            all parameters of the object have been set to the best performing parameters from the tuning grid.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">..score</span><span class="w"> </span><span class="kn">import</span> <span class="n">RScorer</span>  <span class="c1"># import here to avoid circular import issue</span>
+<span class="sd">        """</span>
+        <span class="n">RScorer</span> <span class="o">=</span> <span class="n">_score</span><span class="o">.</span><span class="n">RScorer</span>
         <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
-        <span class="n">W</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">&#39;allow-nan&#39;</span> <span class="k">if</span> <span class="s1">&#39;W&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">W</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">'allow-nan'</span> <span class="k">if</span> <span class="s1">'W'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
+                                <span class="n">ensure_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">params</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="o">==</span> <span class="s1">'auto'</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s1">&#39;min_weight_fraction_leaf&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">.01</span><span class="p">],</span>
-                <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
-                <span class="s1">&#39;min_var_fraction_leaf&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">.01</span><span class="p">]</span>
+                <span class="s1">'min_weight_fraction_leaf'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">.01</span><span class="p">],</span>
+                <span class="s1">'max_depth'</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+                <span class="s1">'min_var_fraction_leaf'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">.01</span><span class="p">]</span>
             <span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># If custom param grid, check that only estimator parameters are being altered</span>
             <span class="n">estimator_param_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tunable_params</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">estimator_param_names</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter `</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">` is not an tunable causal forest parameter.&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parameter `</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">` is not an tunable causal forest parameter."</span><span class="p">)</span>
 
         <span class="n">strata</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete_treatment</span><span class="p">:</span>
@@ -1687,7 +1690,7 @@
 <div class="viewcode-block" id="CausalForestDML.sensitivity_summary">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.sensitivity_summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sensitivity_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">null_hypothesis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c_y</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c_t</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generate a summary of the sensitivity analysis for the ATE.</span>
 
 <span class="sd">        Parameters</span>
@@ -1701,16 +1704,21 @@
 <span class="sd">        c_y: float, default 0.05</span>
 <span class="sd">            The level of confounding in the outcome. Ranges from 0 to 1.</span>
 
-<span class="sd">        c_d: float, default 0.05</span>
+<span class="sd">        c_t: float, default 0.05</span>
 <span class="sd">            The level of confounding in the treatment. Ranges from 0 to 1.</span>
+
+<span class="sd">        rho: float, default 1.</span>
+<span class="sd">            The worst case correlation between the estimation errors in Y and T.</span>
+<span class="sd">            Should be in the range [-1, 1], with -1 and 1 being the most</span>
+<span class="sd">            conservative choices.</span>
 
 <span class="sd">        decimals: int, default 3</span>
 <span class="sd">            Number of decimal places to round each column to.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Sensitivity analysis for DML is not supported for multi-dimensional outcomes or treatments.&quot;</span><span class="p">)</span>
+                <span class="s2">"Sensitivity analysis for DML is not supported for multi-dimensional outcomes or treatments."</span><span class="p">)</span>
         <span class="n">sensitivity_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="o">.</span><span class="n">_model_final</span><span class="o">.</span><span class="n">sensitivity_params</span>
         <span class="k">return</span> <span class="n">sensitivity_summary</span><span class="p">(</span><span class="o">**</span><span class="n">sensitivity_params</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span> <span class="n">null_hypothesis</span><span class="o">=</span><span class="n">null_hypothesis</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
                                     <span class="n">c_y</span><span class="o">=</span><span class="n">c_y</span><span class="p">,</span> <span class="n">c_t</span><span class="o">=</span><span class="n">c_t</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span></div>
@@ -1718,8 +1726,8 @@
 
 <div class="viewcode-block" id="CausalForestDML.sensitivity_interval">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.sensitivity_interval">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">sensitivity_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c_y</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c_t</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">interval_type</span><span class="o">=</span><span class="s1">&#39;ci&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sensitivity_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c_y</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c_t</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">interval_type</span><span class="o">=</span><span class="s1">'ci'</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Calculate the sensitivity interval for the ATE.</span>
 
 <span class="sd">        The sensitivity interval is the range of values for the ATE that are</span>
@@ -1737,20 +1745,25 @@
 <span class="sd">        c_y: float, default 0.05</span>
 <span class="sd">            The level of confounding in the outcome. Ranges from 0 to 1.</span>
 
-<span class="sd">        c_d: float, default 0.05</span>
+<span class="sd">        c_t: float, default 0.05</span>
 <span class="sd">            The level of confounding in the treatment. Ranges from 0 to 1.</span>
 
-<span class="sd">        interval_type: str, default &#39;ci&#39;</span>
-<span class="sd">            The type of interval to return. Can be &#39;ci&#39; or &#39;theta&#39;</span>
+<span class="sd">        rho: float, default 1.</span>
+<span class="sd">            The worst case correlation between the estimation errors in Y and T.</span>
+<span class="sd">            Should be in the range [-1, 1], with -1 and 1 being the most</span>
+<span class="sd">            conservative choices.</span>
+
+<span class="sd">        interval_type: str, default 'ci'</span>
+<span class="sd">            The type of interval to return. Can be 'ci' or 'theta'</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        (lb, ub): tuple of floats</span>
 <span class="sd">            sensitivity interval for the ATE</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Sensitivity analysis for DML is not supported for multi-dimensional outcomes or treatments.&quot;</span><span class="p">)</span>
+                <span class="s2">"Sensitivity analysis for DML is not supported for multi-dimensional outcomes or treatments."</span><span class="p">)</span>
         <span class="n">sensitivity_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="o">.</span><span class="n">_model_final</span><span class="o">.</span><span class="n">sensitivity_params</span>
         <span class="k">return</span> <span class="n">sensitivity_interval</span><span class="p">(</span><span class="o">**</span><span class="n">sensitivity_params</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
                                     <span class="n">c_y</span><span class="o">=</span><span class="n">c_y</span><span class="p">,</span> <span class="n">c_t</span><span class="o">=</span><span class="n">c_t</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">interval_type</span><span class="o">=</span><span class="n">interval_type</span><span class="p">)</span></div>
@@ -1758,8 +1771,8 @@
 
 <div class="viewcode-block" id="CausalForestDML.robustness_value">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.robustness_value">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">robustness_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">null_hypothesis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">interval_type</span><span class="o">=</span><span class="s1">&#39;ci&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">robustness_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">null_hypothesis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">interval_type</span><span class="o">=</span><span class="s1">'ci'</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Calculate the robustness value for the ATE.</span>
 
 <span class="sd">        The robustness value is the level of confounding (between 0 and 1) in</span>
@@ -1784,17 +1797,17 @@
 <span class="sd">        alpha: float, default 0.05</span>
 <span class="sd">            The significance level for the robustness value.</span>
 
-<span class="sd">        interval_type: str, default &#39;ci&#39;</span>
-<span class="sd">            The type of interval to return. Can be &#39;ci&#39; or &#39;theta&#39;</span>
+<span class="sd">        interval_type: str, default 'ci'</span>
+<span class="sd">            The type of interval to return. Can be 'ci' or 'theta'</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
 <span class="sd">            The robustness value</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Sensitivity analysis for DML is not supported for multi-dimensional outcomes or treatments.&quot;</span><span class="p">)</span>
+                <span class="s2">"Sensitivity analysis for DML is not supported for multi-dimensional outcomes or treatments."</span><span class="p">)</span>
         <span class="n">sensitivity_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="o">.</span><span class="n">_model_final</span><span class="o">.</span><span class="n">sensitivity_params</span>
         <span class="k">return</span> <span class="n">RV</span><span class="p">(</span><span class="o">**</span><span class="n">sensitivity_params</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span> <span class="n">null_hypothesis</span><span class="o">=</span><span class="n">null_hypothesis</span><span class="p">,</span>
                   <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">interval_type</span><span class="o">=</span><span class="n">interval_type</span><span class="p">)</span></div>
@@ -1804,8 +1817,8 @@
 <div class="viewcode-block" id="CausalForestDML.fit">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">cache_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+            <span class="n">cache_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Estimate the counterfactual model from data, i.e. estimates functions τ(·,·,·), ∂τ(·,·).</span>
 
 <span class="sd">        Parameters</span>
@@ -1822,21 +1835,21 @@
 <span class="sd">            Individual weights for each sample. If None, it assumes equal weight.</span>
 <span class="sd">        groups: (n,) vector, optional</span>
 <span class="sd">            All rows corresponding to the same group will be kept together during splitting.</span>
-<span class="sd">            If groups is not None, the `cv` argument passed to this class&#39;s initializer</span>
-<span class="sd">            must support a &#39;groups&#39; argument to its split method.</span>
+<span class="sd">            If groups is not None, the `cv` argument passed to this class's initializer</span>
+<span class="sd">            must support a 'groups' argument to its split method.</span>
 <span class="sd">        cache_values: bool, default False</span>
 <span class="sd">            Whether to cache inputs and first stage results, which will allow refitting a different final model</span>
 <span class="sd">        inference: str, :class:`.Inference` instance, or None</span>
-<span class="sd">            Method for performing inference.  This estimator supports &#39;bootstrap&#39;</span>
-<span class="sd">            (or an instance of :class:`.BootstrapInference`), &#39;blb&#39; or &#39;auto&#39;</span>
+<span class="sd">            Method for performing inference.  This estimator supports 'bootstrap'</span>
+<span class="sd">            (or an instance of :class:`.BootstrapInference`), 'blb' or 'auto'</span>
 <span class="sd">            (for Bootstrap-of-Little-Bags based inference)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This estimator does not support X=None!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"This estimator does not support X=None!"</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span>
                            <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span>
                            <span class="n">cache_values</span><span class="o">=</span><span class="n">cache_values</span><span class="p">,</span>
@@ -1845,7 +1858,7 @@
 
 <div class="viewcode-block" id="CausalForestDML.refit_final">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.refit_final">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">refit_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refit_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">refit_final</span><span class="p">(</span><span class="n">inference</span><span class="o">=</span><span class="n">inference</span><span class="p">)</span></div>
 
     <span class="n">refit_final</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">_OrthoLearner</span><span class="o">.</span><span class="n">refit_final</span><span class="o">.</span><span class="vm">__doc__</span>
@@ -1857,7 +1870,7 @@
 <div class="viewcode-block" id="CausalForestDML.summary">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">treatment_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get a summary of coefficient and intercept in the linear model of the constant marginal treatment effect.</span>
 
 <span class="sd">        Parameters</span>
@@ -1866,7 +1879,7 @@
 <span class="sd">            The overall level of confidence of the reported interval.</span>
 <span class="sd">            The alpha/2, 1-alpha/2 confidence interval is reported.</span>
 <span class="sd">        value: float, default 0</span>
-<span class="sd">            The mean value of the metric you&#39;d like to test under null hypothesis.</span>
+<span class="sd">            The mean value of the metric you'd like to test under null hypothesis.</span>
 <span class="sd">        decimals: int, default 3</span>
 <span class="sd">            Number of decimal places to round each column to.</span>
 <span class="sd">        feature_names: list of str, optional</span>
@@ -1881,19 +1894,19 @@
 <span class="sd">        smry : Summary instance</span>
 <span class="sd">            this holds the summary tables and text, which can be printed or</span>
 <span class="sd">            converted to various output formats.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Get input names</span>
         <span class="n">treatment_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cate_treatment_names</span><span class="p">(</span><span class="n">treatment_names</span><span class="p">)</span>
         <span class="n">output_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cate_output_names</span><span class="p">(</span><span class="n">output_names</span><span class="p">)</span>
         <span class="c1"># Summary</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Population summary of CATE predictions on Training Data&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Population summary of CATE predictions on Training Data"</span><span class="p">)</span>
             <span class="n">smry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">const_marginal_ate_inference</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
                                                                                     <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">,</span>
                                                                                     <span class="n">output_names</span><span class="o">=</span><span class="n">output_names</span><span class="p">,</span>
                                                                                     <span class="n">treatment_names</span><span class="o">=</span><span class="n">treatment_names</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Population summary results are available only if `cache_values=True` at fit time!&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Population summary results are available only if `cache_values=True` at fit time!"</span><span class="p">)</span>
             <span class="n">smry</span> <span class="o">=</span> <span class="n">Summary</span><span class="p">()</span>
         <span class="n">d_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span> <span class="k">else</span> <span class="mi">1</span>
 
@@ -1907,13 +1920,13 @@
             <span class="n">intercept_headers</span> <span class="o">=</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
             <span class="n">n_level</span> <span class="o">=</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span>
             <span class="k">if</span> <span class="n">n_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">intercept_stubs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ind_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind_value</span> <span class="ow">in</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+                <span class="n">intercept_stubs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ind_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind_value</span> <span class="ow">in</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">intercept_stubs</span> <span class="o">=</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="n">intercept_title</span> <span class="o">=</span> <span class="s1">&#39;Doubly Robust ATE on Training Data Results&#39;</span>
+            <span class="n">intercept_title</span> <span class="o">=</span> <span class="s1">'Doubly Robust ATE on Training Data Results'</span>
             <span class="n">smry</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="n">intercept_array</span><span class="p">,</span> <span class="n">intercept_headers</span><span class="p">,</span> <span class="n">intercept_stubs</span><span class="p">,</span> <span class="n">intercept_title</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATE on Training Data Results: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Doubly Robust ATE on Training Data Results: "</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d_t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
@@ -1925,13 +1938,13 @@
                 <span class="n">intercept_headers</span> <span class="o">=</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
                 <span class="n">n_level</span> <span class="o">=</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span>
                 <span class="k">if</span> <span class="n">n_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">intercept_stubs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ind_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind_value</span> <span class="ow">in</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+                    <span class="n">intercept_stubs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ind_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind_value</span> <span class="ow">in</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">intercept_stubs</span> <span class="o">=</span> <span class="n">intercept_table</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-                <span class="n">intercept_title</span> <span class="o">=</span> <span class="s2">&quot;Doubly Robust ATT(T=</span><span class="si">{}</span><span class="s2">) on Training Data Results&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">intercept_title</span> <span class="o">=</span> <span class="s2">"Doubly Robust ATT(T=</span><span class="si">{}</span><span class="s2">) on Training Data Results"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
                 <span class="n">smry</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="n">intercept_array</span><span class="p">,</span> <span class="n">intercept_headers</span><span class="p">,</span> <span class="n">intercept_stubs</span><span class="p">,</span> <span class="n">intercept_title</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Doubly Robust ATT on Training Data Results: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"Doubly Robust ATT on Training Data Results: "</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
                 <span class="k">break</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">smry</span><span class="o">.</span><span class="n">tables</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">smry</span></div>
@@ -1953,7 +1966,7 @@
 <div class="viewcode-block" id="CausalForestDML.ate__inference">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.ate__inference">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ate__inference</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get inference results for the average treatment effect over the training data.</span>
 
 <span class="sd">        Returns</span>
@@ -1963,13 +1976,13 @@
 <span class="sd">            constant marginal treatment effect of each treatment for each outcome, averaged</span>
 <span class="sd">            over the training data and with a doubly robust correction.</span>
 <span class="sd">            Available only when `discrete_treatment=True` and `drate=True`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">NormalInferenceResults</span><span class="p">(</span><span class="n">d_t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span>
                                       <span class="n">d_y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span>
                                       <span class="n">pred</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ate_</span><span class="p">,</span>
                                       <span class="n">pred_stderr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ate_stderr_</span><span class="p">,</span>
                                       <span class="n">mean_pred_stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                      <span class="n">inf_type</span><span class="o">=</span><span class="s1">&#39;ate&#39;</span><span class="p">,</span>
+                                      <span class="n">inf_type</span><span class="o">=</span><span class="s1">'ate'</span><span class="p">,</span>
                                       <span class="n">feature_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_feature_names</span><span class="p">(),</span>
                                       <span class="n">output_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_output_names</span><span class="p">(),</span>
                                       <span class="n">treatment_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_treatment_names</span><span class="p">())</span></div>
@@ -1986,7 +1999,7 @@
 <div class="viewcode-block" id="CausalForestDML.att__inference">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.att__inference">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">att__inference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get inference results for the average treatment effect on the treated for the training data.</span>
 
 <span class="sd">        Parameters</span>
@@ -2002,13 +2015,13 @@
 <span class="sd">            constant marginal treatment effect of each treatment for each outcome, averaged</span>
 <span class="sd">            over the training data treated with treatment T and with a doubly robust correction.</span>
 <span class="sd">            Available only when `discrete_treatment=True` and `drate=True`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">NormalInferenceResults</span><span class="p">(</span><span class="n">d_t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span>
                                       <span class="n">d_y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_y</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span>
                                       <span class="n">pred</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">att_</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
                                       <span class="n">pred_stderr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">att_stderr_</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
                                       <span class="n">mean_pred_stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                      <span class="n">inf_type</span><span class="o">=</span><span class="s1">&#39;att&#39;</span><span class="p">,</span>
+                                      <span class="n">inf_type</span><span class="o">=</span><span class="s1">'att'</span><span class="p">,</span>
                                       <span class="n">feature_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_feature_names</span><span class="p">(),</span>
                                       <span class="n">output_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_output_names</span><span class="p">(),</span>
                                       <span class="n">treatment_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_treatment_names</span><span class="p">())</span></div>
@@ -2017,7 +2030,7 @@
 <div class="viewcode-block" id="CausalForestDML.att_">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.att_">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">att_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the average treatment effect on the treated for the training data.</span>
 
 <span class="sd">        Parameters</span>
@@ -2032,14 +2045,14 @@
 <span class="sd">            The average constant marginal treatment effect of each treatment for each outcome, averaged</span>
 <span class="sd">            over the training data treated with treatment T and with a doubly robust correction.</span>
 <span class="sd">            Singleton dimensions are dropped if input variable was a vector.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlearner_model_final_</span><span class="o">.</span><span class="n">att_</span><span class="p">[</span><span class="n">T</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="CausalForestDML.att_stderr_">
 <a class="viewcode-back" href="../../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML.att_stderr_">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">att_stderr_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the standard error of the average treatment effect on the treated in the training data.</span>
 
 <span class="sd">        Parameters</span>
@@ -2051,8 +2064,8 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        att_stderr_ : ndarray (n_y, n_t)</span>
-<span class="sd">            The standard error of the corresponding `att_`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            The standard error of the corresponding `att_`.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlearner_model_final_</span><span class="o">.</span><span class="n">att_stderr_</span><span class="p">[</span><span class="n">T</span><span class="p">]</span></div>
 
 
@@ -2067,18 +2080,18 @@
     <span class="nd">@model_final</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">model_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parameter `model_final` cannot be altered for this estimator!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Parameter `model_final` cannot be altered for this estimator!"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of estimators in the ensemble.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the number of estimators in the ensemble."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_cate</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the index&#39;th estimator in the ensemble.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the index'th estimator in the ensemble."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_cate</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return iterator over estimators in the ensemble.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return iterator over estimators in the ensemble."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_cate</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span></div>
 
 </pre></div>
@@ -2109,5 +2122,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

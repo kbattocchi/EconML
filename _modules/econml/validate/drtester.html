@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.validate.drtester &mdash; econml 0.16.0 documentation</title>
+  <title>econml.validate.drtester &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -862,19 +862,18 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_cv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_val_predict</span><span class="p">,</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">KFold</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">OLS</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_constant</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">econml.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">econml._lazy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_LazyModule</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">econml.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_input_arrays</span><span class="p">,</span> <span class="n">deprecated</span><span class="p">,</span> <span class="n">add_constant</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">CalibrationEvaluationResults</span><span class="p">,</span> <span class="n">BLPEvaluationResults</span><span class="p">,</span> <span class="n">UpliftEvaluationResults</span><span class="p">,</span> <span class="n">EvaluationResults</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_dr_outcomes</span><span class="p">,</span> <span class="n">calc_uplift</span>
+
+<span class="n">_statsmodels_api</span> <span class="o">=</span> <span class="n">_LazyModule</span><span class="p">(</span><span class="s2">"statsmodels.api"</span><span class="p">)</span>  <span class="c1"># lazy: only needed for evaluate_blp()</span>
 
 
 <div class="viewcode-block" id="DRTester">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.DRTester.html#econml.validate.DRTester">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DRTester</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Validation tests for CATE models.</span>
 
 <span class="sd">    Includes the best linear predictor (BLP) test as in Chernozhukov et al. (2022),</span>
@@ -976,7 +975,7 @@
 <span class="sd">    [Radcliffe2007] N. Radcliffe</span>
 <span class="sd">    Using control groups to target on predicted lift: Building and assessing uplift model.</span>
 <span class="sd">    Direct Marketing Analytics Journal (2007), pages 14–21.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="DRTester.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.DRTester.html#econml.validate.DRTester.__init__">[docs]</a>
@@ -997,7 +996,7 @@
 <div class="viewcode-block" id="DRTester.get_cv_splitter">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.DRTester.html#econml.validate.DRTester.get_cv_splitter">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cv_splitter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">123</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generate splitter object for cross-validation.</span>
 
 <span class="sd">        Checks if the cv object passed at initialization is a splitting mechanism or a number of folds and returns</span>
@@ -1010,8 +1009,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        None, but adds attribute &#39;cv_splitter&#39; containing the constructed splitter object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        None, but adds attribute 'cv_splitter' containing the constructed splitter object.</span>
+<span class="sd">        """</span>
         <span class="n">splitter</span> <span class="o">=</span> <span class="n">check_cv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cv</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">classifier</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">splitter</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cv</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">splitter</span><span class="p">,</span> <span class="p">(</span><span class="n">KFold</span><span class="p">,</span> <span class="n">StratifiedKFold</span><span class="p">)):</span>
             <span class="n">splitter</span><span class="o">.</span><span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1022,7 +1021,7 @@
 <div class="viewcode-block" id="DRTester.get_cv_splits">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.DRTester.html#econml.validate.DRTester.get_cv_splits">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cv_splits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generate splits for cross-validation, given a set of variables and treatment vector.</span>
 
 <span class="sd">        Parameters</span>
@@ -1036,8 +1035,8 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        list of folds of the data, on which to run cross-validation</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cv_splitter&#39;</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'cv_splitter'</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_cv_splitter</span><span class="p">()</span>
 
         <span class="n">all_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">var</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">vars</span> <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
@@ -1058,7 +1057,7 @@
         <span class="n">Dtrain</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ytrain</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generate nuisance predictions and calculates doubly robust (DR) outcomes.</span>
 
 <span class="sd">        Uses either (1) cross-fitting in the</span>
@@ -1090,7 +1089,10 @@
 <span class="sd">        (fit_on_train), doubly robust outcome values for the validation set (dr_val), and the DR ATE value (ate_val).</span>
 <span class="sd">        If training data is provided, also adds attributes for the doubly robust outcomes for the training</span>
 <span class="sd">        set (dr_train) and the training treatments (Dtrain)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
+        <span class="n">Xval</span><span class="p">,</span> <span class="n">Dval</span><span class="p">,</span> <span class="n">yval</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">Xval</span><span class="p">,</span> <span class="n">Dval</span><span class="p">,</span> <span class="n">yval</span><span class="p">)</span>
+        <span class="n">Xtrain</span><span class="p">,</span> <span class="n">Dtrain</span><span class="p">,</span> <span class="n">ytrain</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Dtrain</span><span class="p">,</span> <span class="n">ytrain</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">Dval</span> <span class="o">=</span> <span class="n">Dval</span>
 
         <span class="c1"># Unique treatments (ordered, includes control)</span>
@@ -1130,7 +1132,7 @@
         <span class="n">ytrain</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
         <span class="n">Xval</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fits nuisance models in training sample and applies to generate predictions in validation sample.</span>
 
 <span class="sd">        Parameters</span>
@@ -1150,7 +1152,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        2 (n_val x n_treatment + 1) arrays corresponding to the predicted outcomes under treatment status and predicted</span>
 <span class="sd">        treatment probabilities, respectively. Both evaluated on validation set.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Fit propensity in treatment</span>
         <span class="n">model_propensity_fitted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_propensity</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Dtrain</span><span class="p">)</span>
         <span class="c1"># Predict propensity scores</span>
@@ -1175,7 +1177,7 @@
         <span class="n">D</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
         <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generate nuisance function predictions using k-folds cross validation.</span>
 
 <span class="sd">        Parameters</span>
@@ -1193,9 +1195,9 @@
 <span class="sd">        -------</span>
 <span class="sd">        2 (n x n_treatment + 1) arrays corresponding to the predicted outcomes under treatment status and predicted</span>
 <span class="sd">        treatment probabilities, respectively.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">splits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cv_splits</span><span class="p">([</span><span class="n">X</span><span class="p">],</span> <span class="n">D</span><span class="p">)</span>
-        <span class="n">prop_preds</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_propensity</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">splits</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;predict_proba&#39;</span><span class="p">)</span>
+        <span class="n">prop_preds</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_propensity</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">splits</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'predict_proba'</span><span class="p">)</span>
 
         <span class="c1"># Predict outcomes</span>
         <span class="c1"># T-learner logic</span>
@@ -1217,7 +1219,7 @@
         <span class="n">Xval</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
         <span class="n">Xtrain</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generate predictions from fitted CATE model.</span>
 
 <span class="sd">        If Xtrain is None, then the predictions are generated using</span>
@@ -1236,7 +1238,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        None, but adds attribute cate_preds_val_ for predicted CATE values on the validation set and, if training</span>
 <span class="sd">        data is provided, attribute cate_preds_train_ for predicted CATE values on the training set</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cate</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">Xval</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">T1</span><span class="o">=</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cate_preds_val_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
@@ -1254,7 +1256,7 @@
         <span class="n">Xtrain</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">n_groups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CalibrationEvaluationResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Implement calibration test as in [Dwivedi2020].</span>
 
 <span class="sd">        Parameters</span>
@@ -1271,14 +1273,14 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        CalibrationEvaluationResults object showing the results of the calibration test</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;dr_train_&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Must fit nuisance models on training sample data to use calibration test&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'dr_train_'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Must fit nuisance models on training sample data to use calibration test"</span><span class="p">)</span>
 
         <span class="c1"># if CATE is given explicitly or has not been fitted at all previously, fit it now</span>
-        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cate_preds_train_&#39;</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cate_preds_val_&#39;</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'cate_preds_train_'</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'cate_preds_val_'</span><span class="p">)):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">Xval</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">Xtrain</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;CATE predictions not yet calculated - must provide both Xval, Xtrain&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'CATE predictions not yet calculated - must provide both Xval, Xtrain'</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_cate_preds</span><span class="p">(</span><span class="n">Xval</span><span class="p">,</span> <span class="n">Xtrain</span><span class="p">)</span>
 
         <span class="n">cal_r_squared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_treat</span><span class="p">)</span>
@@ -1310,11 +1312,11 @@
             <span class="n">cal_r_squared</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">cal_score_g</span> <span class="o">/</span> <span class="n">cal_score_o</span><span class="p">)</span>
 
             <span class="n">df_plot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-                <span class="s1">&#39;ind&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_groups</span><span class="p">)),</span>
-                <span class="s1">&#39;gate&#39;</span><span class="p">:</span> <span class="n">gate</span><span class="p">,</span>
-                <span class="s1">&#39;se_gate&#39;</span><span class="p">:</span> <span class="n">se_gate</span><span class="p">,</span>
-                <span class="s1">&#39;g_cate&#39;</span><span class="p">:</span> <span class="n">g_cate</span><span class="p">,</span>
-                <span class="s1">&#39;se_g_cate&#39;</span><span class="p">:</span> <span class="n">se_g_cate</span>
+                <span class="s1">'ind'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_groups</span><span class="p">)),</span>
+                <span class="s1">'gate'</span><span class="p">:</span> <span class="n">gate</span><span class="p">,</span>
+                <span class="s1">'se_gate'</span><span class="p">:</span> <span class="n">se_gate</span><span class="p">,</span>
+                <span class="s1">'g_cate'</span><span class="p">:</span> <span class="n">g_cate</span><span class="p">,</span>
+                <span class="s1">'se_g_cate'</span><span class="p">:</span> <span class="n">se_g_cate</span>
             <span class="p">})</span>
 
             <span class="n">plot_data_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df_plot</span>
@@ -1335,7 +1337,7 @@
         <span class="n">Xval</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">Xtrain</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BLPEvaluationResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Implement the best linear predictor (BLP) test as in [Chernozhukov2022].</span>
 
 <span class="sd">        `fit_nusiance` method must already have been called.</span>
@@ -1353,18 +1355,18 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        BLPEvaluationResults object showing the results of the BLP test</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;dr_val_&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Must fit nuisances before evaluating&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'dr_val_'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Must fit nuisances before evaluating"</span><span class="p">)</span>
 
         <span class="c1"># if CATE is given explicitly or has not been fitted at all previously, fit it now</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cate_preds_val_&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'cate_preds_val_'</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">Xval</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># need at least Xval</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;CATE predictions not yet calculated - must provide Xval&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'CATE predictions not yet calculated - must provide Xval'</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_cate_preds</span><span class="p">(</span><span class="n">Xval</span><span class="p">,</span> <span class="n">Xtrain</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_treat</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># binary treatment</span>
-            <span class="n">reg</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dr_val_</span><span class="p">,</span> <span class="n">add_constant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_preds_val_</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+            <span class="n">reg</span> <span class="o">=</span> <span class="n">_statsmodels_api</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dr_val_</span><span class="p">,</span> <span class="n">add_constant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_preds_val_</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">reg</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
             <span class="n">errs</span> <span class="o">=</span> <span class="p">[</span><span class="n">reg</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
             <span class="n">pvals</span> <span class="o">=</span> <span class="p">[</span><span class="n">reg</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
@@ -1373,7 +1375,10 @@
             <span class="n">errs</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">pvals</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_treat</span><span class="p">):</span>  <span class="c1"># run a separate regression for each</span>
-                <span class="n">reg</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dr_val_</span><span class="p">[:,</span> <span class="n">k</span><span class="p">],</span> <span class="n">add_constant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_preds_val_</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]))</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;HC1&#39;</span><span class="p">)</span>
+                <span class="n">reg</span> <span class="o">=</span> <span class="n">_statsmodels_api</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dr_val_</span><span class="p">[:,</span> <span class="n">k</span><span class="p">],</span>
+                    <span class="n">add_constant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cate_preds_val_</span><span class="p">[:,</span> <span class="n">k</span><span class="p">])</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'HC1'</span><span class="p">)</span>
                 <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reg</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
                 <span class="n">errs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reg</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
                 <span class="n">pvals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reg</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -1395,10 +1400,10 @@
         <span class="n">Xval</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">Xtrain</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">percentiles</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
-        <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;qini&#39;</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'qini'</span><span class="p">,</span>
         <span class="n">n_bootstrap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UpliftEvaluationResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Calculate uplift curves and coefficients for the given model.</span>
 
 <span class="sd">        Units are ordered by predicted CATE values and a running measure of the average treatment effect in each cohort</span>
@@ -1420,21 +1425,21 @@
 <span class="sd">        percentiles: one-dimensional array, default ``np.linspace(5, 95, 50)``</span>
 <span class="sd">            Array of percentiles over which the QINI curve should be constructed. Defaults to 5%-95% in intervals of</span>
 <span class="sd">            5%.</span>
-<span class="sd">        metric: string, default &#39;qini&#39;</span>
-<span class="sd">            Which type of uplift curve to evaluate. Must be one of [&#39;toc&#39;, &#39;qini&#39;]</span>
+<span class="sd">        metric: string, default 'qini'</span>
+<span class="sd">            Which type of uplift curve to evaluate. Must be one of ['toc', 'qini']</span>
 <span class="sd">        n_bootstrap: integer, default 1000</span>
 <span class="sd">            Number of bootstrap samples to run when calculating uniform confidence bands.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        UpliftEvaluationResults object showing the fitted results</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;dr_val_&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Must fit nuisances before evaluating&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'dr_val_'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Must fit nuisances before evaluating"</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cate_preds_train_&#39;</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cate_preds_val_&#39;</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'cate_preds_train_'</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'cate_preds_val_'</span><span class="p">)):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">Xval</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">Xtrain</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;CATE predictions not yet calculated - must provide both Xval, Xtrain&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'CATE predictions not yet calculated - must provide both Xval, Xtrain'</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_cate_preds</span><span class="p">(</span><span class="n">Xval</span><span class="p">,</span> <span class="n">Xtrain</span><span class="p">)</span>
 
         <span class="n">curve_data_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -1488,7 +1493,7 @@
         <span class="n">n_groups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">n_bootstrap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluationResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Combine the best linear prediction, calibration, and uplift curve methods into a single summary.</span>
 
 <span class="sd">        Parameters</span>
@@ -1507,16 +1512,16 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        EvaluationResults object summarizing the results of all tests</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cate_preds_train_&#39;</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cate_preds_val_&#39;</span><span class="p">)):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'cate_preds_train_'</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'cate_preds_val_'</span><span class="p">)):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">Xval</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">Xtrain</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;CATE predictions not yet calculated - must provide both Xval, Xtrain&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'CATE predictions not yet calculated - must provide both Xval, Xtrain'</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_cate_preds</span><span class="p">(</span><span class="n">Xval</span><span class="p">,</span> <span class="n">Xtrain</span><span class="p">)</span>
 
         <span class="n">blp_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_blp</span><span class="p">()</span>
         <span class="n">cal_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_cal</span><span class="p">(</span><span class="n">n_groups</span><span class="o">=</span><span class="n">n_groups</span><span class="p">)</span>
-        <span class="n">qini_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_uplift</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s1">&#39;qini&#39;</span><span class="p">,</span> <span class="n">n_bootstrap</span><span class="o">=</span><span class="n">n_bootstrap</span><span class="p">)</span>
-        <span class="n">toc_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_uplift</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s1">&#39;toc&#39;</span><span class="p">,</span> <span class="n">n_bootstrap</span><span class="o">=</span><span class="n">n_bootstrap</span><span class="p">)</span>
+        <span class="n">qini_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_uplift</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s1">'qini'</span><span class="p">,</span> <span class="n">n_bootstrap</span><span class="o">=</span><span class="n">n_bootstrap</span><span class="p">)</span>
+        <span class="n">toc_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_uplift</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s1">'toc'</span><span class="p">,</span> <span class="n">n_bootstrap</span><span class="o">=</span><span class="n">n_bootstrap</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="n">EvaluationResults</span><span class="p">(</span>
             <span class="n">blp_res</span><span class="o">=</span><span class="n">blp_res</span><span class="p">,</span>
@@ -1530,8 +1535,8 @@
 
 
 
-<span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;DRtester has been renamed &#39;DRTester&#39; and the old name has been deprecated and will be removed &quot;</span>
-            <span class="s2">&quot;in a future release. Please use &#39;DRTester&#39; instead.&quot;</span><span class="p">)</span>
+<span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"DRtester has been renamed 'DRTester' and the old name has been deprecated and will be removed "</span>
+            <span class="s2">"in a future release. Please use 'DRTester' instead."</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">DRtester</span><span class="p">(</span><span class="n">DRTester</span><span class="p">):</span>
     <span class="k">pass</span>
 </pre></div>
@@ -1562,5 +1567,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

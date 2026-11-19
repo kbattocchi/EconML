@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forest Based Estimators &mdash; econml 0.16.0 documentation</title>
+  <title>Forest Based Estimators &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>window.MathJax = {"tex": {"macros": {"vec": ["{\\bf #1}", 1], "ldot": ["\\left\\langle #1, #2 \\right\\rangle", 2], "E": "\\mathbb{E}", "T": "\\mathcal{T}", "argmin": "\\mathrm{argmin}", "Var": "\\mathrm{Var}"}}}</script>
@@ -42,7 +42,7 @@
               <img src="../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -415,6 +415,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -433,7 +434,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -1085,17 +1085,17 @@ sample <span class="math notranslate nohighlight">\(X_i\)</span>. This is implem
 <h2>Class Hierarchy Structure<a class="headerlink" href="#class-hierarchy-structure" title="Link to this heading"></a></h2>
 <div class="graphviz"><img src="../../_images/inheritance-acbe62381fa0f339be9477205055c2ab89fc5a5f.png" alt="Inheritance diagram of econml.orf.DMLOrthoForest, econml.orf.DROrthoForest, econml.dr.ForestDRLearner, econml.dml.CausalForestDML" usemap="#inheritancef88f39fe5d" class="inheritance graphviz" /></div>
 <map id="inheritancef88f39fe5d" name="inheritancef88f39fe5d">
-<area shape="poly" id="node1" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.BaseCateEstimator" target="_top" title="Base class for all CATE estimators in this package." alt="" coords="282,23,279,17,272,11,260,7,246,4,229,3,213,4,199,7,187,11,180,17,177,23,180,29,187,34,199,39,213,42,229,43,246,42,260,39,272,34,279,29"/>
-<area shape="poly" id="node3" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.TreatmentExpansionMixin" target="_top" title="Mixin which automatically handles promotions of scalar treatments to the appropriate shape." alt="" coords="138,89,135,83,125,77,110,73,91,70,70,69,50,70,31,73,16,77,6,83,3,89,6,95,16,101,31,105,50,108,70,109,91,108,110,105,125,101,135,95"/>
-<area shape="poly" id="node12" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.ForestModelFinalCateEstimatorDiscreteMixin" target="_top" title="ForestModelFinalCateEstimatorDiscreteMixin" alt="" coords="501,89,495,83,479,77,454,73,423,70,388,69,354,70,322,73,298,77,282,83,276,89,282,95,298,101,322,105,354,108,388,109,423,108,454,105,479,101,495,95"/>
-<area shape="poly" id="node7" href="../../_autosummary/econml.orf.DMLOrthoForest.html#econml.orf.DMLOrthoForest" target="_top" title="OrthoForest for continuous or discrete treatments using the DML residual on residual moment function." alt="" coords="134,221,132,215,125,210,115,205,103,203,89,202,75,203,62,205,52,210,46,215,44,221,46,228,52,233,62,238,75,240,89,241,103,240,115,238,125,233,132,228"/>
-<area shape="poly" id="node10" href="../../_autosummary/econml.orf.DROrthoForest.html#econml.orf.DROrthoForest" target="_top" title="OrthoForest for discrete treatments using the doubly robust moment function." alt="" coords="231,221,229,215,223,210,214,205,202,203,189,202,176,203,164,205,155,210,149,215,147,221,149,228,155,233,164,238,176,240,189,241,202,240,214,238,223,233,229,228"/>
-<area shape="poly" id="node4" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.LinearCateEstimator" target="_top" title="Base class for CATE estimators in this package where the outcome is linear given some treatment featurization." alt="" coords="263,89,260,83,253,77,240,73,225,70,207,69,190,70,174,73,162,77,154,83,151,89,154,95,162,101,174,105,190,108,207,109,225,108,240,105,253,101,260,95"/>
-<area shape="poly" id="node5" href="../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML" target="_top" title="A Causal Forest [cfdml1]_ combined with DML&#45;based residualization of the treatment and outcome variables." alt="" coords="669,221,667,215,660,210,649,205,636,203,622,202,607,203,594,205,583,210,576,215,574,221,576,228,583,233,594,238,607,240,622,241,636,240,649,238,660,233,667,228"/>
-<area shape="poly" id="node8" href="../../_autosummary/econml.dr.DRLearner.html#econml.dr.DRLearner" target="_top" title="CATE estimator that uses doubly&#45;robust correction to account for selection bias between the treatment arms." alt="" coords="578,89,576,83,572,77,565,73,556,70,546,69,536,70,527,73,520,77,515,83,514,89,515,95,520,101,527,105,536,108,546,109,556,108,565,105,572,101,576,95"/>
-<area shape="poly" id="node11" href="../../_autosummary/econml.dr.ForestDRLearner.html#econml.dr.ForestDRLearner" target="_top" title="Instance of DRLearner with a :class:`~econml.grf.RegressionForest` final model to enable non&#45;parametric inference." alt="" coords="506,155,503,149,497,144,486,139,473,136,459,135,444,136,431,139,421,144,414,149,412,155,414,161,421,167,431,171,444,174,459,175,473,174,486,171,497,167,503,161"/>
-<area shape="poly" id="node9" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner" target="_top" title="Base class for all orthogonal learners." alt="" coords="625,23,623,17,617,11,608,7,596,4,583,3,570,4,559,7,550,11,544,17,542,23,544,29,550,34,559,39,570,42,583,43,596,42,608,39,617,34,623,29"/>
-<area shape="poly" id="node13" href="../../_autosummary/econml.dml._rlearner.html#econml.dml._rlearner._RLearner" target="_top" title="Base class for CATE learners that residualize treatment and outcome and run residual on residual regression." alt="" coords="652,89,651,83,646,77,640,73,631,70,622,69,612,70,603,73,597,77,592,83,591,89,592,95,597,101,603,105,612,108,622,109,631,108,640,105,646,101,651,95"/>
+<area shape="poly" id="node1" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.BaseCateEstimator" target="_top" title="Base class for all CATE estimators in this package." alt="" coords="282,23,279,17,272,11,260,7,246,4,229,3,213,4,199,7,187,11,180,17,177,23,180,29,187,34,199,39,213,41,229,42,246,41,260,39,272,34,279,29"/>
+<area shape="poly" id="node3" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.TreatmentExpansionMixin" target="_top" title="Mixin which automatically handles promotions of scalar treatments to the appropriate shape." alt="" coords="138,88,134,82,125,77,110,72,91,70,70,69,49,70,31,72,16,77,6,82,3,88,6,94,16,100,31,104,49,107,70,108,91,107,110,104,125,100,134,94"/>
+<area shape="poly" id="node12" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.ForestModelFinalCateEstimatorDiscreteMixin" target="_top" title="ForestModelFinalCateEstimatorDiscreteMixin" alt="" coords="500,88,495,82,479,77,454,72,423,70,388,69,353,70,322,72,297,77,281,82,275,88,281,94,297,100,322,104,353,107,388,108,423,107,454,104,479,100,495,94"/>
+<area shape="poly" id="node7" href="../../_autosummary/econml.orf.DMLOrthoForest.html#econml.orf.DMLOrthoForest" target="_top" title="OrthoForest for continuous or discrete treatments using the DML residual on residual moment function." alt="" coords="134,220,132,214,126,208,116,204,103,201,89,200,75,201,63,204,53,208,46,214,44,220,46,226,53,231,63,236,75,238,89,239,103,238,116,236,126,231,132,226"/>
+<area shape="poly" id="node10" href="../../_autosummary/econml.orf.DROrthoForest.html#econml.orf.DROrthoForest" target="_top" title="OrthoForest for discrete treatments using the doubly robust moment function." alt="" coords="231,220,229,214,223,208,214,204,202,201,189,200,176,201,165,204,155,208,150,214,147,220,150,226,155,231,165,236,176,238,189,239,202,238,214,236,223,231,229,226"/>
+<area shape="poly" id="node4" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.LinearCateEstimator" target="_top" title="Base class for CATE estimators in this package where the outcome is linear given some treatment featurization." alt="" coords="263,88,260,82,252,77,240,72,224,70,207,69,190,70,174,72,162,77,154,82,151,88,154,94,162,100,174,104,190,107,207,108,224,107,240,104,252,100,260,94"/>
+<area shape="poly" id="node5" href="../../_autosummary/econml.dml.CausalForestDML.html#econml.dml.CausalForestDML" target="_top" title="A Causal Forest [cfdml1]_ combined with DML&#45;based residualization of the treatment and outcome variables." alt="" coords="669,220,667,214,660,208,649,204,636,201,622,200,607,201,594,204,583,208,576,214,574,220,576,226,583,231,594,236,607,238,622,239,636,238,649,236,660,231,667,226"/>
+<area shape="poly" id="node8" href="../../_autosummary/econml.dr.DRLearner.html#econml.dr.DRLearner" target="_top" title="CATE estimator that uses doubly&#45;robust correction to account for selection bias between the treatment arms." alt="" coords="578,88,576,82,571,77,564,72,555,70,546,69,536,70,527,72,520,77,515,82,514,88,515,94,520,100,527,104,536,107,546,108,555,107,564,104,571,100,576,94"/>
+<area shape="poly" id="node11" href="../../_autosummary/econml.dr.ForestDRLearner.html#econml.dr.ForestDRLearner" target="_top" title="Instance of DRLearner with a :class:`~econml.grf.RegressionForest` final model to enable non&#45;parametric inference." alt="" coords="506,154,504,148,497,142,487,138,474,135,459,134,445,135,432,138,422,142,415,148,413,154,415,160,422,166,432,170,445,173,459,174,474,173,487,170,497,166,504,160"/>
+<area shape="poly" id="node9" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner" target="_top" title="Base class for all orthogonal learners." alt="" coords="625,23,623,17,617,11,608,7,596,4,584,3,571,4,559,7,550,11,544,17,542,23,544,29,550,34,559,39,571,41,584,42,596,41,608,39,617,34,623,29"/>
+<area shape="poly" id="node13" href="../../_autosummary/econml.dml._rlearner.html#econml.dml._rlearner._RLearner" target="_top" title="Base class for CATE learners that residualize treatment and outcome and run residual on residual regression." alt="" coords="652,88,651,82,646,77,640,72,631,70,622,69,612,70,603,72,597,77,592,82,591,88,592,94,597,100,603,104,612,107,622,108,631,107,640,104,646,100,651,94"/>
 </map></section>
 <section id="usage-examples">
 <h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading"></a></h2>
@@ -1139,7 +1139,7 @@ and the <a class="reference external" href="https://github.com/py-why/EconML/blo
 </div>
 <p>Let’s now look at a more involved example with a high-dimensional set of confounders <span class="math notranslate nohighlight">\(W\)</span>
 and with more realistic noisy data. In this case we can just use the default parameters
-of the class, which specify the use of the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LassoCV.html#sklearn.linear_model.LassoCV" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">LassoCV</span></code></a> for
+of the class, which specify the use of the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LassoCV.html#sklearn.linear_model.LassoCV" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">LassoCV</span></code></a> for
 both the treatment and the outcome regressions, in the case of continuous treatments.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">econml.orf</span><span class="w"> </span><span class="kn">import</span> <span class="n">DMLOrthoForest</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">econml.orf</span><span class="w"> </span><span class="kn">import</span> <span class="n">DMLOrthoForest</span>
@@ -1159,9 +1159,9 @@ both the treatment and the outcome regressions, in the case of continuous treatm
 <span class="go">&lt;econml.orf._ortho_forest.DMLOrthoForest object at 0x...&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">treatment_effects</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">treatment_effects</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ORF estimate&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">treatment_effects</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'ORF estimate'</span><span class="p">)</span>
 <span class="go">[&lt;matplotlib.lines.Line2D object at 0x...&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True effect&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="s1">'b--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'True effect'</span><span class="p">)</span>
 <span class="go">[&lt;matplotlib.lines.Line2D object at 0x...&gt;]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="go">&lt;matplotlib.legend.Legend object at 0x...&gt;</span>
@@ -1207,5 +1207,17 @@ both the treatment and the outcome regressions, in the case of continuous treatm
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

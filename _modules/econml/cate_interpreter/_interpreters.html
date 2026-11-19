@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.cate_interpreter._interpreters &mdash; econml 0.16.0 documentation</title>
+  <title>econml.cate_interpreter._interpreters &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -873,7 +873,7 @@
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cate_estimator</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Interpret a linear CATE estimator when applied to a set of features.</span>
 
 <span class="sd">        Parameters</span>
@@ -885,14 +885,14 @@
 <span class="sd">            The features against which to interpret the estimator;</span>
 <span class="sd">            must be compatible shape-wise with the features used to fit</span>
 <span class="sd">            the estimator</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Abstract method"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SingleTreeCateInterpreter">
 <a class="viewcode-back" href="../../../_autosummary/econml.cate_interpreter.SingleTreeCateInterpreter.html#econml.cate_interpreter.SingleTreeCateInterpreter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SingleTreeCateInterpreter</span><span class="p">(</span><span class="n">_SingleTreeInterpreter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    An interpreter for the effect estimated by a CATE estimator.</span>
 
 <span class="sd">    Parameters</span>
@@ -914,9 +914,9 @@
 <span class="sd">        If False, then interpretation can be slightly slower, especially for cate</span>
 <span class="sd">        models that have a computationally expensive inference method.</span>
 
-<span class="sd">    splitter : str, default &quot;best&quot;</span>
+<span class="sd">    splitter : str, default "best"</span>
 <span class="sd">        The strategy used to choose the split at each node. Supported</span>
-<span class="sd">        strategies are &quot;best&quot; to choose the best split and &quot;random&quot; to choose</span>
+<span class="sd">        strategies are "best" to choose the best split and "random" to choose</span>
 <span class="sd">        the best random split.</span>
 
 <span class="sd">    max_depth : int, optional</span>
@@ -949,16 +949,16 @@
 <span class="sd">        the input samples) required to be at a leaf node. Samples have</span>
 <span class="sd">        equal weight when sample_weight is not provided.</span>
 
-<span class="sd">    max_features : int, float, {&quot;auto&quot;, &quot;sqrt&quot;, &quot;log2&quot;}, or None, default None</span>
+<span class="sd">    max_features : int, float, {"auto", "sqrt", "log2"}, or None, default None</span>
 <span class="sd">        The number of features to consider when looking for the best split:</span>
 
 <span class="sd">        - If int, then consider `max_features` features at each split.</span>
 <span class="sd">        - If float, then `max_features` is a fraction and</span>
 <span class="sd">          `int(max_features * n_features)` features are considered at each</span>
 <span class="sd">          split.</span>
-<span class="sd">        - If &quot;auto&quot;, then `max_features=n_features`.</span>
-<span class="sd">        - If &quot;sqrt&quot;, then `max_features=sqrt(n_features)`.</span>
-<span class="sd">        - If &quot;log2&quot;, then `max_features=log2(n_features)`.</span>
+<span class="sd">        - If "auto", then `max_features=n_features`.</span>
+<span class="sd">        - If "sqrt", then `max_features=sqrt(n_features)`.</span>
+<span class="sd">        - If "log2", then `max_features=log2(n_features)`.</span>
 <span class="sd">        - If None, then `max_features=n_features`.</span>
 
 <span class="sd">        Note: the search for a split does not stop until at least one</span>
@@ -990,7 +990,7 @@
 <span class="sd">        left child, and ``N_t_R`` is the number of samples in the right child.</span>
 <span class="sd">        ``N``, ``N_t``, ``N_t_R`` and ``N_t_L`` all refer to the weighted sum,</span>
 <span class="sd">        if ``sample_weight`` is passed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="SingleTreeCateInterpreter.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.cate_interpreter.SingleTreeCateInterpreter.html#econml.cate_interpreter.SingleTreeCateInterpreter.__init__">[docs]</a>
@@ -998,7 +998,7 @@
                  <span class="n">include_model_uncertainty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">uncertainty_level</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
                  <span class="n">uncertainty_only_on_leaves</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                 <span class="n">splitter</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span>
+                 <span class="n">splitter</span><span class="o">=</span><span class="s2">"best"</span><span class="p">,</span>
                  <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                  <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -1010,7 +1010,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">include_uncertainty</span> <span class="o">=</span> <span class="n">include_model_uncertainty</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uncertainty_level</span> <span class="o">=</span> <span class="n">uncertainty_level</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uncertainty_only_on_leaves</span> <span class="o">=</span> <span class="n">uncertainty_only_on_leaves</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="s2">&quot;squared_error&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="s2">"squared_error"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">splitter</span> <span class="o">=</span> <span class="n">splitter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span> <span class="o">=</span> <span class="n">max_depth</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min_samples_split</span> <span class="o">=</span> <span class="n">min_samples_split</span>
@@ -1025,7 +1025,7 @@
 <div class="viewcode-block" id="SingleTreeCateInterpreter.interpret">
 <a class="viewcode-back" href="../../../_autosummary/econml.cate_interpreter.SingleTreeCateInterpreter.html#econml.cate_interpreter.SingleTreeCateInterpreter.interpret">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cate_estimator</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Interpret the heterogeneity of a CATE estimator when applied to a set of features.</span>
 
 <span class="sd">        Parameters</span>
@@ -1041,7 +1041,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self: object instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree_model_</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">criterion</span><span class="p">,</span>
                                                  <span class="n">splitter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">splitter</span><span class="p">,</span>
                                                  <span class="n">max_depth</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span><span class="p">,</span>
@@ -1063,13 +1063,13 @@
             <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">include_uncertainty</span> <span class="ow">and</span>
                     <span class="p">((</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">uncertainty_only_on_leaves</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree_model_</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">children_left</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))):</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">cate_estimator</span><span class="o">.</span><span class="n">const_marginal_ate_inference</span><span class="p">(</span><span class="n">Xsub</span><span class="p">)</span>
-                <span class="n">node_dict</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">mean_point</span><span class="p">,</span>
-                                      <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">std_point</span><span class="p">,</span>
-                                      <span class="s1">&#39;ci&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">conf_int_mean</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uncertainty_level</span><span class="p">)}</span>
+                <span class="n">node_dict</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'mean'</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">mean_point</span><span class="p">,</span>
+                                      <span class="s1">'std'</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">std_point</span><span class="p">,</span>
+                                      <span class="s1">'ci'</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">conf_int_mean</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uncertainty_level</span><span class="p">)}</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cate_node</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
-                <span class="n">node_dict</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cate_node</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-                                      <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cate_node</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)}</span>
+                <span class="n">node_dict</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'mean'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cate_node</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                                      <span class="s1">'std'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cate_node</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">node_dict_</span> <span class="o">=</span> <span class="n">node_dict</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -1101,7 +1101,7 @@
 <div class="viewcode-block" id="SingleTreePolicyInterpreter">
 <a class="viewcode-back" href="../../../_autosummary/econml.cate_interpreter.SingleTreePolicyInterpreter.html#econml.cate_interpreter.SingleTreePolicyInterpreter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SingleTreePolicyInterpreter</span><span class="p">(</span><span class="n">_SingleTreeInterpreter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    An interpreter for a policy estimated based on a CATE estimation.</span>
 
 <span class="sd">    Parameters</span>
@@ -1164,16 +1164,16 @@
 <span class="sd">        the input samples) required to be at a leaf node. Samples have</span>
 <span class="sd">        equal weight when sample_weight is not provided.</span>
 
-<span class="sd">    max_features : int, float, {&quot;auto&quot;, &quot;sqrt&quot;, &quot;log2&quot;}, or None, default None</span>
+<span class="sd">    max_features : int, float, {"auto", "sqrt", "log2"}, or None, default None</span>
 <span class="sd">        The number of features to consider when looking for the best split:</span>
 
 <span class="sd">        - If int, then consider `max_features` features at each split.</span>
 <span class="sd">        - If float, then `max_features` is a fraction and</span>
 <span class="sd">          `int(max_features * n_features)` features are considered at each</span>
 <span class="sd">          split.</span>
-<span class="sd">        - If &quot;auto&quot;, then `max_features=n_features`.</span>
-<span class="sd">        - If &quot;sqrt&quot;, then `max_features=sqrt(n_features)`.</span>
-<span class="sd">        - If &quot;log2&quot;, then `max_features=log2(n_features)`.</span>
+<span class="sd">        - If "auto", then `max_features=n_features`.</span>
+<span class="sd">        - If "sqrt", then `max_features=sqrt(n_features)`.</span>
+<span class="sd">        - If "log2", then `max_features=log2(n_features)`.</span>
 <span class="sd">        - If None, then `max_features=n_features`.</span>
 
 <span class="sd">        Note: the search for a split does not stop until at least one</span>
@@ -1218,7 +1218,7 @@
 <span class="sd">        The value of applying the learned policy, applied to the sample used with :meth:`interpret`</span>
 <span class="sd">    always_treat_value_ : float</span>
 <span class="sd">        The value of the policy that always treats all units, applied to the sample used with :meth:`interpret`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="SingleTreePolicyInterpreter.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.cate_interpreter.SingleTreePolicyInterpreter.html#econml.cate_interpreter.SingleTreePolicyInterpreter.__init__">[docs]</a>
@@ -1254,7 +1254,7 @@
 <div class="viewcode-block" id="SingleTreePolicyInterpreter.interpret">
 <a class="viewcode-back" href="../../../_autosummary/econml.cate_interpreter.SingleTreePolicyInterpreter.html#econml.cate_interpreter.SingleTreePolicyInterpreter.interpret">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cate_estimator</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">sample_treatment_costs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Interpret a policy based on a linear CATE estimator when applied to a set of features.</span>
 
 <span class="sd">        Parameters</span>
@@ -1274,7 +1274,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self: object instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
             <span class="n">X_in</span> <span class="o">=</span> <span class="n">X</span>
@@ -1282,8 +1282,8 @@
             <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
             <span class="n">X_in</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">tree_model_</span> <span class="o">=</span> <span class="n">PolicyTree</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;neg_welfare&#39;</span><span class="p">,</span>
-                                      <span class="n">splitter</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_model_</span> <span class="o">=</span> <span class="n">PolicyTree</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">'neg_welfare'</span><span class="p">,</span>
+                                      <span class="n">splitter</span><span class="o">=</span><span class="s1">'best'</span><span class="p">,</span>
                                       <span class="n">max_depth</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span><span class="p">,</span>
                                       <span class="n">min_samples_split</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">min_samples_split</span><span class="p">,</span>
                                       <span class="n">min_samples_leaf</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">min_samples_leaf</span><span class="p">,</span>
@@ -1320,8 +1320,8 @@
                 <span class="k">if</span> <span class="n">sample_treatment_costs</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
                     <span class="n">y_pred</span> <span class="o">-=</span> <span class="n">sample_treatment_costs</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`sample_treatment_costs` should be a double scalar &quot;</span>
-                                     <span class="s2">&quot;or have dimension (n_samples, n_treatments) or (n_samples,) if T is a vector&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"`sample_treatment_costs` should be a double scalar "</span>
+                                     <span class="s2">"or have dimension (n_samples, n_treatments) or (n_samples,) if T is a vector"</span><span class="p">)</span>
 
         <span class="c1"># get index of best treatment</span>
         <span class="n">all_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">y_pred</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)])</span>
@@ -1338,13 +1338,13 @@
             <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">include_uncertainty</span> <span class="ow">and</span>
                     <span class="p">((</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">uncertainty_only_on_leaves</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree_model_</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">children_left</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))):</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">cate_estimator</span><span class="o">.</span><span class="n">const_marginal_ate_inference</span><span class="p">(</span><span class="n">Xsub</span><span class="p">)</span>
-                <span class="n">node_dict</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">mean_point</span><span class="p">,</span>
-                                      <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">std_point</span><span class="p">,</span>
-                                      <span class="s1">&#39;ci&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">conf_int_mean</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uncertainty_level</span><span class="p">)}</span>
+                <span class="n">node_dict</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'mean'</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">mean_point</span><span class="p">,</span>
+                                      <span class="s1">'std'</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">std_point</span><span class="p">,</span>
+                                      <span class="s1">'ci'</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">conf_int_mean</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uncertainty_level</span><span class="p">)}</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cate_node</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
-                <span class="n">node_dict</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cate_node</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-                                      <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cate_node</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)}</span>
+                <span class="n">node_dict</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'mean'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cate_node</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                                      <span class="s1">'std'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cate_node</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">node_dict_</span> <span class="o">=</span> <span class="n">node_dict</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -1353,7 +1353,7 @@
 <div class="viewcode-block" id="SingleTreePolicyInterpreter.treat">
 <a class="viewcode-back" href="../../../_autosummary/econml.cate_interpreter.SingleTreePolicyInterpreter.html#econml.cate_interpreter.SingleTreePolicyInterpreter.treat">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">treat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Assign treatment to a set of units using the policy model learned by a call to :meth:`interpret`.</span>
 
 <span class="sd">        Parameters</span>
@@ -1367,16 +1367,16 @@
 <span class="sd">        T : array_like</span>
 <span class="sd">            The treatments implied by the policy learned by the interpreter, with treatment 0, meaning</span>
 <span class="sd">            no treatment, and treatment 1 meains the first treatment, etc.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_model_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Interpret must be called prior to trying to assign treatment.&quot;</span>
+<span class="sd">        """</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_model_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"Interpret must be called prior to trying to assign treatment."</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_model_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_make_dot_exporter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">treatment_names</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">filled</span><span class="p">,</span>
                            <span class="n">leaves_parallel</span><span class="p">,</span> <span class="n">rotate</span><span class="p">,</span> <span class="n">rounded</span><span class="p">,</span>
                            <span class="n">special_characters</span><span class="p">,</span> <span class="n">precision</span><span class="p">):</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Average policy gains over no treatment: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
-        <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;Average policy gains over constant treatment policies for each treatment: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">"Average policy gains over no treatment: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="s2">"Average policy gains over constant treatment policies for each treatment: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">always_treat_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">_PolicyTreeDOTExporter</span><span class="p">(</span><span class="n">out_file</span><span class="o">=</span><span class="n">out_file</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
                                       <span class="n">treatment_names</span><span class="o">=</span><span class="n">treatment_names</span><span class="p">,</span>
@@ -1388,9 +1388,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_make_mpl_exporter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">treatment_names</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">filled</span><span class="p">,</span>
                            <span class="n">rounded</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">):</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">title</span>
-        <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;Average policy gains over no treatment: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
-        <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;Average policy gains over constant treatment policies for each treatment: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">""</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">title</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="s2">"Average policy gains over no treatment: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="s2">"Average policy gains over constant treatment policies for each treatment: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">always_treat_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">_PolicyTreeMPLExporter</span><span class="p">(</span><span class="n">treatment_names</span><span class="o">=</span><span class="n">treatment_names</span><span class="p">,</span>
                                       <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
@@ -1428,5 +1428,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

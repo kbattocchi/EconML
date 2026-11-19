@@ -60,6 +60,8 @@
       ~DRLearner.models_propensity
       ~DRLearner.models_regression
       ~DRLearner.multitask_model_cate
+      ~DRLearner.n_samples_trimmed_
+      ~DRLearner.n_samples_used_
       ~DRLearner.nuisance_scores_propensity
       ~DRLearner.nuisance_scores_regression
       ~DRLearner.ortho_learner_model_final_

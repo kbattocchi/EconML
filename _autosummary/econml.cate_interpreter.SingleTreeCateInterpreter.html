@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.cate_interpreter.SingleTreeCateInterpreter &mdash; econml 0.16.0 documentation</title>
+  <title>econml.cate_interpreter.SingleTreeCateInterpreter &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../_static/documentation_options.js?v=a8455094"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -40,7 +40,7 @@
               <img src="../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -413,6 +413,7 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -431,7 +432,6 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -994,7 +994,7 @@ returned as a string.</p></li>
 <li><p><strong>feature_names</strong> (<em>list of str, optional</em>) – Names of each of the features.</p></li>
 <li><p><strong>treatment_names</strong> (<em>list of str, optional</em>) – Names of each of the treatments</p></li>
 <li><p><strong>max_depth</strong> (<em>int, optional</em>) – The maximum tree depth to plot</p></li>
-<li><p><strong>filled</strong> (<em>bool, default False</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
+<li><p><strong>filled</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
 classification, extremity of values for regression, or purity of node
 for multi-output.</p></li>
 <li><p><strong>leaves_parallel</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, draw all leaf nodes at the bottom of the tree.</p></li>
@@ -1039,12 +1039,12 @@ the estimator</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.10.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a>, optional) – The axes on which to plot</p></li>
+<li><p><strong>ax</strong> (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.11.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a>, optional) – The axes on which to plot</p></li>
 <li><p><strong>title</strong> (<em>str, optional</em>) – A title for the final figure to be printed at the top of the page.</p></li>
 <li><p><strong>feature_names</strong> (<em>list of str, optional</em>) – Names of each of the features.</p></li>
 <li><p><strong>treatment_names</strong> (<em>list of str, optional</em>) – Names of each of the treatments</p></li>
 <li><p><strong>max_depth</strong> (<em>int, optional</em>) – The maximum tree depth to plot</p></li>
-<li><p><strong>filled</strong> (<em>bool, default False</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
+<li><p><strong>filled</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
 classification, extremity of values for regression, or purity of node
 for multi-output.</p></li>
 <li><p><strong>rounded</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, draw node boxes with rounded corners and use
@@ -1070,7 +1070,7 @@ impurity, threshold and value attributes of each node.</p></li>
 <li><p><strong>feature_names</strong> (<em>list of str, optional</em>) – Names of each of the features.</p></li>
 <li><p><strong>treatment_names</strong> (<em>list of str, optional</em>) – Names of each of the treatments</p></li>
 <li><p><strong>max_depth</strong> (<em>int, optional</em>) – The maximum tree depth to plot</p></li>
-<li><p><strong>filled</strong> (<em>bool, default False</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
+<li><p><strong>filled</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
 classification, extremity of values for regression, or purity of node
 for multi-output.</p></li>
 <li><p><strong>leaves_parallel</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, draw all leaf nodes at the bottom of the tree.</p></li>
@@ -1120,5 +1120,17 @@ impurity, threshold and value attributes of each node.</p></li>
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

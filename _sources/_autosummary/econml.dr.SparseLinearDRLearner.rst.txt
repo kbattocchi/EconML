@@ -70,6 +70,8 @@
       ~SparseLinearDRLearner.models_regression
       ~SparseLinearDRLearner.multitask_model_cate
       ~SparseLinearDRLearner.multitask_model_final
+      ~SparseLinearDRLearner.n_samples_trimmed_
+      ~SparseLinearDRLearner.n_samples_used_
       ~SparseLinearDRLearner.nuisance_scores_propensity
       ~SparseLinearDRLearner.nuisance_scores_regression
       ~SparseLinearDRLearner.ortho_learner_model_final_

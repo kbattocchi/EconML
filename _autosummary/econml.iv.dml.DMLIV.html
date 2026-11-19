@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.iv.dml.DMLIV &mdash; econml 0.16.0 documentation</title>
+  <title>econml.iv.dml.DMLIV &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../_static/documentation_options.js?v=a8455094"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>window.MathJax = {"tex": {"macros": {"vec": ["{\\bf #1}", 1], "ldot": ["\\left\\langle #1, #2 \\right\\rangle", 2], "E": "\\mathbb{E}", "T": "\\mathcal{T}", "argmin": "\\mathrm{argmin}", "Var": "\\mathrm{Var}"}}}</script>
@@ -42,7 +42,7 @@
               <img src="../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -415,6 +415,7 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -433,7 +434,6 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -912,7 +912,7 @@ a <cite>fit_transform</cite> method.</p></li>
 <li><p><strong>discrete_instrument</strong> (<em>bool, default False</em>) – Whether the instrument values should be treated as categorical, rather than continuous, quantities</p></li>
 <li><p><strong>discrete_outcome</strong> (<em>bool, default False</em>) – Whether the outcome should be treated as binary</p></li>
 <li><p><strong>discrete_treatment</strong> (<em>bool, default False</em>) – Whether the treatment values should be treated as categorical, rather than continuous, quantities</p></li>
-<li><p><strong>treatment_featurizer</strong> (<a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-transformer" title="(in scikit-learn v1.7)"><span class="xref std std-term">transformer</span></a>, optional) – Must support fit_transform and transform. Used to create composite treatment in the final CATE regression.
+<li><p><strong>treatment_featurizer</strong> (<a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-transformer" title="(in scikit-learn v1.9)"><span class="xref std std-term">transformer</span></a>, optional) – Must support fit_transform and transform. Used to create composite treatment in the final CATE regression.
 The final CATE will be trained on the outcome of featurizer.fit_transform(T).
 If featurizer=None, then CATE is trained on T.</p></li>
 <li><p><strong>categories</strong> (<em>‘auto’ or list, default ‘auto’</em>) – The categories to use when encoding discrete treatments (or ‘auto’ to use the unique sorted values).
@@ -922,20 +922,20 @@ Possible inputs for cv are:</p>
 <ul class="simple">
 <li><p>None, to use the default 3-fold cross-validation,</p></li>
 <li><p>integer, to specify the number of folds.</p></li>
-<li><p><a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-CV-splitter" title="(in scikit-learn v1.7)"><span class="xref std std-term">CV splitter</span></a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-CV-splitter" title="(in scikit-learn v1.9)"><span class="xref std std-term">CV splitter</span></a></p></li>
 <li><p>An iterable yielding (train, test) splits as arrays of indices.</p></li>
 </ul>
 <p>For integer/None inputs, if the treatment is discrete
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html#sklearn.model_selection.StratifiedKFold" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StratifiedKFold</span></code></a> is used, else,
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">KFold</span></code></a> is used
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html#sklearn.model_selection.StratifiedKFold" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StratifiedKFold</span></code></a> is used, else,
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">KFold</span></code></a> is used
 (with a random shuffle in either case).</p>
 <p>Unless an iterable is used, we call <cite>split(concat[W, X], T)</cite> to generate the splits. If all
 W, X are None, then we call <cite>split(ones((T.shape[0], 1)), T)</cite>.</p>
 </li>
 <li><p><strong>random_state</strong> (<em>int, RandomState instance, or None, default None</em>) – If int, random_state is the seed used by the random number generator;
-If <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance, random_state is the random number generator;
-If None, the random number generator is the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance used
-by <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html#module-numpy.random" title="(in NumPy v2.3)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">np.random</span></code></a>.</p></li>
+If <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance, random_state is the random number generator;
+If None, the random number generator is the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance used
+by <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html#module-numpy.random" title="(in NumPy v2.5)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">np.random</span></code></a>.</p></li>
 <li><p><strong>mc_iters</strong> (<em>int, optional</em>) – The number of times to rerun the first stage models to reduce the variance of the nuisances.</p></li>
 <li><p><strong>mc_agg</strong> (<em>{‘mean’, ‘median’}, default ‘mean’</em>) – How to aggregate the nuisance value for each sample across the <cite>mc_iters</cite> monte carlo iterations of
 cross-fitting.</p></li>
@@ -974,11 +974,11 @@ that can handle missing values.</p></li>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">est</span><span class="o">.</span><span class="n">effect</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
-<span class="go">array([-3.83456...,  5.32010..., -2.78127...])</span>
+<span class="go">array([-3.83456,  5.32010, -2.78127])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">est</span><span class="o">.</span><span class="n">coef_</span>
-<span class="go">array([ 4.03977...,  0.89360...,  0.12047...,  0.37971..., -0.66072...])</span>
+<span class="go">array([ 4.03977,  0.89360,  0.12047,  0.37971, -0.66072])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">est</span><span class="o">.</span><span class="n">intercept_</span>
-<span class="go">-0.18452...</span>
+<span class="go">-0.18452</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -1153,7 +1153,7 @@ the population of X variables.</p>
 Note that when Y is a vector rather than a 2-dimensional array, the result will be a scalar</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a> or (d_y,) array</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a> or (d_y,) array</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1178,7 +1178,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1224,7 +1224,7 @@ with each entry of the <a class="reference internal" href="#econml.iv.dml.DMLIV.
 does not have a method: <cite>get_feature_names(feature_names)</cite>. Otherwise None is returned.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a> or None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a> or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1243,7 +1243,7 @@ it defaults to the column names from the dataframe.</p>
 <dd class="field-even"><p><strong>output_names</strong> – Returns output names.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1262,7 +1262,7 @@ it defaults to the column names from the dataframe.</p>
 <dd class="field-even"><p><strong>out_treatment_names</strong> – Returns (possibly expanded) treatment names.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1303,7 +1303,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1369,7 +1369,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1442,7 +1442,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1548,7 +1548,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1623,7 +1623,7 @@ can on demand calculate confidence interval, z statistic and p value. It can als
 a dataframe summary of these inference results.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1669,7 +1669,7 @@ first stage estimation results.</p>
 <dd class="field-even"><p><strong>self</strong> – This instance</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1682,7 +1682,7 @@ first stage estimation results.</p>
 for the new data set based on the fitted residual nuisance models created at fit time.
 It uses the mean prediction of the models fitted by the different crossfit folds.
 Then calculates the MSE of the final residual Y on residual T regression.</p>
-<p>If model_final does not have a score method, then it raises an <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.13)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a></p>
+<p>If model_final does not have a score method, then it raises an <a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#AttributeError" title="(in Python v3.15)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1698,7 +1698,7 @@ Then calculates the MSE of the final residual Y on residual T regression.</p>
 <dd class="field-even"><p><strong>score</strong> – The MSE of the final CATE model on the new data.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1800,7 +1800,7 @@ a vector and not a 2D array. For binary treatment the n_t dimension is
 also omitted.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a> or (n_y,) or (n_y, n_t) array_like</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a> or (n_y,) or (n_y, n_t) array_like</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1815,7 +1815,7 @@ also omitted.</p>
 to the constant marginal CATE model.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.13)">type</a>(model_final)</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)">object</a> of <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#type" title="(in Python v3.15)">type</a>(model_final)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1929,5 +1929,17 @@ order as the input order.</p>
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

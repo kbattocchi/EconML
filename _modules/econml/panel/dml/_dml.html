@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.panel.dml._dml &mdash; econml 0.16.0 documentation</title>
+  <title>econml.panel.dml._dml &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -884,13 +884,13 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_DynamicModelNuisanceSelector</span><span class="p">(</span><span class="n">ModelSelector</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Nuisance model for DynamicDML.</span>
 
 <span class="sd">    Fits the model_y and model_t at fit time and at predict time</span>
 <span class="sd">    calculates the residual Y and residual T based on the fitted models and returns</span>
 <span class="sd">    the residuals as two nuisance parameters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_y</span><span class="p">,</span> <span class="n">model_t</span><span class="p">,</span> <span class="n">n_periods</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model_y</span> <span class="o">=</span> <span class="n">model_y</span>
@@ -898,11 +898,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span> <span class="o">=</span> <span class="n">n_periods</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_selecting</span><span class="p">,</span> <span class="n">folds</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit a series of nuisance models for each period or period pairs.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Fit a series of nuisance models for each period or period pairs."""</span>
         <span class="k">assert</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> \
-            <span class="s2">&quot;Length of training data should be an integer multiple of time periods.&quot;</span>
+            <span class="s2">"Length of training data should be an integer multiple of time periods."</span>
         <span class="n">period_filters</span> <span class="o">=</span> <span class="n">_get_groups_period_filter</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_model_y_trained&#39;</span><span class="p">):</span>  <span class="c1"># create the per-period y and t models</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_model_y_trained'</span><span class="p">):</span>  <span class="c1"># create the per-period y and t models</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_model_y_trained</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_y</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                                      <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">)}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_model_t_trained</span> <span class="o">=</span> <span class="p">{</span><span class="n">j</span><span class="p">:</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -954,23 +954,23 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Calculate nuisances for each period or period pairs.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Y_res : (n, d_y) matrix or vector of length n</span>
 <span class="sd">            Y residuals for each period in panel format.</span>
-<span class="sd">            This shape is required for _OrthoLearner&#39;s crossfitting.</span>
+<span class="sd">            This shape is required for _OrthoLearner's crossfitting.</span>
 <span class="sd">        T_res : (n, d_t, n_periods) matrix</span>
 <span class="sd">            T residuals for pairs of periods (t, j), where the data is in panel format for t</span>
 <span class="sd">            and in index form for j. For example, the residuals for (t, j) can be retrieved via</span>
 <span class="sd">            T_res[np.arange(n) % n_periods == t, ..., j]. For t &lt; j, the entries of this</span>
 <span class="sd">            matrix are np.nan.</span>
-<span class="sd">            This shape is required for _OrthoLearner&#39;s crossfitting.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            This shape is required for _OrthoLearner's crossfitting.</span>
+<span class="sd">        """</span>
         <span class="k">assert</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> \
-            <span class="s2">&quot;Length of training data should be an integer multiple of time periods.&quot;</span>
+            <span class="s2">"Length of training data should be an integer multiple of time periods."</span>
         <span class="n">period_filters</span> <span class="o">=</span> <span class="n">_get_groups_period_filter</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">)</span>
         <span class="n">Y_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
         <span class="n">T_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">,</span> <span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
@@ -993,9 +993,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> \
-            <span class="s2">&quot;Length of training data should be an integer multiple of time periods.&quot;</span>
+            <span class="s2">"Length of training data should be an integer multiple of time periods."</span>
         <span class="n">period_filters</span> <span class="o">=</span> <span class="n">_get_groups_period_filter</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_y</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_y</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
             <span class="n">Y_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">,</span> <span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">):</span>
                 <span class="n">Y_score</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_y_trained</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">(</span>
@@ -1004,7 +1004,7 @@
                     <span class="n">Y</span><span class="p">[</span><span class="n">period_filters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">Y_score</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_t</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
             <span class="n">T_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">):</span>
@@ -1026,7 +1026,7 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_DynamicModelFinal</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Final model at fit time.</span>
 
 <span class="sd">    Fits a residual on residual regression with a heterogeneous coefficient</span>
@@ -1038,7 +1038,7 @@
 <span class="sd">    and at predict time returns :math:`\\theta(X)`. The score method returns the MSE of this final</span>
 <span class="sd">    residual on residual regression.</span>
 <span class="sd">    Assumes model final is parametric with no intercept.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># TODO: update docs</span>
 
@@ -1067,7 +1067,7 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return shape: m x dy x (p*dt).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return shape: m x dy x (p*dt)."""</span>
         <span class="n">d_t_tuple</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_final_trained</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_d_t</span>
         <span class="n">d_t</span> <span class="o">=</span> <span class="n">d_t_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">d_t_tuple</span> <span class="k">else</span> <span class="mi">1</span>
         <span class="n">x_dy_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> \
@@ -1085,7 +1085,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nuisances</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> \
-            <span class="s2">&quot;Length of training data should be an integer multiple of time periods.&quot;</span>
+            <span class="s2">"Length of training data should be an integer multiple of time periods."</span>
         <span class="n">Y_res</span><span class="p">,</span> <span class="n">T_res</span> <span class="o">=</span> <span class="n">nuisances</span>
         <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">,</span> <span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
         <span class="n">period_filters</span> <span class="o">=</span> <span class="n">_get_groups_period_filter</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">)</span>
@@ -1108,11 +1108,11 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_LinearDynamicModelFinal</span><span class="p">(</span><span class="n">_DynamicModelFinal</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper for the DynamicModelFinal with StatsModelsLinearRegression final model.</span>
+<span class="w">    </span><span class="sd">"""Wrapper for the DynamicModelFinal with StatsModelsLinearRegression final model.</span>
 
 <span class="sd">    The final model is a linear model with (d_t*n_periods) coefficients.</span>
 <span class="sd">    This model is defined after the coefficients and covariance are calculated.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_final</span><span class="p">,</span> <span class="n">n_periods</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model_final</span><span class="p">,</span> <span class="n">n_periods</span><span class="p">)</span>
@@ -1146,7 +1146,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_single_output_cov</span><span class="p">(</span><span class="n">nuisances</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_fit_single_output_cov</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nuisances</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y_index</span><span class="p">,</span> <span class="n">groups</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the covariance (n_periods*n_treatments) x (n_periods*n_treatments) matrix for a single outcome.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Calculate single-outcome covariance in period, treatment, then feature order."""</span>
         <span class="n">Y_res</span><span class="p">,</span> <span class="n">T_res</span> <span class="o">=</span> <span class="n">nuisances</span>
         <span class="c1"># Calculate auxiliary quantities</span>
         <span class="n">period_filters</span> <span class="o">=</span> <span class="n">_get_groups_period_filter</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_periods</span><span class="p">)</span>
@@ -1194,9 +1194,10 @@
                 <span class="n">Sigma</span><span class="p">[</span><span class="n">t</span> <span class="o">*</span> <span class="n">d_xt</span><span class="p">:(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_xt</span><span class="p">,</span>
                       <span class="n">j</span> <span class="o">*</span> <span class="n">d_xt</span><span class="p">:(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_xt</span><span class="p">]</span> <span class="o">=</span> <span class="n">sigma_tj</span>
                 <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">t</span><span class="p">:</span>
-                    <span class="c1"># Calculating the (t, j) block entry (of size n_treatments x n_treatments) of matrix J</span>
+                    <span class="c1"># The negative derivative of period-t scores w.r.t. period-j coefficients</span>
+                    <span class="c1"># puts resT_t on rows and the future-period residualized regressor on columns.</span>
                     <span class="n">m_tj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
-                        <span class="n">XT_res</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">d_xt</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">resT_t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">d_xt</span><span class="p">),</span>
+                        <span class="n">resT_t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">d_xt</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">XT_res</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">d_xt</span><span class="p">),</span>
                         <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
                     <span class="n">J</span><span class="p">[</span><span class="n">t</span> <span class="o">*</span> <span class="n">d_xt</span><span class="p">:(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_xt</span><span class="p">,</span>
                       <span class="n">j</span> <span class="o">*</span> <span class="n">d_xt</span><span class="p">:(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_xt</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_tj</span>
@@ -1216,7 +1217,7 @@
 <div class="viewcode-block" id="DynamicDML">
 <a class="viewcode-back" href="../../../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DynamicDML</span><span class="p">(</span><span class="n">LinearModelFinalCateEstimatorMixin</span><span class="p">,</span> <span class="n">_OrthoLearner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;CATE estimator for dynamic treatment effect estimation.</span>
+<span class="w">    </span><span class="sd">"""CATE estimator for dynamic treatment effect estimation.</span>
 
 <span class="sd">    This estimator is an extension of the Double ML approach for treatments assigned sequentially</span>
 <span class="sd">    over time periods.</span>
@@ -1228,19 +1229,19 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model_y: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_y: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the outcome to the features.</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_outcome` is True</span>
 <span class="sd">          and a regressor otherwise</span>
 
-<span class="sd">    model_t: estimator, default ``&#39;auto&#39;``</span>
+<span class="sd">    model_t: estimator, default ``'auto'``</span>
 <span class="sd">        Determines how to fit the treatment to the features.</span>
 
-<span class="sd">        - If ``&#39;auto&#39;``, the model will be the best-fitting of a set of linear and forest models</span>
+<span class="sd">        - If ``'auto'``, the model will be the best-fitting of a set of linear and forest models</span>
 
 <span class="sd">        - Otherwise, see :ref:`model_selection` for the range of supported options;</span>
 <span class="sd">          if a single model is specified it should be a classifier if `discrete_treatment` is True</span>
@@ -1260,8 +1261,8 @@
 <span class="sd">    discrete_treatment: bool, default ``False``</span>
 <span class="sd">        Whether the treatment values should be treated as categorical, rather than continuous, quantities</span>
 
-<span class="sd">    categories: &#39;auto&#39; or list, default &#39;auto&#39;</span>
-<span class="sd">        The categories to use when encoding discrete treatments (or &#39;auto&#39; to use the unique sorted values).</span>
+<span class="sd">    categories: 'auto' or list, default 'auto'</span>
+<span class="sd">        The categories to use when encoding discrete treatments (or 'auto' to use the unique sorted values).</span>
 <span class="sd">        The first category will be treated as the control treatment.</span>
 
 <span class="sd">    cv: int, cross-validation generator or an iterable, default 2</span>
@@ -1281,7 +1282,7 @@
 <span class="sd">    mc_iters: int, optional</span>
 <span class="sd">        The number of times to rerun the first stage models to reduce the variance of the nuisances.</span>
 
-<span class="sd">    mc_agg: {&#39;mean&#39;, &#39;median&#39;}, default &#39;mean&#39;</span>
+<span class="sd">    mc_agg: {'mean', 'median'}, default 'mean'</span>
 <span class="sd">        How to aggregate the nuisance value for each sample across the `mc_iters` monte carlo iterations of</span>
 <span class="sd">        cross-fitting.</span>
 
@@ -1320,56 +1321,54 @@
 <span class="sd">        T = np.random.normal(size=(n, 2))</span>
 <span class="sd">        y = np.random.normal(size=(n, ))</span>
 <span class="sd">        est = DynamicDML()</span>
-<span class="sd">        est.fit(y, T, X=X, W=None, groups=groups, inference=&quot;auto&quot;)</span>
+<span class="sd">        est.fit(y, T, X=X, W=None, groups=groups, inference="auto")</span>
 
 <span class="sd">    &gt;&gt;&gt; est.const_marginal_effect(X[:2])</span>
-<span class="sd">    array([[-0.168..., -0.096..., -0.105...,  0.042..., -0.208...,</span>
-<span class="sd">             0.006...],</span>
-<span class="sd">           [-0.092...,  0.326..., -0.013..., -0.237..., -0.141...,</span>
-<span class="sd">            -0.264...]])</span>
-<span class="sd">    &gt;&gt;&gt; est.effect(X[:2], T0=0, T1=1)</span>
-<span class="sd">    array([-0.529..., -0.422...])</span>
+<span class="sd">    array([[-0.16860367, -0.09616313, -0.10517216,  0.04299467, -0.20880154,</span>
+<span class="sd">             0.00661631],</span>
+<span class="sd">           [-0.09213123,  0.32634188, -0.01318959, -0.23741629, -0.14191649,</span>
+<span class="sd">            -0.26451663]])</span>
 <span class="sd">    &gt;&gt;&gt; est.effect(X[:2], T0=np.zeros((2, n_periods*T.shape[1])), T1=np.ones((2, n_periods*T.shape[1])))</span>
-<span class="sd">    array([-0.529..., -0.422...])</span>
+<span class="sd">    array([-0.529, -0.422])</span>
 <span class="sd">    &gt;&gt;&gt; est.coef_</span>
-<span class="sd">    array([[ 0.036...],</span>
-<span class="sd">           [ 0.202...],</span>
-<span class="sd">           [ 0.044...],</span>
-<span class="sd">           [-0.134...],</span>
-<span class="sd">           [ 0.032...],</span>
-<span class="sd">           [-0.130...]])</span>
+<span class="sd">    array([[ 0.03671307],</span>
+<span class="sd">           [ 0.20283719],</span>
+<span class="sd">           [ 0.04415921],</span>
+<span class="sd">           [-0.13462035],</span>
+<span class="sd">           [ 0.03211033],</span>
+<span class="sd">           [-0.13016613]])</span>
 <span class="sd">    &gt;&gt;&gt; est.coef__interval()</span>
-<span class="sd">    (array([[-0.136...],</span>
-<span class="sd">           [ 0.001...],</span>
-<span class="sd">           [-0.110...],</span>
-<span class="sd">           [-0.370...],</span>
-<span class="sd">           [-0.100...],</span>
-<span class="sd">           [-0.294...]]), array([[0.210...],</span>
-<span class="sd">           [0.404...],</span>
-<span class="sd">           [0.199...],</span>
-<span class="sd">           [0.101...],</span>
-<span class="sd">           [0.164...],</span>
-<span class="sd">           [0.034...]]))</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    (array([[-0.1437],</span>
+<span class="sd">           [-0.003221],</span>
+<span class="sd">           [-0.1004],</span>
+<span class="sd">           [-0.3584],</span>
+<span class="sd">           [-0.1004],</span>
+<span class="sd">           [-0.2948]]), array([[0.2171],</span>
+<span class="sd">           [0.4089],</span>
+<span class="sd">           [0.1887],</span>
+<span class="sd">           [0.08917],</span>
+<span class="sd">           [0.1647],</span>
+<span class="sd">           [0.03448]]))</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="DynamicDML.__init__">
 <a class="viewcode-back" href="../../../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                 <span class="n">model_y</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">model_t</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                 <span class="n">model_y</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">model_t</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>
                  <span class="n">featurizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">fit_cate_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                 <span class="n">linear_first_stages</span><span class="o">=</span><span class="s2">&quot;deprecated&quot;</span><span class="p">,</span>
+                 <span class="n">linear_first_stages</span><span class="o">=</span><span class="s2">"deprecated"</span><span class="p">,</span>
                  <span class="n">discrete_outcome</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">discrete_treatment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">categories</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                 <span class="n">categories</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>
                  <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                  <span class="n">mc_iters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">'mean'</span><span class="p">,</span>
                  <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">allow_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fit_cate_intercept</span> <span class="o">=</span> <span class="n">fit_cate_intercept</span>
-        <span class="k">if</span> <span class="n">linear_first_stages</span> <span class="o">!=</span> <span class="s2">&quot;deprecated&quot;</span><span class="p">:</span>
-            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The linear_first_stages parameter is deprecated and will be removed in a future version of EconML&quot;</span><span class="p">,</span>
+        <span class="k">if</span> <span class="n">linear_first_stages</span> <span class="o">!=</span> <span class="s2">"deprecated"</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="s2">"The linear_first_stages parameter is deprecated and will be removed in a future version of EconML"</span><span class="p">,</span>
                  <span class="ne">DeprecationWarning</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">featurizer</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">featurizer</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_y</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">model_y</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1387,13 +1386,13 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_allowed_missing_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_missing</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">'W'</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_missing</span> <span class="k">else</span> <span class="p">[]</span>
 
     <span class="c1"># override only so that we can exclude treatment featurization verbiage in docstring</span>
 <div class="viewcode-block" id="DynamicDML.const_marginal_effect">
 <a class="viewcode-back" href="../../../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML.const_marginal_effect">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">const_marginal_effect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Calculate the constant marginal CATE :math:`\\theta(·)`.</span>
 
 <span class="sd">        The marginal effect is conditional on a vector of</span>
@@ -1411,7 +1410,7 @@
 <span class="sd">            Note that when Y or T is a vector rather than a 2-dimensional array,</span>
 <span class="sd">            the corresponding singleton dimensions in the output will be collapsed</span>
 <span class="sd">            (e.g. if both are vectors, then the output of this method will also be a vector)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">const_marginal_effect</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">)</span></div>
 
 
@@ -1419,7 +1418,7 @@
 <div class="viewcode-block" id="DynamicDML.const_marginal_ate">
 <a class="viewcode-back" href="../../../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML.const_marginal_ate">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">const_marginal_ate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Calculate the average constant marginal CATE :math:`E_X[\\theta(X)]`.</span>
 
 <span class="sd">        Parameters</span>
@@ -1434,7 +1433,7 @@
 <span class="sd">            Note that when Y or T is a vector rather than a 2-dimensional array,</span>
 <span class="sd">            the corresponding singleton dimensions in the output will be collapsed</span>
 <span class="sd">            (e.g. if both are vectors, then the output of this method will be a scalar)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">const_marginal_ate</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">)</span></div>
 
 
@@ -1474,7 +1473,7 @@
         <span class="n">u_periods</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">u_periods</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="s2">&quot;Imbalanced panel. Method currently expects only panels with equal number of periods. Pad your data&quot;</span><span class="p">)</span>
+                <span class="s2">"Imbalanced panel. Method currently expects only panels with equal number of periods. Pad your data"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_periods</span> <span class="o">=</span> <span class="n">u_periods</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_prefit</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -1492,8 +1491,8 @@
 <div class="viewcode-block" id="DynamicDML.fit">
 <a class="viewcode-back" href="../../../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span>
-            <span class="n">cache_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate the counterfactual model from data, i.e. estimates function :math:`\\theta(\\cdot)`.</span>
+            <span class="n">cache_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Estimate the counterfactual model from data, i.e. estimates function :math:`\\theta(\\cdot)`.</span>
 
 <span class="sd">        The input data must contain groups with the same size corresponding to the number</span>
 <span class="sd">        of time periods the treatments were assigned over.</span>
@@ -1529,22 +1528,22 @@
 <span class="sd">            Sample variance for each sample</span>
 <span class="sd">        groups: (n,) vector, required</span>
 <span class="sd">            All rows corresponding to the same group will be kept together during splitting.</span>
-<span class="sd">            If groups is not None, the `cv` argument passed to this class&#39;s initializer</span>
-<span class="sd">            must support a &#39;groups&#39; argument to its split method.</span>
+<span class="sd">            If groups is not None, the `cv` argument passed to this class's initializer</span>
+<span class="sd">            must support a 'groups' argument to its split method.</span>
 <span class="sd">        cache_values: bool, default False</span>
 <span class="sd">            Whether to cache inputs and first stage results, which will allow refitting a different final model</span>
 <span class="sd">        inference: str,:class:`.Inference` instance, or None</span>
-<span class="sd">            Method for performing inference.  This estimator supports &#39;bootstrap&#39;</span>
-<span class="sd">            (or an instance of :class:`.BootstrapInference`) and &#39;auto&#39;</span>
+<span class="sd">            Method for performing inference.  This estimator supports 'bootstrap'</span>
+<span class="sd">            (or an instance of :class:`.BootstrapInference`) and 'auto'</span>
 <span class="sd">            (or an instance of :class:`.LinearModelFinalInference`).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self: DynamicDML instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sample_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;This CATE estimator does not yet support sample weights and sample variance. &quot;</span>
-                 <span class="s2">&quot;These inputs will be ignored during fitting.&quot;</span><span class="p">,</span>
+            <span class="n">warn</span><span class="p">(</span><span class="s2">"This CATE estimator does not yet support sample weights and sample variance. "</span>
+                 <span class="s2">"These inputs will be ignored during fitting."</span><span class="p">,</span>
                  <span class="ne">UserWarning</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span>
                            <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span>
@@ -1555,7 +1554,7 @@
 <div class="viewcode-block" id="DynamicDML.score">
 <a class="viewcode-back" href="../../../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML.score">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">groups</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Score the fitted CATE model on a new data set.</span>
 
 <span class="sd">        Generates nuisance parameters</span>
@@ -1582,11 +1581,12 @@
 <span class="sd">        -------</span>
 <span class="sd">        score: float</span>
 <span class="sd">            The MSE of the final CATE model on the new data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Final model does not have a score method!&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Final model does not have a score method!"</span><span class="p">)</span>
         <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
-        <span class="n">W</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">&#39;allow-nan&#39;</span> <span class="k">if</span> <span class="s1">&#39;W&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">W</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">'allow-nan'</span> <span class="k">if</span> <span class="s1">'W'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
+                                <span class="n">ensure_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_fitted_dims</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="n">X</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_expand_treatments</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
         <span class="n">n_iters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_models_nuisance</span><span class="p">)</span>
@@ -1616,7 +1616,7 @@
 <div class="viewcode-block" id="DynamicDML.cate_treatment_names">
 <a class="viewcode-back" href="../../../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML.cate_treatment_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cate_treatment_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treatment_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get treatment names for each time period.</span>
 
 <span class="sd">        If the treatment is discrete, it will return expanded treatment names.</span>
@@ -1631,18 +1631,18 @@
 <span class="sd">        -------</span>
 <span class="sd">        out_treatment_names: list of str</span>
 <span class="sd">            Returns (possibly expanded) treatment names.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">slice_treatment_names</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">cate_treatment_names</span><span class="p">(</span><span class="n">treatment_names</span><span class="p">)</span>
         <span class="n">treatment_names_out</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_periods</span><span class="p">):</span>
-            <span class="n">treatment_names_out</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">)$_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">$&quot;</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">slice_treatment_names</span><span class="p">]</span>
+            <span class="n">treatment_names_out</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">)$_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">$"</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">slice_treatment_names</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">treatment_names_out</span></div>
 
 
 <div class="viewcode-block" id="DynamicDML.cate_feature_names">
 <a class="viewcode-back" href="../../../../_autosummary/econml.panel.dml.DynamicDML.html#econml.panel.dml.DynamicDML.cate_feature_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cate_feature_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the output feature names.</span>
 
 <span class="sd">        Parameters</span>
@@ -1658,12 +1658,12 @@
 <span class="sd">            final constant marginal CATE model is linear. It is the names of the features that are associated</span>
 <span class="sd">            with each entry of the :meth:`coef_` parameter. Not available when the featurizer is not None and</span>
 <span class="sd">            does not have a method: `get_feature_names(feature_names)`. Otherwise None is returned.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Handles the corner case when X=None but featurizer might be not None</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">feature_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">feature_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span><span class="p">[</span><span class="s2">&quot;feature_names&quot;</span><span class="p">]</span>
+            <span class="n">feature_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span><span class="p">[</span><span class="s2">"feature_names"</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_featurizer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">feature_names</span>
         <span class="k">return</span> <span class="n">get_feature_names_or_default</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_featurizer</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">)</span></div>
@@ -1680,7 +1680,7 @@
                 <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">one_T</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_periods</span><span class="p">,</span> <span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_periods</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="k">else</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> \
-                    <span class="sa">f</span><span class="s2">&quot;Expected a list of time period * d_t, instead got a treatment array of shape </span><span class="si">{</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Expected a list of time period * d_t, instead got a treatment array of shape </span><span class="si">{</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">."</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="p">:</span>
                     <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span>
                         <span class="n">base_expand_treatments</span><span class="p">(</span>
@@ -1712,7 +1712,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">model_final_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># NOTE This is used by the inference methods and is more for internal use to the library</span>
-        <span class="c1">#      We need to use the _ortho_learner&#39;s copy to retain the information from fitting</span>
+        <span class="c1">#      We need to use the _ortho_learner's copy to retain the information from fitting</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ortho_learner_model_final_</span><span class="o">.</span><span class="n">model_final_</span>
 
     <span class="nd">@property</span>
@@ -1722,7 +1722,7 @@
     <span class="nd">@model_final</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">model_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parameter `model_final` cannot be altered for this estimator!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Parameter `model_final` cannot be altered for this estimator!"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">models_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1742,18 +1742,18 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">residuals_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the residuals.</span>
 
 <span class="sd">        Returns a tuple (y_res, T_res, X, W), of the residuals from the first stage estimation</span>
 <span class="sd">        along with the associated X and W. Samples are not guaranteed to be in the same</span>
 <span class="sd">        order as the input order.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_cached_values&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Estimator is not fitted yet!&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_cached_values'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Estimator is not fitted yet!"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;`fit` was called with `cache_values=False`. &quot;</span>
-                                 <span class="s2">&quot;Set to `True` to enable residual storage.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"`fit` was called with `cache_values=False`. "</span>
+                                 <span class="s2">"Set to `True` to enable residual storage."</span><span class="p">)</span>
         <span class="n">Y_res</span><span class="p">,</span> <span class="n">T_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">nuisances</span>
         <span class="k">return</span> <span class="n">Y_res</span><span class="p">,</span> <span class="n">T_res</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="o">.</span><span class="n">W</span></div>
 
@@ -1785,5 +1785,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

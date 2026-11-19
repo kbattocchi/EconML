@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.policy._forest._tree &mdash; econml 0.16.0 documentation</title>
+  <title>econml.policy._forest._tree &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -878,7 +878,7 @@
 <span class="c1"># Types and constants</span>
 <span class="c1"># =============================================================================</span>
 
-<span class="n">CRITERIA_POLICY</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;neg_welfare&quot;</span><span class="p">:</span> <span class="n">LinearPolicyCriterion</span><span class="p">}</span>
+<span class="n">CRITERIA_POLICY</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"neg_welfare"</span><span class="p">:</span> <span class="n">LinearPolicyCriterion</span><span class="p">}</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># Base Policy tree</span>
@@ -888,7 +888,7 @@
 <div class="viewcode-block" id="PolicyTree">
 <a class="viewcode-back" href="../../../../_autosummary/econml.policy.PolicyTree.html#econml.policy.PolicyTree">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PolicyTree</span><span class="p">(</span><span class="n">_SingleTreeExporterMixin</span><span class="p">,</span> <span class="n">BaseTree</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Welfare maximization policy tree.</span>
 
 <span class="sd">    Trains a tree to maximize the objective:</span>
@@ -898,12 +898,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    criterion : {``&#39;neg_welfare&#39;``}, default &#39;neg_welfare&#39;</span>
+<span class="sd">    criterion : {``'neg_welfare'``}, default 'neg_welfare'</span>
 <span class="sd">        The criterion type</span>
 
-<span class="sd">    splitter : {&quot;best&quot;}, default &quot;best&quot;</span>
+<span class="sd">    splitter : {"best"}, default "best"</span>
 <span class="sd">        The strategy used to choose the split at each node. Supported</span>
-<span class="sd">        strategies are &quot;best&quot; to choose the best split.</span>
+<span class="sd">        strategies are "best" to choose the best split.</span>
 
 <span class="sd">    max_depth : int, default None</span>
 <span class="sd">        The maximum depth of the tree. If None, then nodes are expanded until</span>
@@ -935,16 +935,16 @@
 <span class="sd">        the input samples) required to be at a leaf node. Samples have</span>
 <span class="sd">        equal weight when sample_weight is not provided.</span>
 
-<span class="sd">    max_features : int, float, {&quot;auto&quot;, &quot;sqrt&quot;, &quot;log2&quot;}, or None, default None</span>
+<span class="sd">    max_features : int, float, {"auto", "sqrt", "log2"}, or None, default None</span>
 <span class="sd">        The number of features to consider when looking for the best split:</span>
 
 <span class="sd">        - If int, then consider `max_features` features at each split.</span>
 <span class="sd">        - If float, then `max_features` is a fraction and</span>
 <span class="sd">          `int(max_features * n_features)` features are considered at each</span>
 <span class="sd">          split.</span>
-<span class="sd">        - If &quot;auto&quot;, then `max_features=n_features`.</span>
-<span class="sd">        - If &quot;sqrt&quot;, then `max_features=sqrt(n_features)`.</span>
-<span class="sd">        - If &quot;log2&quot;, then `max_features=log2(n_features)`.</span>
+<span class="sd">        - If "auto", then `max_features=n_features`.</span>
+<span class="sd">        - If "sqrt", then `max_features=sqrt(n_features)`.</span>
+<span class="sd">        - If "log2", then `max_features=log2(n_features)`.</span>
 <span class="sd">        - If None, then `max_features=n_features`.</span>
 
 <span class="sd">        Note: the search for a split does not stop until at least one</span>
@@ -954,7 +954,7 @@
 <span class="sd">    random_state : int, RandomState instance, or None, default None</span>
 <span class="sd">        Controls the randomness of the estimator. The features are always</span>
 <span class="sd">        randomly permuted at each split, even if ``splitter`` is set to</span>
-<span class="sd">        ``&quot;best&quot;``. When ``max_features &lt; n_features``, the algorithm will</span>
+<span class="sd">        ``"best"``. When ``max_features &lt; n_features``, the algorithm will</span>
 <span class="sd">        select ``max_features`` at random at each split before finding the best</span>
 <span class="sd">        split among them. But the best found split may vary across different</span>
 <span class="sd">        runs, even if ``max_features=n_features``. That is the case, if the</span>
@@ -1017,13 +1017,13 @@
 <span class="sd">    always_treat_value_ : float</span>
 <span class="sd">        The value of the policy that treats all samples</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="PolicyTree.__init__">
 <a class="viewcode-back" href="../../../../_autosummary/econml.policy.PolicyTree.html#econml.policy.PolicyTree.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                 <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;neg_welfare&#39;</span><span class="p">,</span>
-                 <span class="n">splitter</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span>
+                 <span class="n">criterion</span><span class="o">=</span><span class="s1">'neg_welfare'</span><span class="p">,</span>
+                 <span class="n">splitter</span><span class="o">=</span><span class="s2">"best"</span><span class="p">,</span>
                  <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                  <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
@@ -1058,7 +1058,7 @@
 <div class="viewcode-block" id="PolicyTree.fit">
 <a class="viewcode-back" href="../../../../_autosummary/econml.policy.PolicyTree.html#econml.policy.PolicyTree.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the tree from the data.</span>
+<span class="w">        </span><span class="sd">"""Fit the tree from the data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1079,7 +1079,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self : object instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_seed_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state_</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_seed_</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">check_input</span><span class="p">:</span>
@@ -1098,7 +1098,7 @@
 <div class="viewcode-block" id="PolicyTree.predict">
 <a class="viewcode-back" href="../../../../_autosummary/econml.policy.PolicyTree.html#econml.policy.PolicyTree.predict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Predict the best treatment for each sample.</span>
+<span class="w">        </span><span class="sd">"""Predict the best treatment for each sample.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1107,13 +1107,13 @@
 <span class="sd">            ``dtype=np.float64``.</span>
 <span class="sd">        check_input : bool, default True</span>
 <span class="sd">            Allow to bypass several input checking.</span>
-<span class="sd">            Don&#39;t use this parameter unless you know what you do.</span>
+<span class="sd">            Don't use this parameter unless you know what you do.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        treatment : array_like of shape (n_samples)</span>
 <span class="sd">            The recommded treatment, i.e. the treatment index with the largest reward for each sample</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_X_predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="p">)</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -1123,7 +1123,7 @@
 <div class="viewcode-block" id="PolicyTree.predict_proba">
 <a class="viewcode-back" href="../../../../_autosummary/econml.policy.PolicyTree.html#econml.policy.PolicyTree.predict_proba">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Predict the probability of recommending each treatment.</span>
+<span class="w">        </span><span class="sd">"""Predict the probability of recommending each treatment.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1132,13 +1132,13 @@
 <span class="sd">            ``dtype=np.float64``.</span>
 <span class="sd">        check_input : bool, default True</span>
 <span class="sd">            Allow to bypass several input checking.</span>
-<span class="sd">            Don&#39;t use this parameter unless you know what you do.</span>
+<span class="sd">            Don't use this parameter unless you know what you do.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        treatment_proba : array_like of shape (n_samples, n_treatments)</span>
 <span class="sd">            The probability of each treatment recommendation</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_X_predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="p">)</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -1150,7 +1150,7 @@
 <div class="viewcode-block" id="PolicyTree.predict_value">
 <a class="viewcode-back" href="../../../../_autosummary/econml.policy.PolicyTree.html#econml.policy.PolicyTree.predict_value">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">predict_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Predict the expected value of each treatment for each sample.</span>
+<span class="w">        </span><span class="sd">"""Predict the expected value of each treatment for each sample.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1159,13 +1159,13 @@
 <span class="sd">            ``dtype=np.float64``.</span>
 <span class="sd">        check_input : bool, default True</span>
 <span class="sd">            Allow to bypass several input checking.</span>
-<span class="sd">            Don&#39;t use this parameter unless you know what you do.</span>
+<span class="sd">            Don't use this parameter unless you know what you do.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        welfare : array_like of shape (n_samples, n_treatments)</span>
 <span class="sd">            The conditional average welfare for each treatment for the group of each sample defined by the tree</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_X_predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="p">)</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -1175,7 +1175,7 @@
 <div class="viewcode-block" id="PolicyTree.feature_importances">
 <a class="viewcode-back" href="../../../../_autosummary/econml.policy.PolicyTree.html#econml.policy.PolicyTree.feature_importances">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">feature_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">depth_decay_exponent</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get feature importances.</span>
 
 <span class="sd">        Parameters</span>
@@ -1189,7 +1189,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        feature_importances_ : ndarray of shape (n_features,)</span>
 <span class="sd">            Normalized total parameter heterogeneity inducing importance of each feature</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">compute_feature_importances</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
@@ -1203,8 +1203,8 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_make_dot_exporter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">treatment_names</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">filled</span><span class="p">,</span>
                            <span class="n">leaves_parallel</span><span class="p">,</span> <span class="n">rotate</span><span class="p">,</span> <span class="n">rounded</span><span class="p">,</span>
                            <span class="n">special_characters</span><span class="p">,</span> <span class="n">precision</span><span class="p">):</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Average policy gains over no treatment: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
-        <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;Average policy gains over constant treatment policies for each treatment: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">"Average policy gains over no treatment: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="s2">"Average policy gains over constant treatment policies for each treatment: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">always_treat_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">_PolicyTreeDOTExporter</span><span class="p">(</span><span class="n">out_file</span><span class="o">=</span><span class="n">out_file</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
                                       <span class="n">treatment_names</span><span class="o">=</span><span class="n">treatment_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_names</span><span class="p">,</span>
@@ -1215,9 +1215,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_make_mpl_exporter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">treatment_names</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">filled</span><span class="p">,</span>
                            <span class="n">rounded</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">):</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">title</span>
-        <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;Average policy gains over no treatment: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
-        <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;Average policy gains over constant treatment policies for each treatment: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">""</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">title</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="s2">"Average policy gains over no treatment: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="s2">"Average policy gains over constant treatment policies for each treatment: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_value_</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">always_treat_value_</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">_PolicyTreeMPLExporter</span><span class="p">(</span><span class="n">treatment_names</span><span class="o">=</span><span class="n">treatment_names</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
                                       <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
@@ -1259,5 +1259,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.sklearn_extensions.model_selection &mdash; econml 0.16.0 documentation</title>
+  <title>econml.sklearn_extensions.model_selection &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -857,7 +857,7 @@
   <h1>Source code for econml.sklearn_extensions.model_selection</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (c) PyWhy contributors. All rights reserved.</span>
 <span class="c1"># Licensed under the MIT License.</span>
-<span class="sd">&quot;&quot;&quot;Collection of scikit-learn extensions for model selection techniques.&quot;&quot;&quot;</span>
+<span class="sd">"""Collection of scikit-learn extensions for model selection techniques."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">signature</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
@@ -868,8 +868,9 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">sklearn</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">joblib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.._sklearn_compat</span><span class="w"> </span><span class="kn">import</span> <span class="n">SKLEARN_GE_18</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">clone</span><span class="p">,</span> <span class="n">is_classifier</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">GradientBoostingClassifier</span><span class="p">,</span> <span class="n">GradientBoostingRegressor</span><span class="p">,</span>
                               <span class="n">RandomForestClassifier</span><span class="p">,</span> <span class="n">RandomForestRegressor</span><span class="p">)</span>
@@ -927,8 +928,8 @@
             <span class="n">kfold_model</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">kfold_model</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">))</span>
 
     <span class="c1"># If KFold fails after n_trials, we try the next best thing: stratifying by weight groups</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The KFold algorithm failed to find a weight-balanced partition after &quot;</span> <span class="o">+</span>
-                  <span class="s2">&quot;</span><span class="si">{n_trials}</span><span class="s2"> trials. Falling back on a weight stratification algorithm.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"The KFold algorithm failed to find a weight-balanced partition after "</span> <span class="o">+</span>
+                  <span class="s2">"</span><span class="si">{n_trials}</span><span class="s2"> trials. Falling back on a weight stratification algorithm."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                       <span class="n">n_trials</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_trials</span><span class="p">),</span> <span class="ne">UserWarning</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">is_stratified</span><span class="p">:</span>
         <span class="n">stratified_weight_splits</span> <span class="o">=</span> <span class="p">[[]]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_splits</span>
@@ -958,7 +959,7 @@
 <div class="viewcode-block" id="WeightedKFold">
 <a class="viewcode-back" href="../../../_autosummary/econml.sklearn_extensions.model_selection.WeightedKFold.html#econml.sklearn_extensions.model_selection.WeightedKFold">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WeightedKFold</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;K-Folds cross-validator for weighted data.</span>
+<span class="w">    </span><span class="sd">"""K-Folds cross-validator for weighted data.</span>
 
 <span class="sd">    Provides train/test indices to split data in train/test sets.</span>
 <span class="sd">    Split dataset into k folds of roughly equal size and equal total weight.</span>
@@ -984,7 +985,7 @@
 <span class="sd">        If :class:`~numpy.random.mtrand.RandomState` instance, random_state is the random number generator;</span>
 <span class="sd">        If None, the random number generator is the :class:`~numpy.random.mtrand.RandomState` instance used</span>
 <span class="sd">        by :mod:`np.random&lt;numpy.random&gt;`. Used when ``shuffle`` == True.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="WeightedKFold.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.sklearn_extensions.model_selection.WeightedKFold.html#econml.sklearn_extensions.model_selection.WeightedKFold.__init__">[docs]</a>
@@ -998,7 +999,7 @@
 <div class="viewcode-block" id="WeightedKFold.split">
 <a class="viewcode-back" href="../../../_autosummary/econml.sklearn_extensions.model_selection.WeightedKFold.html#econml.sklearn_extensions.model_selection.WeightedKFold.split">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate indices to split data into training and test set.</span>
+<span class="w">        </span><span class="sd">"""Generate indices to split data into training and test set.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1011,14 +1012,14 @@
 
 <span class="sd">        sample_weight : array_like, shape (n_samples,)</span>
 <span class="sd">            Weights associated with the training data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_split_weighted_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">is_stratified</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="WeightedKFold.get_n_splits">
 <a class="viewcode-back" href="../../../_autosummary/econml.sklearn_extensions.model_selection.WeightedKFold.html#econml.sklearn_extensions.model_selection.WeightedKFold.get_n_splits">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of splitting iterations in the cross-validator.</span>
+<span class="w">        </span><span class="sd">"""Return the number of splitting iterations in the cross-validator.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1035,7 +1036,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        n_splits : int</span>
 <span class="sd">            Returns the number of splitting iterations in the cross-validator.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_splits</span></div>
 
 
@@ -1073,7 +1074,7 @@
 <div class="viewcode-block" id="WeightedStratifiedKFold">
 <a class="viewcode-back" href="../../../_autosummary/econml.sklearn_extensions.model_selection.WeightedStratifiedKFold.html#econml.sklearn_extensions.model_selection.WeightedStratifiedKFold">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WeightedStratifiedKFold</span><span class="p">(</span><span class="n">WeightedKFold</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Stratified K-Folds cross-validator for weighted data.</span>
+<span class="w">    </span><span class="sd">"""Stratified K-Folds cross-validator for weighted data.</span>
 
 <span class="sd">    Provides train/test indices to split data in train/test sets.</span>
 <span class="sd">    Split dataset into k folds of roughly equal size and equal total weight.</span>
@@ -1099,12 +1100,12 @@
 <span class="sd">        If :class:`~numpy.random.mtrand.RandomState` instance, random_state is the random number generator;</span>
 <span class="sd">        If None, the random number generator is the :class:`~numpy.random.mtrand.RandomState` instance used</span>
 <span class="sd">        by :mod:`np.random&lt;numpy.random&gt;`. Used when ``shuffle`` == True.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="WeightedStratifiedKFold.split">
 <a class="viewcode-back" href="../../../_autosummary/econml.sklearn_extensions.model_selection.WeightedStratifiedKFold.html#econml.sklearn_extensions.model_selection.WeightedStratifiedKFold.split">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate indices to split data into training and test set.</span>
+<span class="w">        </span><span class="sd">"""Generate indices to split data into training and test set.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1117,14 +1118,14 @@
 
 <span class="sd">        sample_weight : array_like, shape (n_samples,)</span>
 <span class="sd">            Weights associated with the training data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_split_weighted_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">is_stratified</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="WeightedStratifiedKFold.get_n_splits">
 <a class="viewcode-back" href="../../../_autosummary/econml.sklearn_extensions.model_selection.WeightedStratifiedKFold.html#econml.sklearn_extensions.model_selection.WeightedStratifiedKFold.get_n_splits">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of splitting iterations in the cross-validator.</span>
+<span class="w">        </span><span class="sd">"""Return the number of splitting iterations in the cross-validator.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1141,64 +1142,64 @@
 <span class="sd">        -------</span>
 <span class="sd">        n_splits : int</span>
 <span class="sd">            Returns the number of splitting iterations in the cross-validator.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_splits</span></div>
 </div>
 
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ModelSelector</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Class that enables a two-stage fitting process.</span>
 
 <span class="sd">    First a model is selected by calling `train` with `is_selecting=True`, and then the selected model is fit</span>
 <span class="sd">    (presumably on a different data set) by calling train with `is_selecting=False`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_selecting</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">folds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select a model or fit a model, depending on the value of `is_selecting`.</span>
+<span class="w">        </span><span class="sd">"""Select a model or fit a model, depending on the value of `is_selecting`.</span>
 
 <span class="sd">        If `is_selecting` is `False`, then `folds` should not be provided because they are only during selection.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Abstract method"</span><span class="p">)</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Predict using the selected model.</span>
 
 <span class="sd">        This method should not be called until after `train` has been used both to select a model and to fit it.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Abstract method"</span><span class="p">)</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the score of the selected model on the given data.</span>
 
 <span class="sd">        This method should not be called until after `train` has been used</span>
 <span class="sd">        both to select a model and to fit it.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Abstract method"</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SingleModelSelector</span><span class="p">(</span><span class="n">ModelSelector</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A model selection class that selects a single best model.</span>
 
 <span class="sd">    This encompasses random search, grid search, ensembling, etc.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">best_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Abstract method"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">best_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Abstract method"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1206,20 +1207,20 @@
     <span class="c1"># only expose predict_proba if best_model has predict_proba</span>
     <span class="c1"># used because logic elsewhere uses hasattr predict proba to check if model is a classifier</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;predict_proba&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">'predict_proba'</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_model</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_model</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_model</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_fit_with_groups</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sub_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Fit a model while correctly handling grouping if necessary.</span>
 
 <span class="sd">    This enables us to perform an inner-loop cross-validation of a model</span>
@@ -1228,15 +1229,15 @@
 <span class="sd">    For example, GridSearchCV and RandomSearchCV both support passing `groups` to fit,</span>
 <span class="sd">    but other CV-related estimators (e.g. LassoCV) do not, which means that GroupKFold</span>
 <span class="sd">    cannot be used as the cv instance, because the `groups` argument will never be passed through</span>
-<span class="sd">    to GroupKFold&#39;s `split` method.</span>
+<span class="sd">    to GroupKFold's `split` method.</span>
 
 <span class="sd">    The hacky workaround here is to explicitly set the `cv` attribute to the set of</span>
 <span class="sd">    rows that GroupKFold would have generated rather than using GroupKFold as the cv instance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">sub_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">sub_model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">sub_model</span><span class="p">,</span> <span class="s1">&#39;cv&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">sub_model</span><span class="p">,</span> <span class="s1">'cv'</span><span class="p">):</span>
             <span class="n">old_cv</span> <span class="o">=</span> <span class="n">sub_model</span><span class="o">.</span><span class="n">cv</span>
             <span class="c1"># logic copied from check_cv</span>
             <span class="n">cv</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">if</span> <span class="n">old_cv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">old_cv</span>
@@ -1257,7 +1258,7 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">FixedModelSelector</span><span class="p">(</span><span class="n">SingleModelSelector</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model selection class that always selects the given sklearn-compatible model.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Model selection class that always selects the given sklearn-compatible model."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">score_during_selection</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1266,10 +1267,10 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_selecting</span><span class="p">,</span> <span class="n">folds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">],</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">is_selecting</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">score_during_selection</span><span class="p">:</span>
-                <span class="c1"># the score needs to be compared to another model&#39;s</span>
-                <span class="c1"># so we don&#39;t need to fit the model itself on all of the data, just get the out-of-sample score</span>
-                <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Can&#39;t select between a fixed </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="si">}</span><span class="s2"> model &quot;</span>
-                                                      <span class="s2">&quot;and others because it doesn&#39;t have a score method&quot;</span><span class="p">)</span>
+                <span class="c1"># the score needs to be compared to another model's</span>
+                <span class="c1"># so we don't need to fit the model itself on all of the data, just get the out-of-sample score</span>
+                <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Can't select between a fixed </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="si">}</span><span class="s2"> model "</span>
+                                                      <span class="s2">"and others because it doesn't have a score method"</span><span class="p">)</span>
                 <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">folds</span><span class="p">:</span>
                     <span class="c1"># use _fit_with_groups instead of just fit to handle nested grouping</span>
@@ -1290,36 +1291,39 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">best_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_score'</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No score was computed during selection&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No score was computed during selection"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_copy_to</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">insert_underscore</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">attr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="k">if</span> <span class="n">insert_underscore</span> <span class="k">else</span> <span class="n">attr</span><span class="p">))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">attr</span> <span class="o">+</span> <span class="s2">"_"</span> <span class="k">if</span> <span class="n">insert_underscore</span> <span class="k">else</span> <span class="n">attr</span><span class="p">))</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_convert_linear_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_cls</span><span class="p">):</span>
     <span class="n">new_model</span> <span class="o">=</span> <span class="n">new_cls</span><span class="p">()</span>
     <span class="c1"># copy common parameters</span>
-    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_model</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;fit_intercept&quot;</span><span class="p">])</span>
+    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_model</span><span class="p">,</span> <span class="p">[</span><span class="s2">"fit_intercept"</span><span class="p">])</span>
     <span class="c1"># copy common fitted variables</span>
-    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_model</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;coef_&quot;</span><span class="p">,</span> <span class="s2">&quot;intercept_&quot;</span><span class="p">,</span> <span class="s2">&quot;n_features_in_&quot;</span><span class="p">])</span>
+    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_model</span><span class="p">,</span> <span class="p">[</span><span class="s2">"coef_"</span><span class="p">,</span> <span class="s2">"intercept_"</span><span class="p">,</span> <span class="s2">"n_features_in_"</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">new_model</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_to_logisticRegression</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">LogisticRegressionCV</span><span class="p">):</span>
     <span class="n">lr</span> <span class="o">=</span> <span class="n">_convert_linear_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">LogisticRegression</span><span class="p">)</span>
-    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;penalty&quot;</span><span class="p">,</span> <span class="s2">&quot;dual&quot;</span><span class="p">,</span> <span class="s2">&quot;intercept_scaling&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;class_weight&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;solver&quot;</span><span class="p">,</span> <span class="s2">&quot;multi_class&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;n_jobs&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;tol&quot;</span><span class="p">,</span> <span class="s2">&quot;max_iter&quot;</span><span class="p">,</span> <span class="s2">&quot;random_state&quot;</span><span class="p">,</span> <span class="s2">&quot;n_iter_&quot;</span><span class="p">])</span>
-    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;classes_&quot;</span><span class="p">])</span>
+    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="p">[</span><span class="s2">"penalty"</span><span class="p">,</span> <span class="s2">"dual"</span><span class="p">,</span> <span class="s2">"intercept_scaling"</span><span class="p">,</span>
+                         <span class="s2">"class_weight"</span><span class="p">,</span>
+                         <span class="s2">"solver"</span><span class="p">,</span>
+                         <span class="s2">"verbose"</span><span class="p">,</span> <span class="s2">"n_jobs"</span><span class="p">,</span>
+                         <span class="s2">"tol"</span><span class="p">,</span> <span class="s2">"max_iter"</span><span class="p">,</span> <span class="s2">"random_state"</span><span class="p">,</span> <span class="s2">"n_iter_"</span><span class="p">])</span>
+    <span class="c1"># if sklearn version &lt; 1.8, copy multi_class as well</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">SKLEARN_GE_18</span><span class="p">:</span>
+        <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="p">[</span><span class="s2">"multi_class"</span><span class="p">])</span>
+    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="p">[</span><span class="s2">"classes_"</span><span class="p">])</span>
 
-    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;l1_ratio&quot;</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># these are arrays in LogisticRegressionCV, need to convert them next</span>
+    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="p">[</span><span class="s2">"C"</span><span class="p">,</span> <span class="s2">"l1_ratio"</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># these are arrays in LogisticRegressionCV, need to convert them next</span>
 
     <span class="c1"># make sure all classes agree on best c/l1 combo</span>
     <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
@@ -1332,37 +1336,44 @@
     <span class="k">return</span> <span class="n">lr</span><span class="p">,</span> <span class="n">best_scores</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_convert_linear_regression</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_cls</span><span class="p">,</span> <span class="n">extra_attrs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;positive&quot;</span><span class="p">]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_convert_linear_regression</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_cls</span><span class="p">,</span> <span class="n">extra_attrs</span><span class="o">=</span><span class="p">[</span><span class="s2">"positive"</span><span class="p">]):</span>
     <span class="n">new_model</span> <span class="o">=</span> <span class="n">_convert_linear_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_cls</span><span class="p">)</span>
-    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_model</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_model</span><span class="p">,</span> <span class="p">[</span><span class="s2">"alpha"</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">new_model</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_to_elasticNet</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">ElasticNetCV</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">is_lasso</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extra_attrs</span><span class="o">=</span><span class="p">[]):</span>
-    <span class="c1"># We need an R^2 score to compare to other models; ElasticNetCV doesn&#39;t provide it,</span>
-    <span class="c1"># but we can calculate it ourselves from the MSE plus the variance of the target y</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+    <span class="c1"># Retain the fast R^2 approximation: mse_path_ already averages squared errors over</span>
+    <span class="c1"># outputs, so normalize by the mean of the per-output variances. Pooling outputs</span>
+    <span class="c1"># would incorrectly count differences between their means as target variation.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Scores are still not directly comparable to other selectors' default R^2 scores:</span>
+    <span class="c1"># we use variances computed over all supplied observations rather than within each</span>
+    <span class="c1"># validation fold, and aggregate outputs differently. Consistent scoring requires</span>
+    <span class="c1"># broader evaluation changes because mse_path_ no longer contains per-output errors.</span>
+    <span class="c1"># The denominator also remains unweighted when CV uses sample weights.</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span>
     <span class="bp">cls</span> <span class="o">=</span> <span class="bp">cls</span> <span class="ow">or</span> <span class="p">(</span><span class="n">Lasso</span> <span class="k">if</span> <span class="n">is_lasso</span> <span class="k">else</span> <span class="n">ElasticNet</span><span class="p">)</span>
-    <span class="n">new_model</span> <span class="o">=</span> <span class="n">_convert_linear_regression</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">extra_attrs</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;selection&#39;</span><span class="p">,</span> <span class="s1">&#39;warm_start&#39;</span><span class="p">,</span> <span class="s1">&#39;dual_gap_&#39;</span><span class="p">,</span>
-                                                                      <span class="s1">&#39;tol&#39;</span><span class="p">,</span> <span class="s1">&#39;max_iter&#39;</span><span class="p">,</span> <span class="s1">&#39;random_state&#39;</span><span class="p">,</span> <span class="s1">&#39;n_iter_&#39;</span><span class="p">,</span>
-                                                                      <span class="s1">&#39;copy_X&#39;</span><span class="p">])</span>
+    <span class="n">new_model</span> <span class="o">=</span> <span class="n">_convert_linear_regression</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">extra_attrs</span> <span class="o">+</span> <span class="p">[</span><span class="s1">'selection'</span><span class="p">,</span> <span class="s1">'warm_start'</span><span class="p">,</span> <span class="s1">'dual_gap_'</span><span class="p">,</span>
+                                                                      <span class="s1">'tol'</span><span class="p">,</span> <span class="s1">'max_iter'</span><span class="p">,</span> <span class="s1">'random_state'</span><span class="p">,</span> <span class="s1">'n_iter_'</span><span class="p">,</span>
+                                                                      <span class="s1">'copy_X'</span><span class="p">])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_lasso</span><span class="p">:</span>
-        <span class="c1"># l1 ratio doesn&#39;t apply to Lasso, only ElasticNet</span>
-        <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_model</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;l1_ratio&quot;</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># l1 ratio doesn't apply to Lasso, only ElasticNet</span>
+        <span class="n">_copy_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">new_model</span><span class="p">,</span> <span class="p">[</span><span class="s2">"l1_ratio"</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
     <span class="c1"># max R^2 corresponds to min MSE</span>
     <span class="n">min_mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">mse_path_</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># last dimension in mse_path is folds, so average over that</span>
-    <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">min_mse</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># R^2 = 1 - MSE / Var(y)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">min_mse</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># R^2 = 1 - MSE / Var(y)</span>
     <span class="k">return</span> <span class="n">new_model</span><span class="p">,</span> <span class="n">r2</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_to_ridge</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Ridge</span><span class="p">,</span> <span class="n">extra_attrs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;positive&quot;</span><span class="p">]):</span>
-    <span class="n">ridge</span> <span class="o">=</span> <span class="n">_convert_linear_regression</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">extra_attrs</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;_normalize&quot;</span><span class="p">,</span> <span class="s2">&quot;solver&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_to_ridge</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Ridge</span><span class="p">,</span> <span class="n">extra_attrs</span><span class="o">=</span><span class="p">[</span><span class="s2">"positive"</span><span class="p">]):</span>
+    <span class="n">ridge</span> <span class="o">=</span> <span class="n">_convert_linear_regression</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">extra_attrs</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"_normalize"</span><span class="p">,</span> <span class="s2">"solver"</span><span class="p">])</span>
     <span class="n">best_score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">best_score_</span>
     <span class="k">return</span> <span class="n">ridge</span><span class="p">,</span> <span class="n">best_score</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SklearnCVSelector</span><span class="p">(</span><span class="n">SingleModelSelector</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps one of sklearn&#39;s CV classes in the ModelSelector interface.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Wraps one of sklearn's CV classes in the ModelSelector interface."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">searcher</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">searcher</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">searcher</span><span class="p">)</span>
@@ -1381,11 +1392,11 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_model_mapping</span><span class="p">():</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">LogisticRegressionCV</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">,</span> <span class="n">_args</span><span class="p">,</span> <span class="n">_kwargs</span><span class="p">:</span> <span class="n">_to_logisticRegression</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
                 <span class="n">ElasticNetCV</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">_to_elasticNet</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">),</span>
-                <span class="n">LassoCV</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">_to_elasticNet</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;positive&quot;</span><span class="p">]),</span>
+                <span class="n">LassoCV</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">_to_elasticNet</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="s2">"positive"</span><span class="p">]),</span>
                 <span class="n">RidgeCV</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">,</span> <span class="n">_args</span><span class="p">,</span> <span class="n">_kwargs</span><span class="p">:</span> <span class="n">_to_ridge</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
                 <span class="n">RidgeClassifierCV</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">,</span> <span class="n">_args</span><span class="p">,</span> <span class="n">_kwargs</span><span class="p">:</span> <span class="n">_to_ridge</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">RidgeClassifier</span><span class="p">,</span>
-                                                                           <span class="p">[</span><span class="s2">&quot;positive&quot;</span><span class="p">,</span> <span class="s2">&quot;class_weight&quot;</span><span class="p">,</span>
-                                                                            <span class="s2">&quot;_label_binarizer&quot;</span><span class="p">]),</span>
+                                                                           <span class="p">[</span><span class="s2">"positive"</span><span class="p">,</span> <span class="s2">"class_weight"</span><span class="p">,</span>
+                                                                            <span class="s2">"_label_binarizer"</span><span class="p">]),</span>
                 <span class="n">MultiTaskElasticNetCV</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">_to_elasticNet</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span>
                                                                                   <span class="kc">False</span><span class="p">,</span> <span class="n">MultiTaskElasticNet</span><span class="p">,</span>
                                                                                   <span class="n">extra_attrs</span><span class="o">=</span><span class="p">[]),</span>
@@ -1418,14 +1429,14 @@
                 <span class="n">sub_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 
             <span class="n">init_params</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">sub_model</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
-            <span class="k">if</span> <span class="s1">&#39;cv&#39;</span> <span class="ow">in</span> <span class="n">init_params</span><span class="p">:</span>
-                <span class="n">default_cv</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">[</span><span class="s1">&#39;cv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">default</span>
+            <span class="k">if</span> <span class="s1">'cv'</span> <span class="ow">in</span> <span class="n">init_params</span><span class="p">:</span>
+                <span class="n">default_cv</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">[</span><span class="s1">'cv'</span><span class="p">]</span><span class="o">.</span><span class="n">default</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># constructor takes cv as a positional or kwarg, just pull it out of a new instance</span>
                 <span class="n">default_cv</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">sub_model</span><span class="p">)()</span><span class="o">.</span><span class="n">cv</span>
 
             <span class="k">if</span> <span class="n">sub_model</span><span class="o">.</span><span class="n">cv</span> <span class="o">!=</span> <span class="n">default_cv</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model </span><span class="si">{</span><span class="n">sub_model</span><span class="si">}</span><span class="s2"> has a non-default cv attribute, which will be ignored&quot;</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model </span><span class="si">{</span><span class="n">sub_model</span><span class="si">}</span><span class="s2"> has a non-default cv attribute, which will be ignored"</span><span class="p">)</span>
             <span class="n">sub_model</span><span class="o">.</span><span class="n">cv</span> <span class="o">=</span> <span class="n">folds</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1446,7 +1457,7 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ListSelector</span><span class="p">(</span><span class="n">SingleModelSelector</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Model selection class that selects the best model from a list of model selectors.</span>
 
 <span class="sd">    Parameters</span>
@@ -1454,15 +1465,15 @@
 <span class="sd">    models : list of ModelSelector</span>
 <span class="sd">        The list of model selectors to choose from</span>
 <span class="sd">    unwrap : bool, default True</span>
-<span class="sd">        Whether to return the best model&#39;s best model, rather than just the outer best model selector</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Whether to return the best model's best model, rather than just the outer best model selector</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">unwrap</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">clone</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unwrap</span> <span class="o">=</span> <span class="n">unwrap</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_selecting</span><span class="p">,</span> <span class="n">folds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ListSelector must have at least one model&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"ListSelector must have at least one model"</span>
         <span class="k">if</span> <span class="n">is_selecting</span><span class="p">:</span>
             <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
@@ -1477,12 +1488,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">best_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the best model.</span>
 
 <span class="sd">        Note that if we were selecting over SingleModelSelectors and `unwrap` is `False`,</span>
 <span class="sd">        we will return the SingleModelSelector instance, not its best model.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_model</span><span class="o">.</span><span class="n">best_model</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unwrap</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_model</span>
 
     <span class="nd">@property</span>
@@ -1492,38 +1503,38 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_selector</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">is_discrete</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wrapper</span><span class="o">=</span><span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">needs_scoring</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">named_models</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;linear&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">LogisticRegressionCV</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_discrete</span>
+        <span class="s1">'linear'</span><span class="p">:</span> <span class="p">(</span><span class="n">LogisticRegressionCV</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_discrete</span>
                    <span class="k">else</span> <span class="n">WeightedLassoCVWrapper</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)),</span>
-        <span class="s1">&#39;poly&#39;</span><span class="p">:</span> <span class="p">([</span><span class="n">make_pipeline</span><span class="p">(</span><span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">d</span><span class="p">),</span>
+        <span class="s1">'poly'</span><span class="p">:</span> <span class="p">([</span><span class="n">make_pipeline</span><span class="p">(</span><span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">d</span><span class="p">),</span>
                                 <span class="p">(</span><span class="n">LogisticRegressionCV</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_discrete</span>
                                  <span class="k">else</span> <span class="n">WeightedLassoCVWrapper</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)))</span>
                   <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]),</span>
-        <span class="s1">&#39;forest&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">GridSearchCV</span><span class="p">(</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_discrete</span>
+        <span class="s1">'forest'</span><span class="p">:</span> <span class="p">(</span><span class="n">GridSearchCV</span><span class="p">(</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_discrete</span>
                                 <span class="k">else</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">),</span>
                                 <span class="n">param_grid</span><span class="o">=</span><span class="p">{},</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)),</span>
-        <span class="s1">&#39;gbf&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">GridSearchCV</span><span class="p">(</span><span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_discrete</span>
+        <span class="s1">'gbf'</span><span class="p">:</span> <span class="p">(</span><span class="n">GridSearchCV</span><span class="p">(</span><span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_discrete</span>
                              <span class="k">else</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">),</span>
                              <span class="n">param_grid</span><span class="o">=</span><span class="p">{},</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)),</span>
-        <span class="s1">&#39;nnet&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">GridSearchCV</span><span class="p">(</span><span class="n">MLPClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_discrete</span>
+        <span class="s1">'nnet'</span><span class="p">:</span> <span class="p">(</span><span class="n">GridSearchCV</span><span class="p">(</span><span class="n">MLPClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_discrete</span>
                               <span class="k">else</span> <span class="n">MLPRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">),</span>
                               <span class="n">param_grid</span><span class="o">=</span><span class="p">{},</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)),</span>
-        <span class="s1">&#39;automl&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;poly&quot;</span><span class="p">,</span> <span class="s2">&quot;forest&quot;</span><span class="p">,</span> <span class="s2">&quot;gbf&quot;</span><span class="p">,</span> <span class="s2">&quot;nnet&quot;</span><span class="p">],</span>
+        <span class="s1">'automl'</span><span class="p">:</span> <span class="p">[</span><span class="s2">"poly"</span><span class="p">,</span> <span class="s2">"forest"</span><span class="p">,</span> <span class="s2">"gbf"</span><span class="p">,</span> <span class="s2">"nnet"</span><span class="p">],</span>
     <span class="p">}</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">ModelSelector</span><span class="p">):</span>  <span class="c1"># we&#39;ve already got a model selector, don&#39;t need to do anything</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">ModelSelector</span><span class="p">):</span>  <span class="c1"># we've already got a model selector, don't need to do anything</span>
         <span class="k">return</span> <span class="nb">input</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>  <span class="c1"># we&#39;ve got a list; call get_selector on each element, then wrap in a ListSelector</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>  <span class="c1"># we've got a list; call get_selector on each element, then wrap in a ListSelector</span>
         <span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_selector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">is_discrete</span><span class="p">,</span>
                                <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">wrapper</span><span class="o">=</span><span class="n">wrapper</span><span class="p">,</span>
                                <span class="n">needs_scoring</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># we need to score to compare outputs to each other</span>
                   <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">ListSelector</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># we&#39;ve got a string; look it up</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># we've got a string; look it up</span>
         <span class="k">if</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">named_models</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">get_selector</span><span class="p">(</span><span class="n">named_models</span><span class="p">[</span><span class="nb">input</span><span class="p">],</span> <span class="n">is_discrete</span><span class="p">,</span>
                                 <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">wrapper</span><span class="o">=</span><span class="n">wrapper</span><span class="p">,</span>
                                 <span class="n">needs_scoring</span><span class="o">=</span><span class="n">needs_scoring</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown model type: </span><span class="si">{</span><span class="nb">input</span><span class="si">}</span><span class="s2">, must be one of </span><span class="si">{</span><span class="n">named_models</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown model type: </span><span class="si">{</span><span class="nb">input</span><span class="si">}</span><span class="s2">, must be one of </span><span class="si">{</span><span class="n">named_models</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">SklearnCVSelector</span><span class="o">.</span><span class="n">can_wrap</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">SklearnCVSelector</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># assume this is an sklearn-compatible model</span>
@@ -1533,7 +1544,7 @@
 <div class="viewcode-block" id="GridSearchCVList">
 <a class="viewcode-back" href="../../../_autosummary/econml.sklearn_extensions.model_selection.GridSearchCVList.html#econml.sklearn_extensions.model_selection.GridSearchCVList">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GridSearchCVList</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    An extension of GridSearchCV that allows for passing a list of estimators.</span>
 
 <span class="sd">    Each estimator can have its own</span>
@@ -1550,18 +1561,18 @@
 <span class="sd">        Either estimator needs to provide a ``score`` function,</span>
 <span class="sd">        or ``scoring`` must be passed.</span>
 
-<span class="sd">    param_grid : list of dict or list of list of dictionaries</span>
+<span class="sd">    param_grid_list : list of dict or list of list of dictionaries</span>
 <span class="sd">        For each estimator, the dictionary with parameters names (`str`) as keys and lists of</span>
 <span class="sd">        parameter settings to try as values, or a list of such</span>
 <span class="sd">        dictionaries, in which case the grids spanned by each dictionary</span>
 <span class="sd">        in the list are explored. This enables searching over any sequence</span>
 <span class="sd">        of parameter settings.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="GridSearchCVList.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.sklearn_extensions.model_selection.GridSearchCVList.html#econml.sklearn_extensions.model_selection.GridSearchCVList.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimator_list</span><span class="p">,</span> <span class="n">param_grid_list</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pre_dispatch</span><span class="o">=</span><span class="s1">&#39;2*n_jobs&#39;</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pre_dispatch</span><span class="o">=</span><span class="s1">'2*n_jobs'</span><span class="p">,</span>
                  <span class="n">error_score</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">estimator_list</span> <span class="o">=</span> <span class="n">estimator_list</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param_grid_list</span> <span class="o">=</span> <span class="n">param_grid_list</span>
@@ -1598,15 +1609,15 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_cross_val_predict</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fit_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">pre_dispatch</span><span class="o">=</span><span class="s1">&#39;2*n_jobs&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;predict&#39;</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+                       <span class="n">pre_dispatch</span><span class="o">=</span><span class="s1">'2*n_jobs'</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'predict'</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Cross validate and predict.</span>
 
 <span class="sd">    A fork of :meth:`~sklearn.model_selection.cross_val_predict` allowing non-safe cloning of the models for each fold.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    estimator : estimator object implementing &#39;fit&#39; and &#39;predict&#39;</span>
+<span class="sd">    estimator : estimator object implementing 'fit' and 'predict'</span>
 <span class="sd">        The object to use to fit the data.</span>
 
 <span class="sd">    X : array_like of shape (n_samples, n_features)</span>
@@ -1619,7 +1630,7 @@
 
 <span class="sd">    groups : array_like of shape (n_samples,), optional</span>
 <span class="sd">        Group labels for the samples used while splitting the dataset into</span>
-<span class="sd">        train/test set. Only used in conjunction with a &quot;Group&quot; :term:`cv`</span>
+<span class="sd">        train/test set. Only used in conjunction with a "Group" :term:`cv`</span>
 <span class="sd">        instance (e.g., :class:`GroupKFold`).</span>
 
 <span class="sd">    cv : int, cross-validation generator or an iterable, default None</span>
@@ -1653,7 +1664,7 @@
 <span class="sd">    fit_params : dict, defualt=None</span>
 <span class="sd">        Parameters to pass to the fit method of the estimator.</span>
 
-<span class="sd">    pre_dispatch : int or str, default &#39;2*n_jobs&#39;</span>
+<span class="sd">    pre_dispatch : int or str, default '2*n_jobs'</span>
 <span class="sd">        Controls the number of jobs that get dispatched during parallel</span>
 <span class="sd">        execution. Reducing this number can be useful to avoid an</span>
 <span class="sd">        explosion of memory consumption when more jobs get dispatched</span>
@@ -1668,11 +1679,11 @@
 <span class="sd">              spawned</span>
 
 <span class="sd">            - A str, giving an expression as a function of n_jobs,</span>
-<span class="sd">              as in &#39;2*n_jobs&#39;</span>
+<span class="sd">              as in '2*n_jobs'</span>
 
-<span class="sd">    method : str, default &#39;predict&#39;</span>
+<span class="sd">    method : str, default 'predict'</span>
 <span class="sd">        Invokes the passed method name of the passed estimator. For</span>
-<span class="sd">        method=&#39;predict_proba&#39;, the columns correspond to the classes</span>
+<span class="sd">        method='predict_proba', the columns correspond to the classes</span>
 <span class="sd">        in sorted order.</span>
 
 <span class="sd">    safe : bool, default True</span>
@@ -1682,7 +1693,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    predictions : ndarray</span>
 <span class="sd">        This is the result of calling ``method``</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">indexable</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
 
     <span class="n">cv</span> <span class="o">=</span> <span class="n">check_cv</span><span class="p">(</span><span class="n">cv</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">classifier</span><span class="o">=</span><span class="n">is_classifier</span><span class="p">(</span><span class="n">estimator</span><span class="p">))</span>
@@ -1690,12 +1701,12 @@
 
     <span class="n">test_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">test</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">_check_is_permutation</span><span class="p">(</span><span class="n">test_indices</span><span class="p">,</span> <span class="n">_num_samples</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;cross_val_predict only works for partitions&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'cross_val_predict only works for partitions'</span><span class="p">)</span>
 
     <span class="c1"># If classification methods produce multiple columns of output,</span>
     <span class="c1"># we need to manually encode classes to ensure consistent column ordering.</span>
-    <span class="n">encode</span> <span class="o">=</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;decision_function&#39;</span><span class="p">,</span> <span class="s1">&#39;predict_proba&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;predict_log_proba&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">encode</span> <span class="o">=</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'decision_function'</span><span class="p">,</span> <span class="s1">'predict_proba'</span><span class="p">,</span>
+                        <span class="s1">'predict_log_proba'</span><span class="p">]</span> <span class="ow">and</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">encode</span><span class="p">:</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -1712,16 +1723,9 @@
     <span class="n">parallel</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
                         <span class="n">pre_dispatch</span><span class="o">=</span><span class="n">pre_dispatch</span><span class="p">)</span>
 
-    <span class="kn">from</span><span class="w"> </span><span class="nn">packaging.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
-    <span class="c1"># verbose was removed from sklearn&#39;s non-public _fit_and_predict method in 1.4</span>
-    <span class="k">if</span> <span class="n">parse</span><span class="p">(</span><span class="n">sklearn</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;1.4&quot;</span><span class="p">):</span>
-        <span class="n">predictions</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span><span class="n">delayed</span><span class="p">(</span><span class="n">_fit_and_predict</span><span class="p">)(</span>
-            <span class="n">clone</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="n">safe</span><span class="p">),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">fit_params</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">predictions</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span><span class="n">delayed</span><span class="p">(</span><span class="n">_fit_and_predict</span><span class="p">)(</span>
-            <span class="n">clone</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="n">safe</span><span class="p">),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">fit_params</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span><span class="n">delayed</span><span class="p">(</span><span class="n">_fit_and_predict</span><span class="p">)(</span>
+        <span class="n">clone</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="n">safe</span><span class="p">),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">fit_params</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">)</span>
 
     <span class="n">inv_test_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_indices</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">inv_test_indices</span><span class="p">[</span><span class="n">test_indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_indices</span><span class="p">))</span>
@@ -1774,5 +1778,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

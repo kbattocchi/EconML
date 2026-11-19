@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inference &mdash; econml 0.16.0 documentation</title>
+  <title>Inference &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../_static/documentation_options.js?v=a8455094"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -40,7 +40,7 @@
               <img src="../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -413,6 +413,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -431,7 +432,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -874,7 +874,7 @@ across the multiple clones. See also <a class="reference internal" href="../_aut
 <span class="n">est</span> <span class="o">=</span> <span class="n">NonParamDML</span><span class="p">(</span><span class="n">model_y</span><span class="o">=</span><span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
                             <span class="n">model_t</span><span class="o">=</span><span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
                             <span class="n">model_final</span><span class="o">=</span><span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
-<span class="n">est</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">&#39;bootstrap&#39;</span><span class="p">)</span>
+<span class="n">est</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">'bootstrap'</span><span class="p">)</span>
 <span class="n">point</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">const_marginal_effect</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">const_marginal_effect_interval</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
 </pre></div>
@@ -907,7 +907,7 @@ This for instance holds for the <a class="reference internal" href="../_autosumm
 </pre></div>
 </div>
 <p>This inference is enabled by our <a class="reference internal" href="../_autosummary/econml.sklearn_extensions.linear_model.StatsModelsLinearRegression.html#econml.sklearn_extensions.linear_model.StatsModelsLinearRegression" title="econml.sklearn_extensions.linear_model.StatsModelsLinearRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatsModelsLinearRegression</span></code></a> extension to the scikit-learn
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearRegression</span></code></a>.</p>
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearRegression</span></code></a>.</p>
 </section>
 <section id="debiased-lasso-inference">
 <h2>Debiased Lasso Inference<a class="headerlink" href="#debiased-lasso-inference" title="Link to this heading"></a></h2>
@@ -935,7 +935,7 @@ explicitly setting <code class="docutils literal notranslate"><span class="pre">
 </pre></div>
 </div>
 <p>This inference is enabled by our implementation of the <a class="reference internal" href="../_autosummary/econml.sklearn_extensions.linear_model.DebiasedLasso.html#econml.sklearn_extensions.linear_model.DebiasedLasso" title="econml.sklearn_extensions.linear_model.DebiasedLasso"><code class="xref py py-class docutils literal notranslate"><span class="pre">DebiasedLasso</span></code></a> extension to the scikit-learn
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html#sklearn.linear_model.Lasso" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lasso</span></code></a>.</p>
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html#sklearn.linear_model.Lasso" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lasso</span></code></a>.</p>
 </section>
 <section id="subsampled-honest-forest-inference">
 <h2>Subsampled Honest Forest Inference<a class="headerlink" href="#subsampled-honest-forest-inference" title="Link to this heading"></a></h2>
@@ -963,7 +963,7 @@ or by explicitly setting <code class="docutils literal notranslate"><span class=
 </pre></div>
 </div>
 <p>This inference is enabled by our implementation of the <a class="reference internal" href="../_autosummary/econml.grf.RegressionForest.html#econml.grf.RegressionForest" title="econml.grf.RegressionForest"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegressionForest</span></code></a> extension to the scikit-learn
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html#sklearn.ensemble.RandomForestRegressor" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomForestRegressor</span></code></a>.</p>
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html#sklearn.ensemble.RandomForestRegressor" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomForestRegressor</span></code></a>.</p>
 </section>
 <section id="orthoforest-bootstrap-of-little-bags-inference">
 <h2>OrthoForest Bootstrap of Little Bags Inference<a class="headerlink" href="#orthoforest-bootstrap-of-little-bags-inference" title="Link to this heading"></a></h2>
@@ -1015,5 +1015,17 @@ inference at its default setting of <code class="docutils literal notranslate"><
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

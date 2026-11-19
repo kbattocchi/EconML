@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.grf.classes &mdash; econml 0.16.0 documentation</title>
+  <title>econml.grf.classes &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -865,10 +865,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">clone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_X_y</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MultiOutputGRF&quot;</span><span class="p">,</span>
-           <span class="s2">&quot;CausalForest&quot;</span><span class="p">,</span>
-           <span class="s2">&quot;CausalIVForest&quot;</span><span class="p">,</span>
-           <span class="s2">&quot;RegressionForest&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"MultiOutputGRF"</span><span class="p">,</span>
+           <span class="s2">"CausalForest"</span><span class="p">,</span>
+           <span class="s2">"CausalIVForest"</span><span class="p">,</span>
+           <span class="s2">"RegressionForest"</span><span class="p">]</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># A MultOutputWrapper for GRF classes</span>
@@ -878,11 +878,11 @@
 <div class="viewcode-block" id="MultiOutputGRF">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.MultiOutputGRF.html#econml.grf.MultiOutputGRF">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MultiOutputGRF</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Simple wrapper estimator that enables multiple outcome labels for grf estimators that only accept a single outcome.</span>
 
 <span class="sd">    Similar to MultiOutputRegressor.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="MultiOutputGRF.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.MultiOutputGRF.html#econml.grf.MultiOutputGRF.__init__">[docs]</a>
@@ -931,15 +931,15 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_importances</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of estimators in the ensemble for each target y.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the number of estimators in the ensemble for each target y."""</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">estimators_</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of the index&#39;th estimator in the ensemble for each target y.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return a list of the index'th estimator in the ensemble for each target y."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">forest</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">forest</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return iterator over tuples of estimators for each target y in the ensemble.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return iterator over tuples of estimators for each target y in the ensemble."""</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span><span class="p">))</span></div>
 
 
@@ -951,7 +951,7 @@
 <div class="viewcode-block" id="CausalForest">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.CausalForest.html#econml.grf.CausalForest">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CausalForest</span><span class="p">(</span><span class="n">BaseGRF</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A Causal Forest [cf1]_.</span>
 
 <span class="sd">    It fits a forest that solves the local moment equation problem:</span>
@@ -968,12 +968,12 @@
 <span class="sd">    n_estimators : int, default 100</span>
 <span class="sd">        Number of trees</span>
 
-<span class="sd">    criterion : {``&quot;mse&quot;``, ``&quot;het&quot;``}, default &quot;mse&quot;</span>
+<span class="sd">    criterion : {``"mse"``, ``"het"``}, default "mse"</span>
 <span class="sd">        The function to measure the quality of a split. Supported criteria</span>
-<span class="sd">        are &quot;mse&quot; for the mean squared error in a linear moment estimation tree and &quot;het&quot; for</span>
+<span class="sd">        are "mse" for the mean squared error in a linear moment estimation tree and "het" for</span>
 <span class="sd">        heterogeneity score.</span>
 
-<span class="sd">        - The &quot;mse&quot; criterion finds splits that minimize the score:</span>
+<span class="sd">        - The "mse" criterion finds splits that minimize the score:</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -996,7 +996,7 @@
 <span class="sd">          with a large minimum eigenvalue of the child jacobian ``E[(T;1) @ (T;1).T | X in child]``,</span>
 <span class="sd">          which leads to smaller variance of the estimate and stronger identification of the parameters.</span>
 
-<span class="sd">        - The &quot;het&quot; criterion finds splits that maximize the pure parameter heterogeneity score:</span>
+<span class="sd">        - The "het" criterion finds splits that maximize the pure parameter heterogeneity score:</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -1047,7 +1047,7 @@
 <span class="sd">        is not well identified and has high variance. The proxy of variance is different for different criterion,</span>
 <span class="sd">        primarily for computational efficiency reasons.</span>
 
-<span class="sd">        - If ``criterion=&#39;het&#39;``, then this constraint translates to:</span>
+<span class="sd">        - If ``criterion='het'``, then this constraint translates to:</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -1061,7 +1061,7 @@
 <span class="sd">            for all i in {1, ..., T.shape[1]}:</span>
 <span class="sd">                Var(T[i] | X in leaf) &gt; `min_var_fraction_leaf` * Var(T[i])</span>
 
-<span class="sd">        - If ``criterion=&#39;mse&#39;``, because the criterion stores more information about the leaf for</span>
+<span class="sd">        - If ``criterion='mse'``, because the criterion stores more information about the leaf for</span>
 <span class="sd">          every candidate split, then this constraint imposes further constraints on the pairwise correlations</span>
 <span class="sd">          of different coordinates of each treatment, i.e.:</span>
 
@@ -1084,16 +1084,16 @@
 <span class="sd">        dependence as it only uses local correlation structure of the treatment T to decide whether</span>
 <span class="sd">        a split is feasible.</span>
 
-<span class="sd">    max_features : int, float, {&quot;auto&quot;, &quot;sqrt&quot;, &quot;log2&quot;}, or None, default None</span>
+<span class="sd">    max_features : int, float, {"auto", "sqrt", "log2"}, or None, default None</span>
 <span class="sd">        The number of features to consider when looking for the best split:</span>
 
 <span class="sd">        - If int, then consider `max_features` features at each split.</span>
 <span class="sd">        - If float, then `max_features` is a fraction and</span>
 <span class="sd">          `int(max_features * n_features)` features are considered at each</span>
 <span class="sd">          split.</span>
-<span class="sd">        - If &quot;auto&quot;, then `max_features=n_features`.</span>
-<span class="sd">        - If &quot;sqrt&quot;, then `max_features=sqrt(n_features)`.</span>
-<span class="sd">        - If &quot;log2&quot;, then `max_features=log2(n_features)`.</span>
+<span class="sd">        - If "auto", then `max_features=n_features`.</span>
+<span class="sd">        - If "sqrt", then `max_features=sqrt(n_features)`.</span>
+<span class="sd">        - If "log2", then `max_features=log2(n_features)`.</span>
 <span class="sd">        - If None, then `max_features=n_features`.</span>
 
 <span class="sd">        Note: the search for a split does not stop until at least one</span>
@@ -1198,24 +1198,24 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [cf1] Athey, Susan, Julie Tibshirani, and Stefan Wager. &quot;Generalized random forests.&quot;</span>
+<span class="sd">    .. [cf1] Athey, Susan, Julie Tibshirani, and Stefan Wager. "Generalized random forests."</span>
 <span class="sd">        The Annals of Statistics 47.2 (2019): 1148-1178</span>
 <span class="sd">        https://arxiv.org/pdf/1610.01271.pdf</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="CausalForest.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.CausalForest.html#econml.grf.CausalForest.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                 <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">,</span>
+                 <span class="n">criterion</span><span class="o">=</span><span class="s2">"mse"</span><span class="p">,</span>
                  <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                  <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                  <span class="n">min_weight_fraction_leaf</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
                  <span class="n">min_var_fraction_leaf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">min_var_leaf_on_val</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">max_features</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                 <span class="n">max_features</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
                  <span class="n">min_impurity_decrease</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
                  <span class="n">max_samples</span><span class="o">=</span><span class="mf">.45</span><span class="p">,</span>
                  <span class="n">min_balancedness_tol</span><span class="o">=</span><span class="mf">.45</span><span class="p">,</span>
@@ -1241,7 +1241,7 @@
 <div class="viewcode-block" id="CausalForest.fit">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.CausalForest.html#econml.grf.CausalForest.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Build a causal forest of trees from the training set (X, T, y).</span>
 
 <span class="sd">        Parameters</span>
@@ -1261,7 +1261,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self : object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span></div>
 
 
@@ -1284,7 +1284,7 @@
 <div class="viewcode-block" id="CausalIVForest">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.CausalIVForest.html#econml.grf.CausalIVForest">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CausalIVForest</span><span class="p">(</span><span class="n">BaseGRF</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A Causal IV Forest [cfiv1]_.</span>
 
 <span class="sd">    It fits a forest that solves the local moment equation problem:</span>
@@ -1301,12 +1301,12 @@
 <span class="sd">    n_estimators : int, default 100</span>
 <span class="sd">        Number of trees</span>
 
-<span class="sd">    criterion : {``&quot;mse&quot;``, ``&quot;het&quot;``}, default &quot;mse&quot;</span>
+<span class="sd">    criterion : {``"mse"``, ``"het"``}, default "mse"</span>
 <span class="sd">        The function to measure the quality of a split. Supported criteria</span>
-<span class="sd">        are &quot;mse&quot; for the mean squared error in a linear moment estimation tree and &quot;het&quot; for</span>
+<span class="sd">        are "mse" for the mean squared error in a linear moment estimation tree and "het" for</span>
 <span class="sd">        heterogeneity score.</span>
 
-<span class="sd">        - The &quot;mse&quot; criterion finds splits that approximately minimize the score:</span>
+<span class="sd">        - The "mse" criterion finds splits that approximately minimize the score:</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -1332,7 +1332,7 @@
 <span class="sd">          with a large minimum eigenvalue of the child jacobian E[(T;1) @ (Z;1).T | X in child], which leads to smaller</span>
 <span class="sd">          variance of the estimate and stronger identification of the parameters.</span>
 
-<span class="sd">        - The ``&quot;het&quot;`` criterion finds splits that maximize the pure parameter heterogeneity score:</span>
+<span class="sd">        - The ``"het"`` criterion finds splits that maximize the pure parameter heterogeneity score:</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -1384,7 +1384,7 @@
 <span class="sd">        locally weak and hence the local parameter is not well identified and has high variance.</span>
 <span class="sd">        The proxy of variance is different for different criterion, primarily for computational efficiency reasons.</span>
 
-<span class="sd">        - If ``criterion=&#39;het&#39;``, then this constraint translates to:</span>
+<span class="sd">        - If ``criterion='het'``, then this constraint translates to:</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -1399,7 +1399,7 @@
 <span class="sd">            for all i in {1, ..., T.shape[1]}:</span>
 <span class="sd">                Cov(T[i], Z[i] | X in leaf) &gt; `min_var_fraction_leaf` * Cov(T[i], Z[i])</span>
 
-<span class="sd">        - If ``criterion=&#39;mse&#39;``, because the criterion stores more information about the leaf for</span>
+<span class="sd">        - If ``criterion='mse'``, because the criterion stores more information about the leaf for</span>
 <span class="sd">          every candidate split, then this constraint imposes further constraints on the pairwise correlations</span>
 <span class="sd">          of different coordinates of each treatment. For instance, when the instrument and treatment are both</span>
 <span class="sd">          residualized (centered) then this constraint translates to:</span>
@@ -1426,16 +1426,16 @@
 <span class="sd">        used to inform the split structure of the tree. However, this is a benign dependence as it only uses</span>
 <span class="sd">        the treatment T its local correlation structure to decide whether a split is feasible.</span>
 
-<span class="sd">    max_features : int, float, {&quot;auto&quot;, &quot;sqrt&quot;, &quot;log2&quot;}, or None, default None</span>
+<span class="sd">    max_features : int, float, {"auto", "sqrt", "log2"}, or None, default None</span>
 <span class="sd">        The number of features to consider when looking for the best split:</span>
 
 <span class="sd">        - If int, then consider `max_features` features at each split.</span>
 <span class="sd">        - If float, then `max_features` is a fraction and</span>
 <span class="sd">          `int(max_features * n_features)` features are considered at each</span>
 <span class="sd">          split.</span>
-<span class="sd">        - If &quot;auto&quot;, then `max_features=n_features`.</span>
-<span class="sd">        - If &quot;sqrt&quot;, then `max_features=sqrt(n_features)`.</span>
-<span class="sd">        - If &quot;log2&quot;, then `max_features=log2(n_features)`.</span>
+<span class="sd">        - If "auto", then `max_features=n_features`.</span>
+<span class="sd">        - If "sqrt", then `max_features=sqrt(n_features)`.</span>
+<span class="sd">        - If "log2", then `max_features=log2(n_features)`.</span>
 <span class="sd">        - If None, then `max_features=n_features`.</span>
 
 <span class="sd">        Note: the search for a split does not stop until at least one</span>
@@ -1540,24 +1540,24 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [cfiv1] Athey, Susan, Julie Tibshirani, and Stefan Wager. &quot;Generalized random forests.&quot;</span>
+<span class="sd">    .. [cfiv1] Athey, Susan, Julie Tibshirani, and Stefan Wager. "Generalized random forests."</span>
 <span class="sd">        The Annals of Statistics 47.2 (2019): 1148-1178</span>
 <span class="sd">        https://arxiv.org/pdf/1610.01271.pdf</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="CausalIVForest.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.CausalIVForest.html#econml.grf.CausalIVForest.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                 <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">,</span>
+                 <span class="n">criterion</span><span class="o">=</span><span class="s2">"mse"</span><span class="p">,</span>
                  <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                  <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                  <span class="n">min_weight_fraction_leaf</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
                  <span class="n">min_var_fraction_leaf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">min_var_leaf_on_val</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">max_features</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                 <span class="n">max_features</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
                  <span class="n">min_impurity_decrease</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
                  <span class="n">max_samples</span><span class="o">=</span><span class="mf">.45</span><span class="p">,</span>
                  <span class="n">min_balancedness_tol</span><span class="o">=</span><span class="mf">.45</span><span class="p">,</span>
@@ -1583,7 +1583,7 @@
 <div class="viewcode-block" id="CausalIVForest.fit">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.CausalIVForest.html#econml.grf.CausalIVForest.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Build an IV forest of trees from the training set (X, T, y, Z).</span>
 
 <span class="sd">        Parameters</span>
@@ -1608,7 +1608,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self : object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span></div>
 
 
@@ -1621,9 +1621,9 @@
             <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The dimension of the instrument should match the dimension of the treatment. &quot;</span>
-                             <span class="s2">&quot;This method handles only exactly identified instrumental variable regression. &quot;</span>
-                             <span class="s2">&quot;Preprocess your instrument by projecting it to the treatment space.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The dimension of the instrument should match the dimension of the treatment. "</span>
+                             <span class="s2">"This method handles only exactly identified instrumental variable regression. "</span>
+                             <span class="s2">"Preprocess your instrument by projecting it to the treatment space."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_intercept</span><span class="p">:</span>
             <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))])</span>
@@ -1643,7 +1643,7 @@
 <div class="viewcode-block" id="RegressionForest">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.RegressionForest.html#econml.grf.RegressionForest">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RegressionForest</span><span class="p">(</span><span class="n">BaseGRF</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    An implementation of a subsampled honest random forest regressor on top of an sklearn regression tree.</span>
 
 <span class="sd">    Implements subsampling and honesty as described in [rf3]_,</span>
@@ -1715,16 +1715,16 @@
 <span class="sd">        the input samples) required to be at a leaf node. Samples have</span>
 <span class="sd">        equal weight when sample_weight is not provided.</span>
 
-<span class="sd">    max_features : int, float, {&quot;auto&quot;, &quot;sqrt&quot;, &quot;log2&quot;}, or None, default None</span>
+<span class="sd">    max_features : int, float, {"auto", "sqrt", "log2"}, or None, default None</span>
 <span class="sd">        The number of features to consider when looking for the best split:</span>
 
 <span class="sd">        - If int, then consider `max_features` features at each split.</span>
 <span class="sd">        - If float, then `max_features` is a fraction and</span>
 <span class="sd">          `int(max_features * n_features)` features are considered at each</span>
 <span class="sd">          split.</span>
-<span class="sd">        - If &quot;auto&quot;, then `max_features=n_features`.</span>
-<span class="sd">        - If &quot;sqrt&quot;, then `max_features=sqrt(n_features)`.</span>
-<span class="sd">        - If &quot;log2&quot;, then `max_features=log2(n_features)`.</span>
+<span class="sd">        - If "auto", then `max_features=n_features`.</span>
+<span class="sd">        - If "sqrt", then `max_features=sqrt(n_features)`.</span>
+<span class="sd">        - If "log2", then `max_features=log2(n_features)`.</span>
 <span class="sd">        - If None, then `max_features=n_features`.</span>
 
 <span class="sd">        Note: the search for a split does not stop until at least one</span>
@@ -1832,7 +1832,7 @@
 
 <span class="sd">        np.set_printoptions(suppress=True)</span>
 <span class="sd">        np.random.seed(123)</span>
-<span class="sd">        X, y = make_regression(n_samples=1000, n_features=4, n_informative=2,</span>
+<span class="sd">        X, y = make_regression(n_samples=1000, n_features=4, n_informative=4,</span>
 <span class="sd">                               random_state=0, shuffle=False)</span>
 <span class="sd">        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.5)</span>
 <span class="sd">        regr = RegressionForest(max_depth=None, random_state=0,</span>
@@ -1841,22 +1841,22 @@
 <span class="sd">    &gt;&gt;&gt; regr.fit(X_train, y_train)</span>
 <span class="sd">    RegressionForest(n_estimators=1000, random_state=0)</span>
 <span class="sd">    &gt;&gt;&gt; regr.feature_importances_</span>
-<span class="sd">    array([0.88..., 0.11..., 0.00..., 0.00...])</span>
+<span class="sd">    array([0.2869952 , 0.03651571, 0.59767877, 0.07881031])</span>
 <span class="sd">    &gt;&gt;&gt; regr.predict(np.ones((1, 4)), interval=True, alpha=.05)</span>
-<span class="sd">    (array([[121.0...]]), array([[103.6...]]), array([[138.3...]]))</span>
+<span class="sd">    (array([[194.5075591]]), array([[159.10510002]]), array([[229.91001818]]))</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 
-<span class="sd">    .. [rf1] L. Breiman, &quot;Random Forests&quot;, Machine Learning, 45(1), 5-32, 2001.</span>
+<span class="sd">    .. [rf1] L. Breiman, "Random Forests", Machine Learning, 45(1), 5-32, 2001.</span>
 
-<span class="sd">    .. [rf3] S. Athey, S. Wager, &quot;Estimation and Inference of Heterogeneous Treatment Effects using Random Forests&quot;,</span>
+<span class="sd">    .. [rf3] S. Athey, S. Wager, "Estimation and Inference of Heterogeneous Treatment Effects using Random Forests",</span>
 <span class="sd">            Journal of the American Statistical Association 113.523 (2018): 1228-1242.</span>
 
-<span class="sd">    .. [rf4] S. Athey, J. Tibshirani, and S. Wager, &quot;Generalized random forests&quot;,</span>
+<span class="sd">    .. [rf4] S. Athey, J. Tibshirani, and S. Wager, "Generalized random forests",</span>
 <span class="sd">            The Annals of Statistics, 47(2), 1148-1178, 2019.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="RegressionForest.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.RegressionForest.html#econml.grf.RegressionForest.__init__">[docs]</a>
@@ -1866,7 +1866,7 @@
                  <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                  <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                  <span class="n">min_weight_fraction_leaf</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
-                 <span class="n">max_features</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                 <span class="n">max_features</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
                  <span class="n">min_impurity_decrease</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
                  <span class="n">max_samples</span><span class="o">=</span><span class="mf">.45</span><span class="p">,</span>
                  <span class="n">min_balancedness_tol</span><span class="o">=</span><span class="mf">.45</span><span class="p">,</span>
@@ -1877,7 +1877,7 @@
                  <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                  <span class="n">warm_start</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="n">n_estimators</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;het&#39;</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="n">n_estimators</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">'het'</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
                          <span class="n">min_samples_split</span><span class="o">=</span><span class="n">min_samples_split</span><span class="p">,</span>
                          <span class="n">min_samples_leaf</span><span class="o">=</span><span class="n">min_samples_leaf</span><span class="p">,</span> <span class="n">min_weight_fraction_leaf</span><span class="o">=</span><span class="n">min_weight_fraction_leaf</span><span class="p">,</span>
                          <span class="n">min_var_fraction_leaf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_var_leaf_on_val</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1891,7 +1891,7 @@
 <div class="viewcode-block" id="RegressionForest.fit">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf.RegressionForest.html#econml.grf.RegressionForest.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Build an IV forest of trees from the training set (X, y).</span>
 
 <span class="sd">        Parameters</span>
@@ -1909,7 +1909,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self : object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span></div>
 
 
@@ -1948,5 +1948,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

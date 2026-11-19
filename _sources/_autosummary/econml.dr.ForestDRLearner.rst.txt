@@ -63,6 +63,8 @@
       ~ForestDRLearner.models_propensity
       ~ForestDRLearner.models_regression
       ~ForestDRLearner.multitask_model_final
+      ~ForestDRLearner.n_samples_trimmed_
+      ~ForestDRLearner.n_samples_used_
       ~ForestDRLearner.nuisance_scores_propensity
       ~ForestDRLearner.nuisance_scores_regression
       ~ForestDRLearner.ortho_learner_model_final_

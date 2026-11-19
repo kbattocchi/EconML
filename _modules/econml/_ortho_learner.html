@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml._ortho_learner &mdash; econml 0.16.0 documentation</title>
+  <title>econml._ortho_learner &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -858,7 +858,7 @@
 <span></span><span class="c1"># Copyright (c) PyWhy contributors. All rights reserved.</span>
 <span class="c1"># Licensed under the MIT License.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Generic implementation of Orthogonal Machine Learning.</span>
 
 <span class="sd">Orthogonal Machine Learning is a general approach to estimating causal models</span>
@@ -879,7 +879,7 @@
 <span class="sd">Chernozhukov et al. (2017). Double/debiased machine learning for treatment and structural parameters.</span>
 <span class="sd">    The Econometrics Journal. https://arxiv.org/abs/1608.00060</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstractmethod</span>
@@ -898,18 +898,21 @@
                         <span class="n">filter_none_kwargs</span><span class="p">,</span> <span class="n">one_hot_encoder</span><span class="p">,</span> <span class="n">strata_from_discrete_arrays</span><span class="p">,</span>
                         <span class="n">jacify_featurizer</span><span class="p">,</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.sklearn_extensions.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelSelector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._lazy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_LazyModule</span>
+
+<span class="n">_rlearner</span> <span class="o">=</span> <span class="n">_LazyModule</span><span class="p">(</span><span class="s2">"econml.dml._rlearner"</span><span class="p">)</span>  <span class="c1"># lazy: avoid circular import</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">ray</span>
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">exn</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">MissingModule</span>
     <span class="n">ray</span> <span class="o">=</span> <span class="n">MissingModule</span><span class="p">(</span>
-        <span class="s2">&quot;Ray is not a dependency of the base econml package; install econml[ray] or econml[all] to require it, &quot;</span>
-        <span class="s2">&quot;or install ray separately, to use functionality that depends on ray&quot;</span><span class="p">,</span> <span class="n">exn</span><span class="p">)</span>
+        <span class="s2">"Ray is not a dependency of the base econml package; install econml[ray] or econml[all] to require it, "</span>
+        <span class="s2">"or install ray separately, to use functionality that depends on ray"</span><span class="p">,</span> <span class="n">exn</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_fit_fold</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_idxs</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">,</span> <span class="n">calculate_scores</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Fits a single model on the training data and calculates the nuisance value on the test data.</span>
 
 <span class="sd">    Parameters</span>
@@ -942,7 +945,7 @@
 <span class="sd">    nuisance_temp (tuple): Predictions or values of interest from the model.</span>
 <span class="sd">    fitted_model: The fitted model after training.</span>
 <span class="sd">    score_temp (tuple or None): Scores calculated after fitting if `calculate_scores` is True, otherwise None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="n">args_train</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">train_idxs</span><span class="p">]</span> <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
@@ -970,14 +973,14 @@
 <a class="viewcode-back" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._crossfit">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_crossfit</span><span class="p">(</span><span class="n">models</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ModelSelector</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ModelSelector</span><span class="p">]],</span> <span class="n">folds</span><span class="p">,</span> <span class="n">use_ray</span><span class="p">,</span> <span class="n">ray_remote_fun_option</span><span class="p">,</span>
               <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    General crossfit based calculation of nuisance parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    models : ModelSelector or List[ModelSelector]</span>
 <span class="sd">        One or more objects that have train and predict methods.</span>
-<span class="sd">        The train method must take an &#39;is_selecting&#39; argument first, a set of folds second</span>
+<span class="sd">        The train method must take an 'is_selecting' argument first, a set of folds second</span>
 <span class="sd">        (which will be None when not selecting) and then accept positional arguments `args`</span>
 <span class="sd">        and keyword arguments `kwargs`; the predict method just takes those `args` and `kwargs`.</span>
 <span class="sd">        The train method selects or estimates a model of the nuisance function, based on the input</span>
@@ -1048,14 +1051,14 @@
 <span class="sd">         X, y,W=y, Z=None)</span>
 
 <span class="sd">    &gt;&gt;&gt; nuisance</span>
-<span class="sd">    (array([-1.105728... , -1.537566..., -2.451827... , ...,  1.106287...,</span>
-<span class="sd">           -1.829662..., -1.782273...], shape=(5000,)),)</span>
+<span class="sd">    (array([-1.1057289 , -1.53756637, -2.4518278 , ...,  1.10628792,</span>
+<span class="sd">           -1.82966233, -1.78227335], shape=(5000,)),)</span>
 <span class="sd">    &gt;&gt;&gt; model_list</span>
 <span class="sd">    [&lt;Wrapper object at 0x...&gt;, &lt;Wrapper object at 0x...&gt;]</span>
 <span class="sd">    &gt;&gt;&gt; fitted_inds</span>
 <span class="sd">    array([   0,    1,    2, ..., 4997, 4998, 4999], shape=(5000,))</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">model_list</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">kwargs</span> <span class="o">=</span> <span class="n">filter_none_kwargs</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1063,18 +1066,18 @@
     <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">args</span> <span class="k">else</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="c1"># fully materialize folds so that they can be reused across models</span>
-    <span class="c1"># and precompute fitted indices so that we fail fast if there&#39;s an issue with them</span>
+    <span class="c1"># and precompute fitted indices so that we fail fast if there's an issue with them</span>
     <span class="k">if</span> <span class="n">folds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">folds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">folds</span><span class="p">)</span>
         <span class="n">fitted_inds</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idxs</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">folds</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">(</span><span class="n">train_idxs</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid crossfitting fold structure. Train and test indices of fold </span><span class="si">{</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> &quot;</span>
-                                     <span class="sa">f</span><span class="s2">&quot;are not disjoint: </span><span class="si">{</span><span class="n">train_idxs</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">test_idxs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid crossfitting fold structure. Train and test indices of fold </span><span class="si">{</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> "</span>
+                                     <span class="sa">f</span><span class="s2">"are not disjoint: </span><span class="si">{</span><span class="n">train_idxs</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">test_idxs</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">common_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">(</span><span class="n">fitted_inds</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">common_idxs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid crossfitting fold structure. The indexes </span><span class="si">{</span><span class="n">common_idxs</span><span class="si">}</span><span class="s2"> in fold </span><span class="si">{</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> &quot;</span>
-                                     <span class="sa">f</span><span class="s2">&quot;have appeared in previous folds&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid crossfitting fold structure. The indexes </span><span class="si">{</span><span class="n">common_idxs</span><span class="si">}</span><span class="s2"> in fold </span><span class="si">{</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> "</span>
+                                     <span class="sa">f</span><span class="s2">"have appeared in previous folds"</span><span class="p">)</span>
             <span class="n">fitted_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">fitted_inds</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">))</span>
         <span class="n">fitted_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">fitted_inds</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1083,8 +1086,8 @@
 
     <span class="n">accumulated_nuisances</span> <span class="o">=</span> <span class="p">()</span>
     <span class="c1"># NOTE: if any model is missing scores we will just return None even if another model</span>
-    <span class="c1">#       has scores. this is because we don&#39;t know how many scores are missing</span>
-    <span class="c1">#       for the models that are missing them, so we don&#39;t know how to pad the array</span>
+    <span class="c1">#       has scores. this is because we don't know how many scores are missing</span>
+    <span class="c1">#       for the models that are missing them, so we don't know how to pad the array</span>
     <span class="n">calculate_scores</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">accumulated_scores</span> <span class="o">=</span> <span class="p">()</span>
 
@@ -1101,7 +1104,7 @@
         <span class="n">accumulated_args</span> <span class="o">=</span> <span class="n">accumulated_nuisances</span> <span class="o">+</span> <span class="n">args</span>
         <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">fold_vals</span> <span class="k">if</span> <span class="n">folds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">folds</span><span class="p">,</span> <span class="o">*</span><span class="n">accumulated_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">calculate_scores</span> <span class="o">&amp;=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">)</span>
+        <span class="n">calculate_scores</span> <span class="o">&amp;=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">)</span>
 
         <span class="n">model_list</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>  <span class="c1"># add a new empty list of clones for this model</span>
 
@@ -1164,15 +1167,15 @@
 
 
 
-<span class="n">CachedValues</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;CachedValues&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;nuisances&#39;</span><span class="p">,</span>
-                                           <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_weight&#39;</span><span class="p">,</span> <span class="s1">&#39;freq_weight&#39;</span><span class="p">,</span>
-                                           <span class="s1">&#39;sample_var&#39;</span><span class="p">,</span> <span class="s1">&#39;groups&#39;</span><span class="p">])</span>
+<span class="n">CachedValues</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">'CachedValues'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'nuisances'</span><span class="p">,</span>
+                                           <span class="s1">'Y'</span><span class="p">,</span> <span class="s1">'T'</span><span class="p">,</span> <span class="s1">'X'</span><span class="p">,</span> <span class="s1">'W'</span><span class="p">,</span> <span class="s1">'Z'</span><span class="p">,</span> <span class="s1">'sample_weight'</span><span class="p">,</span> <span class="s1">'freq_weight'</span><span class="p">,</span>
+                                           <span class="s1">'sample_var'</span><span class="p">,</span> <span class="s1">'groups'</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="_OrthoLearner">
 <a class="viewcode-back" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">_OrthoLearner</span><span class="p">(</span><span class="n">TreatmentExpansionMixin</span><span class="p">,</span> <span class="n">LinearCateEstimator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base class for all orthogonal learners.</span>
 
 <span class="sd">    This class is a parent class to any method that has</span>
@@ -1242,8 +1245,8 @@
 <span class="sd">    discrete_instrument: bool</span>
 <span class="sd">        Whether the instrument values should be treated as categorical, rather than continuous, quantities</span>
 
-<span class="sd">    categories: &#39;auto&#39; or list</span>
-<span class="sd">        The categories to use when encoding discrete treatments (or &#39;auto&#39; to use the unique sorted values).</span>
+<span class="sd">    categories: 'auto' or list</span>
+<span class="sd">        The categories to use when encoding discrete treatments (or 'auto' to use the unique sorted values).</span>
 <span class="sd">        The first category will be treated as the control treatment.</span>
 
 <span class="sd">    cv: int, cross-validation generator or an iterable</span>
@@ -1272,7 +1275,7 @@
 <span class="sd">    mc_iters: int, optional</span>
 <span class="sd">        The number of times to rerun the first stage models to reduce the variance of the nuisances.</span>
 
-<span class="sd">    mc_agg: {&#39;mean&#39;, &#39;median&#39;}, default &#39;mean&#39;</span>
+<span class="sd">    mc_agg: {'mean', 'median'}, default 'mean'</span>
 <span class="sd">        How to aggregate the nuisance value for each sample across the `mc_iters` monte carlo iterations of</span>
 <span class="sd">        cross-fitting.</span>
 
@@ -1330,23 +1333,23 @@
 <span class="sd">        X = np.random.normal(size=(100, 3))</span>
 <span class="sd">        y = X[:, 0] + X[:, 1] + np.random.normal(0, 0.1, size=(100,))</span>
 <span class="sd">        est = OrthoLearner(cv=2, discrete_outcome=False, discrete_treatment=False, treatment_featurizer=None,</span>
-<span class="sd">                           discrete_instrument=False, categories=&#39;auto&#39;, random_state=None)</span>
+<span class="sd">                           discrete_instrument=False, categories='auto', random_state=None)</span>
 <span class="sd">        est.fit(y, X[:, 0], W=X[:, 1:])</span>
 
 <span class="sd">    &gt;&gt;&gt; est.score_</span>
-<span class="sd">    np.float64(0.00756830...)</span>
+<span class="sd">    np.float64(0.00756830)</span>
 <span class="sd">    &gt;&gt;&gt; est.const_marginal_effect()</span>
-<span class="sd">    np.float64(1.02364992...)</span>
+<span class="sd">    np.float64(1.02364992)</span>
 <span class="sd">    &gt;&gt;&gt; est.effect()</span>
-<span class="sd">    array([1.023649...])</span>
+<span class="sd">    array([1.023649])</span>
 <span class="sd">    &gt;&gt;&gt; est.effect(T0=0, T1=10)</span>
-<span class="sd">    array([10.236499...])</span>
+<span class="sd">    array([10.236499])</span>
 <span class="sd">    &gt;&gt;&gt; est.score(y, X[:, 0], W=X[:, 1:])</span>
-<span class="sd">    np.float64(0.00727995...)</span>
+<span class="sd">    np.float64(0.00727995)</span>
 <span class="sd">    &gt;&gt;&gt; est.ortho_learner_model_final_.model</span>
 <span class="sd">    LinearRegression(fit_intercept=False)</span>
 <span class="sd">    &gt;&gt;&gt; est.ortho_learner_model_final_.model.coef_</span>
-<span class="sd">    array([1.023649...])</span>
+<span class="sd">    array([1.023649])</span>
 
 <span class="sd">    The following example shows how to do double machine learning with discrete treatments, using</span>
 <span class="sd">    the _OrthoLearner:</span>
@@ -1379,7 +1382,7 @@
 <span class="sd">        from sklearn.linear_model import LogisticRegression</span>
 <span class="sd">        class OrthoLearner(_OrthoLearner):</span>
 <span class="sd">            def _gen_ortho_learner_model_nuisance(self):</span>
-<span class="sd">                return ModelNuisance(LogisticRegression(solver=&#39;lbfgs&#39;), LinearRegression())</span>
+<span class="sd">                return ModelNuisance(LogisticRegression(solver='lbfgs'), LinearRegression())</span>
 <span class="sd">            def _gen_ortho_learner_model_final(self):</span>
 <span class="sd">                return ModelFinal()</span>
 <span class="sd">        np.random.seed(123)</span>
@@ -1388,19 +1391,19 @@
 <span class="sd">        T = np.random.binomial(1, scipy.special.expit(W[:, 0]))</span>
 <span class="sd">        y = T + W[:, 0] + np.random.normal(0, 0.01, size=(100,))</span>
 <span class="sd">        est = OrthoLearner(cv=2, discrete_outcome=False, discrete_treatment=True, discrete_instrument=False,</span>
-<span class="sd">                           treatment_featurizer=None, categories=&#39;auto&#39;, random_state=None)</span>
+<span class="sd">                           treatment_featurizer=None, categories='auto', random_state=None)</span>
 <span class="sd">        est.fit(y, T, W=W)</span>
 
 <span class="sd">    &gt;&gt;&gt; est.score_</span>
-<span class="sd">    np.float64(0.00672978...)</span>
+<span class="sd">    np.float64(0.00672978)</span>
 <span class="sd">    &gt;&gt;&gt; est.const_marginal_effect()</span>
-<span class="sd">    array([[1.008402...]])</span>
+<span class="sd">    array([[1.008402]])</span>
 <span class="sd">    &gt;&gt;&gt; est.effect()</span>
-<span class="sd">    array([1.008402...])</span>
+<span class="sd">    array([1.008402])</span>
 <span class="sd">    &gt;&gt;&gt; est.score(y, T, W=W)</span>
-<span class="sd">    np.float64(0.00310431...)</span>
+<span class="sd">    np.float64(0.00310431)</span>
 <span class="sd">    &gt;&gt;&gt; est.ortho_learner_model_final_.model.coef_[0]</span>
-<span class="sd">    np.float64(1.00840240...)</span>
+<span class="sd">    np.float64(1.00840240)</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -1416,7 +1419,7 @@
 <span class="sd">        of the final CATE model.</span>
 <span class="sd">    nuisance_scores_ : tuple of list of list of float or None</span>
 <span class="sd">        The out-of-sample scores from training each nuisance model</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                  <span class="n">discrete_outcome</span><span class="p">,</span>
@@ -1427,7 +1430,7 @@
                  <span class="n">cv</span><span class="p">,</span>
                  <span class="n">random_state</span><span class="p">,</span>
                  <span class="n">mc_iters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+                 <span class="n">mc_agg</span><span class="o">=</span><span class="s1">'mean'</span><span class="p">,</span>
                  <span class="n">allow_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">use_ray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">ray_remote_func_options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1446,11 +1449,11 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_allowed_missing_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_missing</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">'X'</span><span class="p">,</span> <span class="s1">'W'</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_missing</span> <span class="k">else</span> <span class="p">[]</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_ortho_learner_model_nuisance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Must return a fresh instance of a nuisance model selector.</span>
+<span class="w">        </span><span class="sd">"""Must return a fresh instance of a nuisance model selector.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1471,12 +1474,12 @@
 
 <span class="sd">            If the estimator also provides a score method with the same arguments as fit, it will be used to</span>
 <span class="sd">            calculate scores during training.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Abstract method"</span><span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_ortho_learner_model_final</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Must return a fresh instance of a final model.</span>
+<span class="w">        </span><span class="sd">"""Must return a fresh instance of a final model.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1494,33 +1497,33 @@
 <span class="sd">            classes by re-implementing the fit and the various effect methods. If ``discrete_treatment=True``,</span>
 <span class="sd">            then the input ``T`` to both above calls will be the one-hot encoding of the original input ``T``,</span>
 <span class="sd">            excluding the first column of the one-hot.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Abstract method"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_input_dims</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">other_arrays</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">shape</span><span class="p">(</span><span class="n">T</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Dimension mis-match!&quot;</span>
+        <span class="k">assert</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">shape</span><span class="p">(</span><span class="n">T</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"Dimension mis-match!"</span>
         <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="o">*</span><span class="n">other_arrays</span><span class="p">]:</span>
-            <span class="k">assert</span> <span class="p">(</span><span class="n">arr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">&quot;Dimension mismatch&quot;</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="n">arr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">"Dimension mismatch"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_d_x</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_d_w</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_d_z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">Z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_fitted_dims</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;X was not None when fitting, so can&#39;t be none for score or effect&quot;</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"X was not None when fitting, so can't be none for score or effect"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_x</span> <span class="o">==</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;Dimension mis-match of X with fitted X&quot;</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_x</span> <span class="o">==</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">"Dimension mis-match of X with fitted X"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_fitted_dims_w_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_w</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;W was not None when fitting, so can&#39;t be none for score&quot;</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_w</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"W was not None when fitting, so can't be none for score"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_w</span> <span class="o">==</span> <span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;Dimension mis-match of W with fitted W&quot;</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_w</span> <span class="o">==</span> <span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">"Dimension mis-match of W with fitted W"</span>
 
         <span class="k">if</span> <span class="n">Z</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_z</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Z was not None when fitting, so can&#39;t be none for score&quot;</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_z</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"Z was not None when fitting, so can't be none for score"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_z</span> <span class="o">==</span> <span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;Dimension mis-match of Z with fitted Z&quot;</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_z</span> <span class="o">==</span> <span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">"Dimension mis-match of Z with fitted Z"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_subinds_check_none</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">inds</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">var</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span> <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
@@ -1553,7 +1556,7 @@
     <span class="nd">@BaseCateEstimator</span><span class="o">.</span><span class="n">_wrap_fit</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">cache_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">only_final</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Estimate the counterfactual model from data, i.e. estimates function :math:`\\theta(\\cdot)`.</span>
 
 <span class="sd">        Parameters</span>
@@ -1579,12 +1582,12 @@
 <span class="sd">            compute the mean outcome represented by observation i.</span>
 <span class="sd">        groups: (n,) vector, optional</span>
 <span class="sd">            All rows corresponding to the same group will be kept together during splitting.</span>
-<span class="sd">            If groups is not None, the cv argument passed to this class&#39;s initializer</span>
-<span class="sd">            must support a &#39;groups&#39; argument to its split method.</span>
+<span class="sd">            If groups is not None, the cv argument passed to this class's initializer</span>
+<span class="sd">            must support a 'groups' argument to its split method.</span>
 <span class="sd">        cache_values: bool, default False</span>
 <span class="sd">            Whether to cache the inputs and computed nuisances, which will allow refitting a different final model</span>
 <span class="sd">        inference: str, :class:`.Inference` instance, or None</span>
-<span class="sd">            Method for performing inference.  This estimator supports &#39;bootstrap&#39;</span>
+<span class="sd">            Method for performing inference.  This estimator supports 'bootstrap'</span>
 <span class="sd">            (or an instance of :class:`.BootstrapInference`).</span>
 <span class="sd">        only_final: bool, defaul False</span>
 <span class="sd">            Whether to fit the nuisance models or use the existing cached values</span>
@@ -1598,19 +1601,21 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self : object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_random_state</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
         <span class="k">assert</span> <span class="p">(</span><span class="n">freq_weight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span>
-            <span class="n">sample_var</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;Sample variances and frequency weights must be provided together!&quot;</span>
-        <span class="k">assert</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discrete_treatment</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatment_featurizer</span><span class="p">),</span> <span class="s2">&quot;Treatment featurization &quot;</span> \
-            <span class="s2">&quot;is not supported when treatment is discrete&quot;</span>
+            <span class="n">sample_var</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">"Sample variances and frequency weights must be provided together!"</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discrete_treatment</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatment_featurizer</span><span class="p">),</span> <span class="s2">"Treatment featurization "</span> \
+            <span class="s2">"is not supported when treatment is discrete"</span>
         <span class="k">if</span> <span class="n">check_input</span><span class="p">:</span>
             <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">freq_weight</span><span class="p">,</span> <span class="n">sample_var</span><span class="p">,</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span>
                 <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">freq_weight</span><span class="p">,</span> <span class="n">sample_var</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
             <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span>
-                <span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">&#39;allow-nan&#39;</span> <span class="k">if</span> <span class="s1">&#39;X&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">'allow-nan'</span> <span class="k">if</span> <span class="s1">'X'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="n">ensure_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">W</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span>
-                <span class="n">W</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">&#39;allow-nan&#39;</span> <span class="k">if</span> <span class="s1">&#39;W&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="n">W</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">'allow-nan'</span> <span class="k">if</span> <span class="s1">'W'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="n">ensure_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_input_dims</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">freq_weight</span><span class="p">,</span> <span class="n">sample_var</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">only_final</span><span class="p">:</span>
@@ -1620,20 +1625,20 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">outcome_transformer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="ow">and</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Only one outcome variable is supported when discrete_outcome=True. Got Y of shape </span><span class="si">{</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="sa">f</span><span class="s2">"Only one outcome variable is supported when discrete_outcome=True. Got Y of shape </span><span class="si">{</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcome_transformer</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcome_transformer</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span><span class="si">}</span><span class="s2"> outcome classes detected. &quot;</span>
-                        <span class="s2">&quot;Currently, only 2 outcome classes are allowed when discrete_outcome=True. &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Classes provided include </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outcome_transformer</span><span class="o">.</span><span class="n">classes_</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcome_transformer</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span><span class="si">}</span><span class="s2"> outcome classes detected. "</span>
+                        <span class="s2">"Currently, only 2 outcome classes are allowed when discrete_outcome=True. "</span>
+                        <span class="sa">f</span><span class="s2">"Classes provided include </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outcome_transformer</span><span class="o">.</span><span class="n">classes_</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">outcome_transformer</span> <span class="o">=</span> <span class="kc">None</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete_treatment</span><span class="p">:</span>
                 <span class="n">categories</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span>
-                <span class="k">if</span> <span class="n">categories</span> <span class="o">!=</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">categories</span> <span class="o">!=</span> <span class="s1">'auto'</span><span class="p">:</span>
                     <span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="n">categories</span><span class="p">]</span>  <span class="c1"># OneHotEncoder expects a 2D array with features per column</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="n">one_hot_encoder</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="n">one_hot_encoder</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="s1">'first'</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_d_t</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">categories_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatment_featurizer</span><span class="p">:</span>
@@ -1645,7 +1650,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="kc">None</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete_instrument</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">z_transformer</span> <span class="o">=</span> <span class="n">one_hot_encoder</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">z_transformer</span> <span class="o">=</span> <span class="n">one_hot_encoder</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="s1">'first'</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">z_transformer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">z_transformer</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1696,18 +1701,18 @@
                 <span class="k">if</span> <span class="n">fitted_inds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">fitted_inds</span> <span class="o">=</span> <span class="n">new_inds</span>
                 <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">fitted_inds</span><span class="p">,</span> <span class="n">new_inds</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Different indices were fit by different folds, so they cannot be aggregated&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Different indices were fit by different folds, so they cannot be aggregated"</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mc_iters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mc_agg</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mc_agg</span> <span class="o">==</span> <span class="s1">'mean'</span><span class="p">:</span>
                     <span class="n">nuisances</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nuisance_mc_variants</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
                                       <span class="k">for</span> <span class="n">nuisance_mc_variants</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">all_nuisances</span><span class="p">))</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mc_agg</span> <span class="o">==</span> <span class="s1">&#39;median&#39;</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mc_agg</span> <span class="o">==</span> <span class="s1">'median'</span><span class="p">:</span>
                     <span class="n">nuisances</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">nuisance_mc_variants</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
                                       <span class="k">for</span> <span class="n">nuisance_mc_variants</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">all_nuisances</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Parameter `mc_agg` must be one of </span><span class="se">{{</span><span class="s2">&#39;mean&#39;, &#39;median&#39;</span><span class="se">}}</span><span class="s2">. Got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mc_agg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="sa">f</span><span class="s2">"Parameter `mc_agg` must be one of </span><span class="se">{{</span><span class="s2">'mean', 'median'</span><span class="se">}}</span><span class="s2">. Got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mc_agg</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
             <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">freq_weight</span><span class="p">,</span> <span class="n">sample_var</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_subinds_check_none</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">fitted_inds</span><span class="p">)</span>
                                                                      <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span>
@@ -1756,7 +1761,7 @@
 <div class="viewcode-block" id="_OrthoLearner.refit_final">
 <a class="viewcode-back" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner.refit_final">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">refit_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Estimate the counterfactual model using a new final model specification but with cached first stage results.</span>
 
 <span class="sd">        In order for this to succeed, ``fit`` must have been called with ``cache_values=True``. This call</span>
@@ -1774,10 +1779,10 @@
 <span class="sd">        -------</span>
 <span class="sd">        self : object</span>
 <span class="sd">            This instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="p">,</span> <span class="s2">&quot;Refit can only be called if values were cached during the original fit&quot;</span>
+<span class="sd">        """</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span><span class="p">,</span> <span class="s2">"Refit can only be called if values were cached during the original fit"</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_inference</span><span class="p">(</span><span class="n">inference</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_illegal_refit_inference_methods</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The chosen inference method does not allow only for model final re-fitting.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The chosen inference method does not allow only for model final re-fitting."</span><span class="p">)</span>
         <span class="n">cached</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_values</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="n">filter_none_kwargs</span><span class="p">(</span>
             <span class="n">Y</span><span class="o">=</span><span class="n">cached</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">cached</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">cached</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">cached</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">cached</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span>
@@ -1795,7 +1800,7 @@
         <span class="n">stratify</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete_treatment</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete_instrument</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete_outcome</span>
         <span class="n">strata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strata</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">strata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">strata</span> <span class="o">=</span> <span class="n">T</span>  <span class="c1"># always safe to pass T as second arg to split even if we&#39;re not actually stratifying</span>
+            <span class="n">strata</span> <span class="o">=</span> <span class="n">T</span>  <span class="c1"># always safe to pass T as second arg to split even if we're not actually stratifying</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete_treatment</span><span class="p">:</span>
@@ -1827,11 +1832,11 @@
             <span class="n">to_split</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">all_vars</span><span class="p">)</span> <span class="k">if</span> <span class="n">all_vars</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># we won&#39;t have generated a KFold or StratifiedKFold ourselves when groups are passed,</span>
-                <span class="c1"># but the user might have supplied one, which won&#39;t work</span>
+                <span class="c1"># we won't have generated a KFold or StratifiedKFold ourselves when groups are passed,</span>
+                <span class="c1"># but the user might have supplied one, which won't work</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">splitter</span><span class="p">,</span> <span class="p">(</span><span class="n">KFold</span><span class="p">,</span> <span class="n">StratifiedKFold</span><span class="p">)):</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Groups were passed to fit while using a KFold or StratifiedKFold splitter. &quot;</span>
-                                    <span class="s2">&quot;Instead you must initialize this object with a splitter that can handle groups.&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Groups were passed to fit while using a KFold or StratifiedKFold splitter. "</span>
+                                    <span class="s2">"Instead you must initialize this object with a splitter that can handle groups."</span><span class="p">)</span>
                 <span class="n">folds</span> <span class="o">=</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">to_split</span><span class="p">,</span> <span class="n">strata</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">folds</span> <span class="o">=</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">to_split</span><span class="p">,</span> <span class="n">strata</span><span class="p">)</span>
@@ -1851,7 +1856,7 @@
                                                                        <span class="n">sample_var</span><span class="o">=</span><span class="n">sample_var</span><span class="p">,</span>
                                                                        <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">score_</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">score_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">filter_none_kwargs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span>
                                                                                            <span class="n">nuisances</span><span class="o">=</span><span class="n">nuisances</span><span class="p">,</span>
                                                                                            <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span>
@@ -1860,11 +1865,11 @@
 <div class="viewcode-block" id="_OrthoLearner.const_marginal_effect">
 <a class="viewcode-back" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner.const_marginal_effect">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">const_marginal_effect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39;X&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
-            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">&#39;allow-nan&#39;</span>
+        <span class="k">if</span> <span class="s1">'X'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
+            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">'allow-nan'</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">force_all_finite</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="n">force_all_finite</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="n">force_all_finite</span><span class="p">,</span> <span class="n">ensure_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_fitted_dims</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
@@ -1877,11 +1882,11 @@
 <div class="viewcode-block" id="_OrthoLearner.const_marginal_effect_interval">
 <a class="viewcode-back" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner.const_marginal_effect_interval">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">const_marginal_effect_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39;X&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
-            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">&#39;allow-nan&#39;</span>
+        <span class="k">if</span> <span class="s1">'X'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
+            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">'allow-nan'</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">force_all_finite</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="n">force_all_finite</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="n">force_all_finite</span><span class="p">,</span> <span class="n">ensure_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_fitted_dims</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">const_marginal_effect_interval</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span></div>
 
@@ -1891,11 +1896,11 @@
 <div class="viewcode-block" id="_OrthoLearner.const_marginal_effect_inference">
 <a class="viewcode-back" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner.const_marginal_effect_inference">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">const_marginal_effect_inference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39;X&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
-            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">&#39;allow-nan&#39;</span>
+        <span class="k">if</span> <span class="s1">'X'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
+            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">'allow-nan'</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">force_all_finite</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="n">force_all_finite</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="n">force_all_finite</span><span class="p">,</span> <span class="n">ensure_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_fitted_dims</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">const_marginal_effect_inference</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
@@ -1905,8 +1910,8 @@
 <div class="viewcode-block" id="_OrthoLearner.effect_interval">
 <a class="viewcode-back" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner.effect_interval">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">effect_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">T1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39;X&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
-            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">&#39;allow-nan&#39;</span>
+        <span class="k">if</span> <span class="s1">'X'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
+            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">'allow-nan'</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">force_all_finite</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="n">force_all_finite</span><span class="p">)</span>
@@ -1920,8 +1925,8 @@
 <div class="viewcode-block" id="_OrthoLearner.effect_inference">
 <a class="viewcode-back" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner.effect_inference">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">effect_inference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">T1</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39;X&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
-            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">&#39;allow-nan&#39;</span>
+        <span class="k">if</span> <span class="s1">'X'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">():</span>
+            <span class="n">force_all_finite</span> <span class="o">=</span> <span class="s1">'allow-nan'</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">force_all_finite</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="n">force_all_finite</span><span class="p">)</span>
@@ -1935,7 +1940,7 @@
 <div class="viewcode-block" id="_OrthoLearner.score">
 <a class="viewcode-back" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner.score">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Score the fitted CATE model on a new data set.</span>
 
 <span class="sd">        Generates nuisance parameters</span>
@@ -1971,12 +1976,12 @@
 <span class="sd">        score : float or (array of float)</span>
 <span class="sd">            The score of the final CATE model on the new data. Same type as the return</span>
 <span class="sd">            type of the model_final.score method.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Final model does not have a score method!&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Final model does not have a score method!"</span><span class="p">)</span>
         <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
-        <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">&#39;allow-nan&#39;</span> <span class="k">if</span> <span class="s1">&#39;X&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span>
-        <span class="n">W</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">&#39;allow-nan&#39;</span> <span class="k">if</span> <span class="s1">&#39;W&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">'allow-nan'</span> <span class="k">if</span> <span class="s1">'X'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">W</span><span class="p">,</span> <span class="o">=</span> <span class="n">check_input_arrays</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="s1">'allow-nan'</span> <span class="k">if</span> <span class="s1">'W'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_allowed_missing_vars</span><span class="p">()</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_fitted_dims</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_fitted_dims_w_z</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
         <span class="n">X</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expand_treatments</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
@@ -2024,35 +2029,33 @@
             <span class="n">accumulated_nuisances</span> <span class="o">+=</span> <span class="n">nuisances</span>
 
         <span class="n">score_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span>
-            <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="n">W</span><span class="p">,</span>
-            <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="n">Z</span><span class="p">,</span>
-            <span class="s1">&#39;sample_weight&#39;</span><span class="p">:</span> <span class="n">sample_weight</span><span class="p">,</span>
-            <span class="s1">&#39;groups&#39;</span><span class="p">:</span> <span class="n">groups</span>
+            <span class="s1">'X'</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span>
+            <span class="s1">'W'</span><span class="p">:</span> <span class="n">W</span><span class="p">,</span>
+            <span class="s1">'Z'</span><span class="p">:</span> <span class="n">Z</span><span class="p">,</span>
+            <span class="s1">'sample_weight'</span><span class="p">:</span> <span class="n">sample_weight</span><span class="p">,</span>
+            <span class="s1">'groups'</span><span class="p">:</span> <span class="n">groups</span>
         <span class="p">}</span>
         <span class="c1"># If using an _rlearner, the scoring parameter can be passed along, if provided</span>
         <span class="k">if</span> <span class="n">scoring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Cannot import in header, or circular imports</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">.dml._rlearner</span><span class="w"> </span><span class="kn">import</span> <span class="n">_ModelFinal</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="p">,</span> <span class="n">_ModelFinal</span><span class="p">):</span>
-                <span class="n">score_kwargs</span><span class="p">[</span><span class="s1">&#39;scoring&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scoring</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="p">,</span> <span class="n">_rlearner</span><span class="o">.</span><span class="n">_ModelFinal</span><span class="p">):</span>
+                <span class="n">score_kwargs</span><span class="p">[</span><span class="s1">'scoring'</span><span class="p">]</span> <span class="o">=</span> <span class="n">scoring</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;scoring parameter only implemented for &quot;</span>
-                                          <span class="s2">&quot;_rlearner._ModelFinal&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"scoring parameter only implemented for "</span>
+                                          <span class="s2">"_rlearner._ModelFinal"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">nuisances</span><span class="o">=</span><span class="n">accumulated_nuisances</span><span class="p">,</span>
                                                      <span class="o">**</span><span class="n">filter_none_kwargs</span><span class="p">(</span><span class="o">**</span><span class="n">score_kwargs</span><span class="p">))</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ortho_learner_model_final_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_ortho_learner_model_final&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Model is not fitted!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_ortho_learner_model_final'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Model is not fitted!"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ortho_learner_model_final</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">models_nuisance_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_models_nuisance&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Model is not fitted!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_models_nuisance'</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Model is not fitted!"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_models_nuisance</span></div>
 
 </pre></div>
@@ -2083,5 +2086,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

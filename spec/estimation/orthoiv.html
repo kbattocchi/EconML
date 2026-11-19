@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orthogonal instrumental variables &mdash; econml 0.16.0 documentation</title>
+  <title>Orthogonal instrumental variables &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>window.MathJax = {"tex": {"macros": {"vec": ["{\\bf #1}", 1], "ldot": ["\\left\\langle #1, #2 \\right\\rangle", 2], "E": "\\mathbb{E}", "T": "\\mathcal{T}", "argmin": "\\mathrm{argmin}", "Var": "\\mathrm{Var}"}}}</script>
@@ -42,7 +42,7 @@
               <img src="../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -415,6 +415,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -433,7 +434,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -909,21 +909,21 @@ structure of the implemented CATE estimators is as follows.</p>
 <blockquote>
 <div><div class="graphviz"><img src="../../_images/inheritance-02070a2030e1c4d3c7c547782a075cb6d5f72d70.png" alt="Inheritance diagram of econml.iv.dml.OrthoIV, econml.iv.dml.NonParamDMLIV, econml.iv.dml.DMLIV, econml.iv.dr.DRIV, econml.iv.dr.LinearDRIV, econml.iv.dr.SparseLinearDRIV, econml.iv.dr.ForestDRIV, econml.iv.dr.IntentToTreatDRIV, econml.iv.dr.LinearIntentToTreatDRIV" usemap="#inheritance93003e6409" class="inheritance graphviz" /></div>
 <map id="inheritance93003e6409" name="inheritance93003e6409">
-<area shape="poly" id="node1" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.BaseCateEstimator" target="_top" title="Base class for all CATE estimators in this package." alt="" coords="359,26,356,19,348,12,335,8,318,4,300,3,282,4,266,8,253,12,245,19,242,26,245,32,253,39,266,44,282,47,300,48,318,47,335,44,348,39,356,32"/>
-<area shape="poly" id="node8" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.ForestModelFinalCateEstimatorMixin" target="_top" title="ForestModelFinalCateEstimatorMixin" alt="" coords="239,100,234,93,219,87,196,82,167,79,135,78,102,79,73,82,50,87,35,93,30,100,35,107,50,113,73,118,102,121,135,122,167,121,196,118,219,113,234,107"/>
-<area shape="poly" id="node14" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.LinearModelFinalCateEstimatorMixin" target="_top" title="Base class for models where the final stage is a linear model." alt="" coords="669,100,664,93,649,87,626,82,597,79,564,78,532,79,503,82,480,87,465,93,460,100,465,107,480,113,503,118,532,121,564,122,597,121,626,118,649,113,664,107"/>
-<area shape="poly" id="node2" href="../../_autosummary/econml.iv.dml.DMLIV.html#econml.iv.dml.DMLIV" target="_top" title="The base class for parametric DMLIV estimators to estimate a CATE." alt="" coords="615,248,614,241,611,235,605,230,598,227,591,226,583,227,576,230,571,235,567,241,566,248,567,255,571,261,576,266,583,270,591,271,598,270,605,266,611,261,614,255"/>
-<area shape="poly" id="node15" href="../../_autosummary/econml.iv.dml.NonParamDMLIV.html#econml.iv.dml.NonParamDMLIV" target="_top" title="The base class for non&#45;parametric DMLIV." alt="" coords="551,248,549,241,541,235,529,230,515,227,498,226,482,227,467,230,456,235,448,241,446,248,448,255,456,261,467,266,482,270,498,271,515,270,529,266,541,261,549,255"/>
-<area shape="poly" id="node4" href="../../_autosummary/econml.iv.dr.DRIV.html#econml.iv.dr.DRIV" target="_top" title="The DRIV algorithm for estimating CATE with IVs." alt="" coords="300,323,298,316,295,309,290,305,284,301,277,300,270,301,264,305,259,309,256,316,255,323,256,329,259,336,264,341,270,344,277,345,284,344,290,341,295,336,298,329"/>
-<area shape="poly" id="node7" href="../../_autosummary/econml.iv.dr.ForestDRIV.html#econml.iv.dr.ForestDRIV" target="_top" title="Instance of DRIV with a :class:`~econml.grf.RegressionForest` as a final model." alt="" coords="78,397,76,390,71,384,62,379,52,376,40,375,29,376,19,379,10,384,5,390,3,397,5,404,10,410,19,415,29,418,40,419,52,418,62,415,71,410,76,404"/>
-<area shape="poly" id="node11" href="../../_autosummary/econml.iv.dr.LinearDRIV.html#econml.iv.dr.LinearDRIV" target="_top" title="Special case of the :class:`.DRIV` where the final stage is a Linear Regression." alt="" coords="317,397,315,390,310,384,302,379,291,376,280,375,268,376,258,379,250,384,244,390,243,397,244,404,250,410,258,415,268,418,280,419,291,418,302,415,310,410,315,404"/>
-<area shape="poly" id="node18" href="../../_autosummary/econml.iv.dr.SparseLinearDRIV.html#econml.iv.dr.SparseLinearDRIV" target="_top" title="Special case of the :class:`.DRIV` where the final stage is a Debiased Lasso Regression." alt="" coords="211,397,208,390,200,384,188,379,172,376,155,375,138,376,122,379,110,384,102,390,99,397,102,404,110,410,122,415,138,418,155,419,172,418,188,415,200,410,208,404"/>
-<area shape="poly" id="node6" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.DebiasedLassoCateEstimatorMixin" target="_top" title="Mixin for cate models where the final stage is a debiased lasso model." alt="" coords="241,323,236,316,222,309,200,305,172,301,141,300,110,301,83,305,61,309,47,316,42,323,47,329,61,336,83,341,110,344,141,345,172,344,200,341,222,336,236,329"/>
-<area shape="poly" id="node9" href="../../_autosummary/econml.iv.dr.IntentToTreatDRIV.html#econml.iv.dr.IntentToTreatDRIV" target="_top" title="Implements the DRIV algorithm for the intent&#45;to&#45;treat A/B test setting." alt="" coords="623,323,620,316,612,309,600,305,585,301,568,300,551,301,535,305,523,309,515,316,513,323,515,329,523,336,535,341,551,344,568,345,585,344,600,341,612,336,620,329"/>
-<area shape="poly" id="node13" href="../../_autosummary/econml.iv.dr.LinearIntentToTreatDRIV.html#econml.iv.dr.LinearIntentToTreatDRIV" target="_top" title="Implements the DRIV algorithm for the Linear Intent&#45;to&#45;Treat A/B test setting." alt="" coords="559,397,555,390,545,384,529,379,509,376,487,375,465,376,444,379,428,384,418,390,415,397,418,404,428,410,444,415,465,418,487,419,509,418,529,415,545,410,555,404"/>
-<area shape="poly" id="node12" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.StatsModelsCateEstimatorMixin" target="_top" title="Mixin class that offers `inference=&#39;statsmodels&#39;` options to the CATE estimator that inherits it." alt="" coords="498,323,493,316,480,309,460,305,434,301,406,300,378,301,352,305,332,309,319,316,314,323,319,329,332,336,352,341,378,344,406,345,434,344,460,341,480,336,493,329"/>
-<area shape="poly" id="node16" href="../../_autosummary/econml.iv.dml.OrthoIV.html#econml.iv.dml.OrthoIV" target="_top" title="Implementation of the orthogonal/double ml method for CATE estimation with IV." alt="" coords="593,174,591,167,587,161,581,156,573,153,564,152,556,153,548,156,542,161,538,167,536,174,538,181,542,187,548,192,556,195,564,196,573,195,581,192,587,187,591,181"/>
-<area shape="poly" id="node17" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner" target="_top" title="Base class for all orthogonal learners." alt="" coords="445,100,443,93,436,87,426,82,413,79,399,78,384,79,371,82,361,87,354,93,352,100,354,107,361,113,371,118,384,121,399,122,413,121,426,118,436,113,443,107"/>
+<area shape="poly" id="node1" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.BaseCateEstimator" target="_top" title="Base class for all CATE estimators in this package." alt="" coords="358,25,355,19,347,12,334,8,317,4,299,3,281,4,265,8,252,12,243,19,240,25,243,32,252,38,265,43,281,46,299,48,317,46,334,43,347,38,355,32"/>
+<area shape="poly" id="node8" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.ForestModelFinalCateEstimatorMixin" target="_top" title="ForestModelFinalCateEstimatorMixin" alt="" coords="238,99,233,92,218,86,195,81,166,78,134,77,101,78,72,81,49,86,34,92,29,99,34,106,49,112,72,117,101,120,134,121,166,120,195,117,218,112,233,106"/>
+<area shape="poly" id="node14" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.LinearModelFinalCateEstimatorMixin" target="_top" title="Base class for models where the final stage is a linear model." alt="" coords="669,99,664,92,649,86,626,81,596,78,564,77,532,78,502,81,479,86,464,92,459,99,464,106,479,112,502,117,532,120,564,121,596,120,626,117,649,112,664,106"/>
+<area shape="poly" id="node2" href="../../_autosummary/econml.iv.dml.DMLIV.html#econml.iv.dml.DMLIV" target="_top" title="The base class for parametric DMLIV estimators to estimate a CATE." alt="" coords="615,247,613,240,610,234,605,229,598,226,590,225,583,226,576,229,571,234,567,240,566,247,567,254,571,260,576,265,583,268,590,269,598,268,605,265,610,260,613,254"/>
+<area shape="poly" id="node15" href="../../_autosummary/econml.iv.dml.NonParamDMLIV.html#econml.iv.dml.NonParamDMLIV" target="_top" title="The base class for non&#45;parametric DMLIV." alt="" coords="551,247,549,240,541,234,529,229,515,226,498,225,482,226,467,229,456,234,448,240,446,247,448,254,456,260,467,265,482,268,498,269,515,268,529,265,541,260,549,254"/>
+<area shape="poly" id="node4" href="../../_autosummary/econml.iv.dr.DRIV.html#econml.iv.dr.DRIV" target="_top" title="The DRIV algorithm for estimating CATE with IVs." alt="" coords="299,321,298,314,295,308,290,303,284,299,277,298,270,299,264,303,259,308,256,314,255,321,256,327,259,334,264,338,270,342,277,343,284,342,290,338,295,334,298,327"/>
+<area shape="poly" id="node7" href="../../_autosummary/econml.iv.dr.ForestDRIV.html#econml.iv.dr.ForestDRIV" target="_top" title="Instance of DRIV with a :class:`~econml.grf.RegressionForest` as a final model." alt="" coords="77,394,75,387,70,381,62,376,52,373,40,372,29,373,18,376,10,381,5,387,3,394,5,401,10,407,18,412,29,415,40,416,52,415,62,412,70,407,75,401"/>
+<area shape="poly" id="node11" href="../../_autosummary/econml.iv.dr.LinearDRIV.html#econml.iv.dr.LinearDRIV" target="_top" title="Special case of the :class:`.DRIV` where the final stage is a Linear Regression." alt="" coords="357,394,355,387,350,381,342,376,331,373,320,372,308,373,298,376,290,381,284,387,282,394,284,401,290,407,298,412,308,415,320,416,331,415,342,412,350,407,355,401"/>
+<area shape="poly" id="node18" href="../../_autosummary/econml.iv.dr.SparseLinearDRIV.html#econml.iv.dr.SparseLinearDRIV" target="_top" title="Special case of the :class:`.DRIV` where the final stage is a Debiased Lasso Regression." alt="" coords="211,394,208,387,200,381,188,376,172,373,155,372,138,373,122,376,110,381,102,387,99,394,102,401,110,407,122,412,138,415,155,416,172,415,188,412,200,407,208,401"/>
+<area shape="poly" id="node6" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.DebiasedLassoCateEstimatorMixin" target="_top" title="Mixin for cate models where the final stage is a debiased lasso model." alt="" coords="240,321,235,314,221,308,199,303,171,299,140,298,109,299,82,303,60,308,45,314,41,321,45,327,60,334,82,338,109,342,140,343,171,342,199,338,221,334,235,327"/>
+<area shape="poly" id="node9" href="../../_autosummary/econml.iv.dr.IntentToTreatDRIV.html#econml.iv.dr.IntentToTreatDRIV" target="_top" title="Implements the DRIV algorithm for the intent&#45;to&#45;treat A/B test setting." alt="" coords="622,321,620,314,612,308,600,303,584,299,567,298,550,299,535,303,523,308,515,314,512,321,515,327,523,334,535,338,550,342,567,343,584,342,600,338,612,334,620,327"/>
+<area shape="poly" id="node13" href="../../_autosummary/econml.iv.dr.LinearIntentToTreatDRIV.html#econml.iv.dr.LinearIntentToTreatDRIV" target="_top" title="Implements the DRIV algorithm for the Linear Intent&#45;to&#45;Treat A/B test setting." alt="" coords="558,394,555,387,544,381,528,376,508,373,486,372,464,373,444,376,428,381,418,387,414,394,418,401,428,407,444,412,464,415,486,416,508,415,528,412,544,407,555,401"/>
+<area shape="poly" id="node12" href="../../_autosummary/econml._cate_estimator.html#econml._cate_estimator.StatsModelsCateEstimatorMixin" target="_top" title="Mixin class that offers `inference=&#39;statsmodels&#39;` options to the CATE estimator that inherits it." alt="" coords="498,321,493,314,480,308,460,303,434,299,406,298,377,299,352,303,331,308,318,314,314,321,318,327,331,334,352,338,377,342,406,343,434,342,460,338,480,334,493,327"/>
+<area shape="poly" id="node16" href="../../_autosummary/econml.iv.dml.OrthoIV.html#econml.iv.dml.OrthoIV" target="_top" title="Implementation of the orthogonal/double ml method for CATE estimation with IV." alt="" coords="592,173,591,166,587,160,581,155,573,152,564,151,555,152,547,155,541,160,537,166,536,173,537,180,541,186,547,191,555,194,564,195,573,194,581,191,587,186,591,180"/>
+<area shape="poly" id="node17" href="../../_autosummary/econml._ortho_learner.html#econml._ortho_learner._OrthoLearner" target="_top" title="Base class for all orthogonal learners." alt="" coords="445,99,442,92,436,86,426,81,413,78,398,77,384,78,371,81,361,86,354,92,352,99,354,106,361,112,371,117,384,120,398,121,413,120,426,117,436,112,442,106"/>
 </map></div></blockquote>
 </section>
 <section id="usage-examples">
@@ -963,5 +963,17 @@ structure of the implemented CATE estimators is as follows.</p>
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

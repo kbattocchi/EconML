@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.policy.DRPolicyTree &mdash; econml 0.16.0 documentation</title>
+  <title>econml.policy.DRPolicyTree &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../_static/documentation_options.js?v=a8455094"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>window.MathJax = {"tex": {"macros": {"vec": ["{\\bf #1}", 1], "ldot": ["\\left\\langle #1, #2 \\right\\rangle", 2], "E": "\\mathbb{E}", "T": "\\mathcal{T}", "argmin": "\\mathrm{argmin}", "Var": "\\mathrm{Var}"}}}</script>
@@ -42,7 +42,7 @@
               <img src="../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -415,6 +415,7 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -433,7 +434,6 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -903,7 +903,7 @@ if a single model is specified it should be a classifier if <cite>discrete_outco
 and a regressor otherwise</p></li>
 </ul>
 </li>
-<li><p><strong>featurizer</strong> (<a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-transformer" title="(in scikit-learn v1.7)"><span class="xref std std-term">transformer</span></a>, optional) – Must support fit_transform and transform. Used to create composite features in the final CATE regression.
+<li><p><strong>featurizer</strong> (<a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-transformer" title="(in scikit-learn v1.9)"><span class="xref std std-term">transformer</span></a>, optional) – Must support fit_transform and transform. Used to create composite features in the final CATE regression.
 It is ignored if X is None. The final CATE will be trained on the outcome of featurizer.fit_transform(X).
 If featurizer=None, then CATE is trained on X.</p></li>
 <li><p><strong>min_propensity</strong> (float, default <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>) – The minimum propensity at which to clip propensity estimates to avoid dividing by zero.</p></li>
@@ -914,12 +914,12 @@ Possible inputs for cv are:</p>
 <ul class="simple">
 <li><p>None, to use the default 3-fold cross-validation,</p></li>
 <li><p>integer, to specify the number of folds.</p></li>
-<li><p><a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-CV-splitter" title="(in scikit-learn v1.7)"><span class="xref std std-term">CV splitter</span></a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-CV-splitter" title="(in scikit-learn v1.9)"><span class="xref std std-term">CV splitter</span></a></p></li>
 <li><p>An iterable yielding (train, test) splits as arrays of indices.</p></li>
 </ul>
 <p>For integer/None inputs, if the treatment is discrete
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html#sklearn.model_selection.StratifiedKFold" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StratifiedKFold</span></code></a> is used, else,
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">KFold</span></code></a> is used
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html#sklearn.model_selection.StratifiedKFold" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StratifiedKFold</span></code></a> is used, else,
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">KFold</span></code></a> is used
 (with a random shuffle in either case).</p>
 <p>Unless an iterable is used, we call <cite>split(concat[W, X], T)</cite> to generate the splits. If all
 W, X are None, then we call <cite>split(ones((T.shape[0], 1)), T)</cite>.</p>
@@ -996,9 +996,9 @@ to be valid, this has to be any positive constant bounded away from zero.</p></l
 creating the tree structure and the other half for the estimation at
 the leafs. If False, then all samples are used for both parts.</p></li>
 <li><p><strong>random_state</strong> (<em>int, RandomState instance, or None, default None</em>) – If int, random_state is the seed used by the random number generator;
-If <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance, random_state is the random number generator;
-If None, the random number generator is the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance used
-by <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html#module-numpy.random" title="(in NumPy v2.3)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">np.random</span></code></a>.</p></li>
+If <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance, random_state is the random number generator;
+If None, the random number generator is the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v2.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance used
+by <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html#module-numpy.random" title="(in NumPy v2.5)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">np.random</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1068,7 +1068,7 @@ returned as a string.</p></li>
 <li><p><strong>feature_names</strong> (<em>list of str, optional</em>) – Names of each of the features.</p></li>
 <li><p><strong>treatment_names</strong> (<em>list of str, optional</em>) – Names of each of the treatments, including the baseline treatment</p></li>
 <li><p><strong>max_depth</strong> (<em>int or None, optional</em>) – The maximum tree depth to plot</p></li>
-<li><p><strong>filled</strong> (<em>bool, default False</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
+<li><p><strong>filled</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
 classification, extremity of values for regression, or purity of node
 for multi-output.</p></li>
 <li><p><strong>leaves_parallel</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, draw all leaf nodes at the bottom of the tree.</p></li>
@@ -1138,12 +1138,12 @@ must support a ‘groups’ argument to its split method.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.10.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a>, optional) – The axes on which to plot</p></li>
+<li><p><strong>ax</strong> (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.11.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a>, optional) – The axes on which to plot</p></li>
 <li><p><strong>title</strong> (<em>str, optional</em>) – A title for the final figure to be printed at the top of the page.</p></li>
 <li><p><strong>feature_names</strong> (<em>list of str, optional</em>) – Names of each of the features.</p></li>
 <li><p><strong>treatment_names</strong> (<em>list of str, optional</em>) – Names of each of the treatments including the baseline/control</p></li>
 <li><p><strong>max_depth</strong> (<em>int or None, optional</em>) – The maximum tree depth to plot</p></li>
-<li><p><strong>filled</strong> (<em>bool, default False</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
+<li><p><strong>filled</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
 classification, extremity of values for regression, or purity of node
 for multi-output.</p></li>
 <li><p><strong>rounded</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, draw node boxes with rounded corners and use
@@ -1169,7 +1169,7 @@ from the dataframe.</p>
 <dd class="field-even"><p><strong>out_feature_names</strong> – The names of the output features on which the policy model is fitted.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a> or None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a> or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1187,7 +1187,7 @@ based on input metadata.</p>
 <dd class="field-even"><p><strong>out_treatment_names</strong> – The names of the treatments including the baseline/control treatment.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1261,7 +1261,7 @@ to the baseline treatment value and based on the feature neighborhoods defined b
 <li><p><strong>feature_names</strong> (<em>list of str, optional</em>) – Names of each of the features.</p></li>
 <li><p><strong>treatment_names</strong> (<em>list of str, optional</em>) – Names of each of the treatments, including the baseline/control</p></li>
 <li><p><strong>max_depth</strong> (<em>int or None, optional</em>) – The maximum tree depth to plot</p></li>
-<li><p><strong>filled</strong> (<em>bool, default False</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
+<li><p><strong>filled</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, paint nodes to indicate majority class for
 classification, extremity of values for regression, or purity of node
 for multi-output.</p></li>
 <li><p><strong>leaves_parallel</strong> (<em>bool, default True</em>) – When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, draw all leaf nodes at the bottom of the tree.</p></li>
@@ -1317,5 +1317,17 @@ impurity, threshold and value attributes of each node.</p></li>
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

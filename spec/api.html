@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Problem Setup and API Design &mdash; econml 0.16.0 documentation</title>
+  <title>Problem Setup and API Design &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../_static/documentation_options.js?v=a8455094"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>window.MathJax = {"tex": {"macros": {"vec": ["{\\bf #1}", 1], "ldot": ["\\left\\langle #1, #2 \\right\\rangle", 2], "E": "\\mathbb{E}", "T": "\\mathcal{T}", "argmin": "\\mathrm{argmin}", "Var": "\\mathrm{Var}"}}}</script>
@@ -42,7 +42,7 @@
               <img src="../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -415,6 +415,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -433,7 +434,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -896,7 +896,7 @@ We will refer to them as <em>features</em>.</p>
 <p>Our package does not offer support for counterfactual prediction. However, for most of our estimators (the ones
 assuming a linear-in-treatment model), counterfactual prediction can be easily constructed by combining any baseline predictive model
 with our causal effect model, i.e. train any machine learning model <span class="math notranslate nohighlight">\(b(\vec{t}, \vec{x})\)</span> to solve the regression/classification
-problem <span class="math notranslate nohighlight">\(\E[Y | T=\vec{t}, X=\vec{x}]\)</span>, and then set <span class="math notranslate nohighlight">\(\mu(vec{t}, \vec{x}) = \tau(\vec{t}, T, \vec{x}) + b(T, \vec{x})\)</span>,
+problem <span class="math notranslate nohighlight">\(\E[Y | T=\vec{t}, X=\vec{x}]\)</span>, and then set <span class="math notranslate nohighlight">\(\mu(\vec{t}, \vec{x}) = \tau(\vec{t}, T, \vec{x}) + b(T, \vec{x})\)</span>,
 where <span class="math notranslate nohighlight">\(T\)</span> is either the observed treatment for that sample under the observational policy or the treatment
 that the observational policy would have assigned to that sample. These auxiliary ML models can be trained
 with any machine learning package outside of EconML.</p>
@@ -924,7 +924,7 @@ is drawn from the distribution that generated each sample in the data set.</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BaseCateEstimator</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39; Estimates the counterfactual model from data, i.e. estimates functions</span>
+<span class="w">        </span><span class="sd">''' Estimates the counterfactual model from data, i.e. estimates functions</span>
 <span class="sd">        τ(·, ·, ·)}, ∂τ(·, ·) and μ(·, ·)</span>
 
 <span class="sd">        Parameters:</span>
@@ -934,12 +934,12 @@ is drawn from the distribution that generated each sample in the data set.</p>
 <span class="sd">        W: (n × d_w) matrix of controls for each sample, optional</span>
 <span class="sd">        Z: (n × d_z) matrix of instruments for each sample, optional</span>
 <span class="sd">        inference: str or `Inference` instance, optional</span>
-<span class="sd">            Method for performing inference.  All estimators support &#39;bootstrap&#39;</span>
+<span class="sd">            Method for performing inference.  All estimators support 'bootstrap'</span>
 <span class="sd">            (or an instance of `BootstrapInference`), some support other methods as well.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        '''</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">effect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">T1</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39; Calculates the heterogeneous treatment effect τ(·, ·, ·) between two treatment</span>
+<span class="w">        </span><span class="sd">''' Calculates the heterogeneous treatment effect τ(·, ·, ·) between two treatment</span>
 <span class="sd">        points conditional on a vector of features on a set of m test samples {T0_i, T1_i, X_i}</span>
 
 <span class="sd">        Parameters:</span>
@@ -950,10 +950,10 @@ is drawn from the distribution that generated each sample in the data set.</p>
 <span class="sd">        Returns:</span>
 <span class="sd">        tau: (m × d_y) matrix of heterogeneous treatment effects on each outcome</span>
 <span class="sd">            for each sample</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        '''</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">marginal_effect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39; Calculates the heterogeneous marginal effect ∂τ(·, ·) around a base treatment</span>
+<span class="w">        </span><span class="sd">''' Calculates the heterogeneous marginal effect ∂τ(·, ·) around a base treatment</span>
 <span class="sd">        point conditional on a vector of features on a set of m test samples {T_i, X_i}</span>
 
 <span class="sd">        Parameters:</span>
@@ -963,10 +963,10 @@ is drawn from the distribution that generated each sample in the data set.</p>
 <span class="sd">        Returns:</span>
 <span class="sd">        grad_tau: (m × d_y × d_t) matrix of heterogeneous marginal effects on each outcome</span>
 <span class="sd">            for each sample</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        '''</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">effect_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">T1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39; Confidence intervals for the quantities τ(·, ·, ·) produced by the model.</span>
+<span class="w">        </span><span class="sd">''' Confidence intervals for the quantities τ(·, ·, ·) produced by the model.</span>
 <span class="sd">        Available only when inference is not None, when calling the fit method.</span>
 
 <span class="sd">        Parameters:</span>
@@ -978,10 +978,10 @@ is drawn from the distribution that generated each sample in the data set.</p>
 <span class="sd">        Returns:</span>
 <span class="sd">        lower, upper : tuple of the lower and the upper bounds of the confidence interval</span>
 <span class="sd">            for each quantity.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        '''</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">marginal_effect_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39; Confidence intervals for the quantities effect ∂τ(·, ·) produced by the model.</span>
+<span class="w">        </span><span class="sd">''' Confidence intervals for the quantities effect ∂τ(·, ·) produced by the model.</span>
 <span class="sd">        Available only when inference is not None, when calling the fit method.</span>
 
 <span class="sd">        Parameters:</span>
@@ -992,7 +992,7 @@ is drawn from the distribution that generated each sample in the data set.</p>
 <span class="sd">        Returns:</span>
 <span class="sd">        lower, upper : tuple of the lower and the upper bounds of the confidence interval</span>
 <span class="sd">            for each quantity.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        '''</span>
 </pre></div>
 </div>
 </div>
@@ -1031,7 +1031,7 @@ and constant marginal CATE interval at any target feature vector <span class="ma
     <span class="bp">self</span><span class="o">.</span><span class="n">treatment_featurizer</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">const_marginal_effect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39; Calculates the constant marginal CATE θ(·) conditional on a vector of</span>
+<span class="w">        </span><span class="sd">''' Calculates the constant marginal CATE θ(·) conditional on a vector of</span>
 <span class="sd">        features on a set of m test samples {X_i}</span>
 
 <span class="sd">        Parameters:</span>
@@ -1041,10 +1041,10 @@ and constant marginal CATE interval at any target feature vector <span class="ma
 <span class="sd">        theta: (m × d_y × d_f_t) matrix of constant marginal CATE of each treatment on each outcome</span>
 <span class="sd">        for each sample, where d_f_t is the dimension of the featurized treatment.</span>
 <span class="sd">        If treatment_featurizer is None, d_f_t = d_t</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        '''</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">const_marginal_effect_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39; Confidence intervals for the quantities θ(·) produced by the model.</span>
+<span class="w">        </span><span class="sd">''' Confidence intervals for the quantities θ(·) produced by the model.</span>
 <span class="sd">        Available only when inference is not None, when calling the fit method.</span>
 
 <span class="sd">        Parameters:</span>
@@ -1054,7 +1054,7 @@ and constant marginal CATE interval at any target feature vector <span class="ma
 <span class="sd">        Returns:</span>
 <span class="sd">        lower, upper : tuple of the lower and the upper bounds of the confidence interval</span>
 <span class="sd">            for each quantity.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        '''</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">effect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">T1</span><span class="p">,):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatment_featurizer</span><span class="p">:</span>
@@ -1126,7 +1126,7 @@ We can run the following:</p>
 <div class="code-block-caption"><span class="caption-text">Example fit of causal model</span><a class="headerlink" href="#id6" title="Link to this code"></a></div>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fit counterfactual model</span>
 <span class="n">cfest</span> <span class="o">=</span> <span class="n">BaseCateEstimator</span><span class="p">()</span>
-<span class="n">cfest</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">&#39;bootstrap&#39;</span><span class="p">)</span>
+<span class="n">cfest</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">'bootstrap'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1163,7 +1163,7 @@ the average treatment effect or the average treatment effect on the population w
 We could simply achieve this as follows:</p>
 <div class="literal-block-wrapper docutils container" id="id9">
 <div class="code-block-caption"><span class="caption-text">Projecting on subpopulations</span><a class="headerlink" href="#id9" title="Link to this code"></a></div>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estimate average treatment effects over a population of z&#39;s</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estimate average treatment effects over a population of z's</span>
 <span class="n">T0_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_treatments</span><span class="p">))</span>
 <span class="n">T1_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_treatments</span><span class="p">))</span>
 
@@ -1239,5 +1239,17 @@ However, in many settings more direct methods that make use of the structure mig
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

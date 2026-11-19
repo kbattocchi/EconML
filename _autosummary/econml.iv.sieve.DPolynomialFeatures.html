@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.iv.sieve.DPolynomialFeatures &mdash; econml 0.16.0 documentation</title>
+  <title>econml.iv.sieve.DPolynomialFeatures &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../_static/documentation_options.js?v=a8455094"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -40,7 +40,7 @@
               <img src="../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -413,6 +413,7 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -431,7 +432,6 @@
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -863,11 +863,11 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="econml.iv.sieve.DPolynomialFeatures">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">econml.iv.sieve.</span></span><span class="sig-name descname"><span class="pre">DPolynomialFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interaction_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/econml/iv/sieve/_tsls.html#DPolynomialFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#econml.iv.sieve.DPolynomialFeatures" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html#sklearn.base.TransformerMixin" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></a></p>
-<p>Featurizer that returns the derivatives of <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialFeatures</span></code></a> features.</p>
+<dd><p>Bases: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html#sklearn.base.TransformerMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></a></p>
+<p>Featurizer that returns the derivatives of <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialFeatures</span></code></a> features.</p>
 <p>Does this in a way that’s compatible with the expectations of <a class="reference internal" href="econml.iv.sieve.SieveTSLS.html#econml.iv.sieve.SieveTSLS" title="econml.iv.sieve.SieveTSLS"><code class="xref py py-class docutils literal notranslate"><span class="pre">SieveTSLS</span></code></a>’s <cite>dt_featurizer</cite> parameter.</p>
 <p>If the input has shape <cite>(n, x)</cite> and
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures.transform" title="(in scikit-learn v1.7)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">PolynomialFeatures.transform</span></code></a> returns an output
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures.transform" title="(in scikit-learn v1.9)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">PolynomialFeatures.transform</span></code></a> returns an output
 of shape <cite>(n, f)</cite>, then <a class="reference internal" href="#econml.iv.sieve.DPolynomialFeatures.transform" title="econml.iv.sieve.DPolynomialFeatures.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">transform()</span></code></a> will return an array of shape <cite>(n, x, f)</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -936,7 +936,8 @@ and returns a transformed version of <cite>X</cite>.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>array-like of shape (n_samples, n_features)</em>) – Input samples.</p></li>
 <li><p><strong>y</strong> (<em>array-like of shape (n_samples,) or (n_samples, n_outputs),                 default=None</em>) – Target values (None for unsupervised transformations).</p></li>
-<li><p><strong>**fit_params</strong> (<em>dict</em>) – Additional fit parameters.</p></li>
+<li><p><strong>**fit_params</strong> (<em>dict</em>) – Additional fit parameters.
+Pass only if the estimator accepts additional params in its <cite>fit</cite> method.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -952,7 +953,7 @@ and returns a transformed version of <cite>X</cite>.</p>
 <dt class="sig sig-object py" id="econml.iv.sieve.DPolynomialFeatures.set_output">
 <span class="sig-name descname"><span class="pre">set_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#econml.iv.sieve.DPolynomialFeatures.set_output" title="Link to this definition"></a></dt>
 <dd><p>Set output container.</p>
-<p>See <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/miscellaneous/plot_set_output.html#sphx-glr-auto-examples-miscellaneous-plot-set-output-py" title="(in scikit-learn v1.7)"><span>Introducing the set_output API</span></a>
+<p>See <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/miscellaneous/plot_set_output.html#sphx-glr-auto-examples-miscellaneous-plot-set-output-py" title="(in scikit-learn v1.9)"><span>Introducing the set_output API</span></a>
 for an example on how to use the API.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -986,7 +987,7 @@ for an example on how to use the API.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>XP</strong> – The matrix of features, where <cite>n_output_features</cite> is the number of features that
-would be returned from <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures" title="(in scikit-learn v1.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialFeatures</span></code></a>.</p>
+would be returned from <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolynomialFeatures</span></code></a>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>array_like, shape (n_samples, n_features, n_output_features)</p>
@@ -1028,5 +1029,17 @@ would be returned from <a class="reference external" href="https://scikit-learn.
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

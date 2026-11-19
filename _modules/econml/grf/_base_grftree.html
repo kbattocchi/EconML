@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.grf._base_grftree &mdash; econml 0.16.0 documentation</title>
+  <title>econml.grf._base_grftree &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -877,8 +877,8 @@
 <span class="c1"># =============================================================================</span>
 
 
-<span class="n">CRITERIA_GRF</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;het&quot;</span><span class="p">:</span> <span class="n">LinearMomentGRFCriterion</span><span class="p">,</span>
-                <span class="s2">&quot;mse&quot;</span><span class="p">:</span> <span class="n">LinearMomentGRFCriterionMSE</span><span class="p">}</span>
+<span class="n">CRITERIA_GRF</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"het"</span><span class="p">:</span> <span class="n">LinearMomentGRFCriterion</span><span class="p">,</span>
+                <span class="s2">"mse"</span><span class="p">:</span> <span class="n">LinearMomentGRFCriterionMSE</span><span class="p">}</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># Base GRF tree</span>
@@ -888,7 +888,7 @@
 <div class="viewcode-block" id="GRFTree">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf._base_grftree.GRFTree.html#econml.grf._base_grftree.GRFTree">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GRFTree</span><span class="p">(</span><span class="n">BaseTree</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A tree of a Generalized Random Forest [grftree1].</span>
 
 <span class="sd">    This method should be used primarily</span>
@@ -904,14 +904,14 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    criterion : {``&#39;mse&#39;``, ``&#39;het&#39;``}, default &#39;mse&#39;</span>
+<span class="sd">    criterion : {``'mse'``, ``'het'``}, default 'mse'</span>
 <span class="sd">        The function to measure the quality of a split. Supported criteria</span>
-<span class="sd">        are ``&#39;mse&#39;`` for the mean squared error in a linear moment estimation tree and ``&#39;het&#39;`` for</span>
+<span class="sd">        are ``'mse'`` for the mean squared error in a linear moment estimation tree and ``'het'`` for</span>
 <span class="sd">        heterogeneity score. These criteria solve any linear moment problem of the form::</span>
 
 <span class="sd">            E[J * theta(x) - A | X = x] = 0</span>
 
-<span class="sd">        - The ``&#39;mse&#39;`` criterion finds splits that maximize the score:</span>
+<span class="sd">        - The ``'mse'`` criterion finds splits that maximize the score:</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -945,7 +945,7 @@
 <span class="sd">          with a large minimum eigenvalue of the child jacobian ``E[J | X in child]``, which leads to smaller</span>
 <span class="sd">          variance of the estimate and stronger identification of the parameters.</span>
 
-<span class="sd">        - The ``&#39;het&#39;`` criterion finds splits that maximize the pure parameter heterogeneity score:</span>
+<span class="sd">        - The ``'het'`` criterion finds splits that maximize the pure parameter heterogeneity score:</span>
 
 <span class="sd">          .. code-block::</span>
 
@@ -959,9 +959,9 @@
 
 <span class="sd">          as outlined in [grftree1]_</span>
 
-<span class="sd">    splitter : {&quot;best&quot;}, default &quot;best&quot;</span>
+<span class="sd">    splitter : {"best"}, default "best"</span>
 <span class="sd">        The strategy used to choose the split at each node. Supported</span>
-<span class="sd">        strategies are &quot;best&quot; to choose the best split.</span>
+<span class="sd">        strategies are "best" to choose the best split.</span>
 
 <span class="sd">    max_depth : int, default None</span>
 <span class="sd">        The maximum depth of the tree. If None, then nodes are expanded until</span>
@@ -1001,7 +1001,7 @@
 <span class="sd">        matrix, which leads to smaller variance of the local estimate. The proxy of the well-conditioning is</span>
 <span class="sd">        different for different criterion, primarily for computational efficiency reasons.</span>
 
-<span class="sd">        - If ``criterion=&#39;het&#39;``, then the diagonal entries of J(leaf) are constraint to have absolute</span>
+<span class="sd">        - If ``criterion='het'``, then the diagonal entries of J(leaf) are constraint to have absolute</span>
 <span class="sd">          value at least `min_var_leaf`:</span>
 
 <span class="sd">          .. code-block::</span>
@@ -1014,7 +1014,7 @@
 <span class="sd">          this translates to ``Cov(T[i], Z[i]) &gt; min_var_leaf`` for each coordinate i of the instrument and the</span>
 <span class="sd">          treatment.</span>
 
-<span class="sd">        - If ``criterion=&#39;mse&#39;``, because the criterion stores more information about the leaf jacobian for</span>
+<span class="sd">        - If ``criterion='mse'``, because the criterion stores more information about the leaf jacobian for</span>
 <span class="sd">          every candidate split, then we impose further constraints on the pairwise determininants of the</span>
 <span class="sd">          leaf jacobian, as they come at small extra computational cost, i.e.::</span>
 
@@ -1041,16 +1041,16 @@
 <span class="sd">        in a causal tree or an IV tree does not use the label y. It only uses the treatment T and the instrument</span>
 <span class="sd">        Z and their local correlation structures to decide whether a split is feasible.</span>
 
-<span class="sd">    max_features : int, float, {&quot;auto&quot;, &quot;sqrt&quot;, &quot;log2&quot;}, or None, default None</span>
+<span class="sd">    max_features : int, float, {"auto", "sqrt", "log2"}, or None, default None</span>
 <span class="sd">        The number of features to consider when looking for the best split:</span>
 
 <span class="sd">        - If int, then consider `max_features` features at each split.</span>
 <span class="sd">        - If float, then `max_features` is a fraction and</span>
 <span class="sd">          `int(max_features * n_features)` features are considered at each</span>
 <span class="sd">          split.</span>
-<span class="sd">        - If &quot;auto&quot;, then `max_features=n_features`.</span>
-<span class="sd">        - If &quot;sqrt&quot;, then `max_features=sqrt(n_features)`.</span>
-<span class="sd">        - If &quot;log2&quot;, then `max_features=log2(n_features)`.</span>
+<span class="sd">        - If "auto", then `max_features=n_features`.</span>
+<span class="sd">        - If "sqrt", then `max_features=sqrt(n_features)`.</span>
+<span class="sd">        - If "log2", then `max_features=log2(n_features)`.</span>
 <span class="sd">        - If None, then `max_features=n_features`.</span>
 
 <span class="sd">        Note: the search for a split does not stop until at least one</span>
@@ -1060,7 +1060,7 @@
 <span class="sd">    random_state : int, RandomState instance, or None, default None</span>
 <span class="sd">        Controls the randomness of the estimator. The features are always</span>
 <span class="sd">        randomly permuted at each split, even if ``splitter`` is set to</span>
-<span class="sd">        ``&quot;best&quot;``. When ``max_features &lt; n_features``, the algorithm will</span>
+<span class="sd">        ``"best"``. When ``max_features &lt; n_features``, the algorithm will</span>
 <span class="sd">        select ``max_features`` at random at each split before finding the best</span>
 <span class="sd">        split among them. But the best found split may vary across different</span>
 <span class="sd">        runs, even if ``max_features=n_features``. That is the case, if the</span>
@@ -1138,17 +1138,17 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [grftree1] Athey, Susan, Julie Tibshirani, and Stefan Wager. &quot;Generalized random forests.&quot;</span>
+<span class="sd">    .. [grftree1] Athey, Susan, Julie Tibshirani, and Stefan Wager. "Generalized random forests."</span>
 <span class="sd">        The Annals of Statistics 47.2 (2019): 1148-1178</span>
 <span class="sd">        https://arxiv.org/pdf/1610.01271.pdf</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="GRFTree.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf._base_grftree.GRFTree.html#econml.grf._base_grftree.GRFTree.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                 <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">,</span>
-                 <span class="n">splitter</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span>
+                 <span class="n">criterion</span><span class="o">=</span><span class="s2">"mse"</span><span class="p">,</span>
+                 <span class="n">splitter</span><span class="o">=</span><span class="s2">"best"</span><span class="p">,</span>
                  <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                  <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
@@ -1187,16 +1187,16 @@
 <div class="viewcode-block" id="GRFTree.init">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf._base_grftree.GRFTree.html#econml.grf._base_grftree.GRFTree.init">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Initialize this instance.</span>
 
 <span class="sd">        This method that should be called before fit. We added this pre-fit step so that this step</span>
 <span class="sd">        can be executed without parallelism as it contains code that holds the gil and can hinder</span>
 <span class="sd">        parallel execution. We also did not merge this step to ``__init__`` as we want ``__init__`` to just</span>
-<span class="sd">        be storing the parameters for easy cloning. We also don&#39;t want to directly pass a RandomState</span>
+<span class="sd">        be storing the parameters for easy cloning. We also don't want to directly pass a RandomState</span>
 <span class="sd">        object as random_state, as we want to keep the starting seed to be able to replicate the</span>
 <span class="sd">        randomness of the object outside the object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_seed_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state_</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_seed_</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -1205,7 +1205,7 @@
 <div class="viewcode-block" id="GRFTree.fit">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf._base_grftree.GRFTree.html#econml.grf._base_grftree.GRFTree.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_y</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">,</span> <span class="n">n_relevant_outputs</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the tree from the data.</span>
+<span class="w">        </span><span class="sd">"""Fit the tree from the data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1232,7 +1232,7 @@
 <span class="sd">            Whether to check the input parameters for validity. Should be set to False to improve</span>
 <span class="sd">            running time in parallel execution, if the variables have already been checked by the</span>
 <span class="sd">            forest class that spawned this tree.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_y</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">,</span> <span class="n">n_relevant_outputs</span><span class="p">,</span>
                            <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="n">check_input</span><span class="p">)</span></div>
 
@@ -1240,7 +1240,7 @@
 <div class="viewcode-block" id="GRFTree.predict">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf._base_grftree.GRFTree.html#econml.grf._base_grftree.GRFTree.predict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the prefix of relevant fitted local parameters for each X, i.e. theta(X).</span>
+<span class="w">        </span><span class="sd">"""Return the prefix of relevant fitted local parameters for each X, i.e. theta(X).</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1249,13 +1249,13 @@
 <span class="sd">            ``dtype=np.float64``.</span>
 <span class="sd">        check_input : bool, default True</span>
 <span class="sd">            Allow to bypass several input checking.</span>
-<span class="sd">            Don&#39;t use this parameter unless you know what you do.</span>
+<span class="sd">            Don't use this parameter unless you know what you do.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        theta(X)[:n_relevant_outputs] : array_like of shape (n_samples, n_relevant_outputs)</span>
 <span class="sd">            The estimated relevant parameters for each row of X</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_X_predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="p">)</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -1265,7 +1265,7 @@
 <div class="viewcode-block" id="GRFTree.predict_full">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf._base_grftree.GRFTree.html#econml.grf._base_grftree.GRFTree.predict_full">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">predict_full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the fitted local parameters for each X, i.e. theta(X).</span>
+<span class="w">        </span><span class="sd">"""Return the fitted local parameters for each X, i.e. theta(X).</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1274,13 +1274,13 @@
 <span class="sd">            ``dtype=np.float64``.</span>
 <span class="sd">        check_input : bool, default True</span>
 <span class="sd">            Allow to bypass several input checking.</span>
-<span class="sd">            Don&#39;t use this parameter unless you know what you do.</span>
+<span class="sd">            Don't use this parameter unless you know what you do.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        theta(X) : array_like of shape (n_samples, n_outputs)</span>
 <span class="sd">            All the estimated parameters for each row of X</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_X_predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="p">)</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">predict_full</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -1290,7 +1290,7 @@
 <div class="viewcode-block" id="GRFTree.predict_alpha_and_jac">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf._base_grftree.GRFTree.html#econml.grf._base_grftree.GRFTree.predict_alpha_and_jac">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">predict_alpha_and_jac</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Predict the local jacobian ``E[J | X=x]`` and the local alpha ``E[A | X=x]`` of a linear moment equation.</span>
 
 <span class="sd">        Parameters</span>
@@ -1300,7 +1300,7 @@
 <span class="sd">            ``dtype=np.float64``</span>
 <span class="sd">        check_input : bool, default True</span>
 <span class="sd">            Allow to bypass several input checking.</span>
-<span class="sd">            Don&#39;t use this parameter unless you know what you do.</span>
+<span class="sd">            Don't use this parameter unless you know what you do.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1308,7 +1308,7 @@
 <span class="sd">            The local alpha E[A | X=x] for each sample x</span>
 <span class="sd">        jac : array_like of shape (n_samples, n_outputs * n_outputs)</span>
 <span class="sd">            The local jacobian E[J | X=x] flattened in a C contiguous format</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_X_predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">check_input</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">predict_precond_and_jac</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
@@ -1317,7 +1317,7 @@
 <div class="viewcode-block" id="GRFTree.predict_moment">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf._base_grftree.GRFTree.html#econml.grf._base_grftree.GRFTree.predict_moment">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">predict_moment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">check_input</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Predict the local moment value for each sample and at the given parameter.</span>
 
 <span class="sd">        This is::</span>
@@ -1333,21 +1333,21 @@
 <span class="sd">            A parameter estimate for each sample</span>
 <span class="sd">        check_input : bool, default True</span>
 <span class="sd">            Allow to bypass several input checking.</span>
-<span class="sd">            Don&#39;t use this parameter unless you know what you do.</span>
+<span class="sd">            Don't use this parameter unless you know what you do.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        moment : array_like of shape (n_samples, n_outputs)</span>
 <span class="sd">            The local moment E[J | X=x] theta(x) - E[A | X=x] for each sample x</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">alpha</span><span class="p">,</span> <span class="n">jac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_alpha_and_jac</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,ik-&gt;ij&#39;</span><span class="p">,</span> <span class="n">jac</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs_</span><span class="p">)),</span> <span class="n">parameter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">'ijk,ik-&gt;ij'</span><span class="p">,</span> <span class="n">jac</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs_</span><span class="p">)),</span> <span class="n">parameter</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GRFTree.feature_importances">
 <a class="viewcode-back" href="../../../_autosummary/econml.grf._base_grftree.GRFTree.html#econml.grf._base_grftree.GRFTree.feature_importances">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">feature_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">depth_decay_exponent</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get feature importances based on the amount of parameter heterogeneity they create.</span>
 
 <span class="sd">        The higher, the more important the feature.</span>
@@ -1370,7 +1370,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        feature_importances_ : ndarray of shape (n_features,)</span>
 <span class="sd">            Normalized total parameter heterogeneity inducing importance of each feature</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">compute_feature_heterogeneity_importances</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
@@ -1415,5 +1415,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

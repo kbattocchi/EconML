@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.inference._bootstrap &mdash; econml 0.16.0 documentation</title>
+  <title>econml.inference._bootstrap &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -858,17 +858,20 @@
 <span></span><span class="c1"># Copyright (c) PyWhy contributors. All rights reserved.</span>
 <span class="c1"># Licensed under the MIT License.</span>
 
-<span class="sd">&quot;&quot;&quot;Bootstrap sampling.&quot;&quot;&quot;</span>
+<span class="sd">"""Bootstrap sampling."""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">joblib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">clone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.._lazy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_LazyModule</span>
+
+<span class="n">_cate_estimator</span> <span class="o">=</span> <span class="n">_LazyModule</span><span class="p">(</span><span class="s2">"econml._cate_estimator"</span><span class="p">)</span>  <span class="c1"># lazy: avoid circular import</span>
 
 
 <div class="viewcode-block" id="BootstrapEstimator">
 <a class="viewcode-back" href="../../../_autosummary/econml.inference._bootstrap.html#econml.inference._bootstrap.BootstrapEstimator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BootstrapEstimator</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimator that uses bootstrap sampling to wrap an existing estimator.</span>
+<span class="w">    </span><span class="sd">"""Estimator that uses bootstrap sampling to wrap an existing estimator.</span>
 
 <span class="sd">    This estimator provides a `fit` method with the same signature as the wrapped estimator.</span>
 
@@ -903,19 +906,19 @@
 <span class="sd">        Whether to pass calls through to the underlying collection and return the mean.  Setting this</span>
 <span class="sd">        to ``False`` can avoid ambiguities if the wrapped object itself has method names with an `_interval` suffix.</span>
 
-<span class="sd">    bootstrap_type: &#39;percentile&#39;, &#39;pivot&#39;, or &#39;normal&#39;, default &#39;pivot&#39;</span>
-<span class="sd">        Bootstrap method used to compute results.  &#39;percentile&#39; will result in using the empiracal CDF of</span>
-<span class="sd">        the replicated computations of the statistics.   &#39;pivot&#39; will also use the replicates but create a pivot</span>
-<span class="sd">        interval that also relies on the estimate over the entire dataset.  &#39;normal&#39; will instead compute an interval</span>
+<span class="sd">    bootstrap_type: 'percentile', 'pivot', or 'normal', default 'pivot'</span>
+<span class="sd">        Bootstrap method used to compute results.  'percentile' will result in using the empiracal CDF of</span>
+<span class="sd">        the replicated computations of the statistics.   'pivot' will also use the replicates but create a pivot</span>
+<span class="sd">        interval that also relies on the estimate over the entire dataset.  'normal' will instead compute an interval</span>
 <span class="sd">        assuming the replicates are normally distributed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wrapped</span><span class="p">,</span>
                  <span class="n">n_bootstrap_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                  <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                  <span class="n">compute_means</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                 <span class="n">bootstrap_type</span><span class="o">=</span><span class="s1">&#39;pivot&#39;</span><span class="p">):</span>
+                 <span class="n">bootstrap_type</span><span class="o">=</span><span class="s1">'pivot'</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_instances</span> <span class="o">=</span> <span class="p">[</span><span class="n">clone</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_bootstrap_samples</span><span class="p">)]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_bootstrap_samples</span> <span class="o">=</span> <span class="n">n_bootstrap_samples</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
@@ -939,15 +942,13 @@
 <div class="viewcode-block" id="BootstrapEstimator.fit">
 <a class="viewcode-back" href="../../../_autosummary/econml.inference._bootstrap.html#econml.inference._bootstrap.BootstrapEstimator.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">named_args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fit the model.</span>
 
-<span class="sd">        The full signature of this method is the same as that of the wrapped object&#39;s `fit` method.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.._cate_estimator</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseCateEstimator</span>  <span class="c1"># need to nest this here to avoid circular import</span>
-
+<span class="sd">        The full signature of this method is the same as that of the wrapped object's `fit` method.</span>
+<span class="sd">        """</span>
         <span class="n">index_chunks</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">BaseCateEstimator</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_cate_estimator</span><span class="o">.</span><span class="n">BaseCateEstimator</span><span class="p">):</span>
             <span class="n">index_chunks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_strata</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">named_args</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">index_chunks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">index_chunks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stratified_indices</span><span class="p">(</span><span class="n">index_chunks</span><span class="p">)</span>
@@ -974,10 +975,10 @@
             <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>  <span class="c1"># arg was a scalar, so we shouldn&#39;t have converted it</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># arg was a scalar, so we shouldn't have converted it</span>
                 <span class="k">return</span> <span class="n">arg</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_instances</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_jobs</span><span class="p">,</span> <span class="n">prefer</span><span class="o">=</span><span class="s1">&#39;threads&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">)(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_instances</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_jobs</span><span class="p">,</span> <span class="n">prefer</span><span class="o">=</span><span class="s1">'threads'</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">)(</span>
             <span class="n">delayed</span><span class="p">(</span><span class="n">fit</span><span class="p">)(</span><span class="n">obj</span><span class="p">,</span>
                          <span class="o">*</span><span class="p">[</span><span class="n">convertArg</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">inds</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">],</span>
                          <span class="o">**</span><span class="p">{</span><span class="n">arg</span><span class="p">:</span> <span class="n">convertArg</span><span class="p">(</span><span class="n">named_args</span><span class="p">[</span><span class="n">arg</span><span class="p">],</span> <span class="n">inds</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">named_args</span><span class="p">})</span>
@@ -987,18 +988,18 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get proxy attribute that wraps the corresponding attribute with the same name from the wrapped object.</span>
 
-<span class="sd">        Additionally, the suffix &quot;_interval&quot; is supported for getting an interval instead of a point estimate.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># don&#39;t proxy special methods</span>
-        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">):</span>
+<span class="sd">        Additionally, the suffix "_interval" is supported for getting an interval instead of a point estimate.</span>
+<span class="sd">        """</span>
+        <span class="c1"># don't proxy special methods</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'__'</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">proxy</span><span class="p">(</span><span class="n">make_call</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">summary</span><span class="p">):</span>
             <span class="k">def</span><span class="w"> </span><span class="nf">summarize_with</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-                <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_jobs</span><span class="p">,</span> <span class="n">prefer</span><span class="o">=</span><span class="s1">&#39;threads&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">)(</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_jobs</span><span class="p">,</span> <span class="n">prefer</span><span class="o">=</span><span class="s1">'threads'</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">)(</span>
                     <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="p">{})</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">)),</span> <span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">summary</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">make_call</span><span class="p">:</span>
@@ -1013,14 +1014,14 @@
             <span class="k">return</span> <span class="n">proxy</span><span class="p">(</span><span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">name</span><span class="p">)),</span> <span class="n">name</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">arr</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">get_std</span><span class="p">():</span>
-            <span class="n">prefix</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;_std&#39;</span><span class="p">)]</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="s1">'_std'</span><span class="p">)]</span>
             <span class="k">return</span> <span class="n">proxy</span><span class="p">(</span><span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">prefix</span><span class="p">)),</span> <span class="n">prefix</span><span class="p">,</span>
                          <span class="k">lambda</span> <span class="n">arr</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">get_interval</span><span class="p">():</span>
             <span class="c1"># if the attribute exists on the wrapped object once we remove the suffix,</span>
             <span class="c1"># then we should be computing a confidence interval for the wrapped calls</span>
-            <span class="n">prefix</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;_interval&quot;</span><span class="p">)]</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="s2">"_interval"</span><span class="p">)]</span>
 
             <span class="k">def</span><span class="w"> </span><span class="nf">call_with_bounds</span><span class="p">(</span><span class="n">can_call</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">):</span>
                 <span class="k">def</span><span class="w"> </span><span class="nf">percentile_bootstrap</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
@@ -1036,9 +1037,9 @@
                 <span class="c1"># TODO: studentized bootstrap? this would be more accurate in most cases but can we avoid</span>
                 <span class="c1">#       second level bootstrap which would be prohibitive computationally?</span>
 
-                <span class="n">fn</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;percentile&#39;</span><span class="p">:</span> <span class="n">percentile_bootstrap</span><span class="p">,</span>
-                      <span class="s1">&#39;normal&#39;</span><span class="p">:</span> <span class="n">normal_bootstrap</span><span class="p">,</span>
-                      <span class="s1">&#39;pivot&#39;</span><span class="p">:</span> <span class="n">pivot_bootstrap</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap_type</span><span class="p">]</span>
+                <span class="n">fn</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'percentile'</span><span class="p">:</span> <span class="n">percentile_bootstrap</span><span class="p">,</span>
+                      <span class="s1">'normal'</span><span class="p">:</span> <span class="n">normal_bootstrap</span><span class="p">,</span>
+                      <span class="s1">'pivot'</span><span class="p">:</span> <span class="n">pivot_bootstrap</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap_type</span><span class="p">]</span>
                 <span class="k">return</span> <span class="n">proxy</span><span class="p">(</span><span class="n">can_call</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
 
             <span class="n">can_call</span> <span class="o">=</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">prefix</span><span class="p">))</span>
@@ -1048,51 +1049,51 @@
                     <span class="k">return</span> <span class="n">call_with_bounds</span><span class="p">(</span><span class="n">can_call</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">call</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># don&#39;t pass extra arguments if the wrapped attribute wasn&#39;t callable to begin with</span>
+                <span class="c1"># don't pass extra arguments if the wrapped attribute wasn't callable to begin with</span>
                 <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">95</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">call_with_bounds</span><span class="p">(</span><span class="n">can_call</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">call</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">get_inference</span><span class="p">():</span>
-            <span class="c1"># can&#39;t import from econml.inference at top level without creating cyclical dependencies</span>
+            <span class="c1"># can't import from econml.inference at top level without creating cyclical dependencies</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">._inference</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmpiricalInferenceResults</span><span class="p">,</span> <span class="n">NormalInferenceResults</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">.._cate_estimator</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearModelFinalCateEstimatorDiscreteMixin</span>
 
-            <span class="n">prefix</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;_inference&quot;</span><span class="p">)]</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="s2">"_inference"</span><span class="p">)]</span>
 
             <span class="k">def</span><span class="w"> </span><span class="nf">fname_transformer</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">x</span>
 
-            <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;const_marginal_effect&#39;</span><span class="p">,</span> <span class="s1">&#39;marginal_effect&#39;</span><span class="p">,</span> <span class="s1">&#39;effect&#39;</span><span class="p">]:</span>
-                <span class="n">inf_type</span> <span class="o">=</span> <span class="s1">&#39;effect&#39;</span>
-            <span class="k">elif</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s1">&#39;coef_&#39;</span><span class="p">:</span>
-                <span class="n">inf_type</span> <span class="o">=</span> <span class="s1">&#39;coefficient&#39;</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;cate_feature_names&#39;</span><span class="p">)</span> <span class="ow">and</span>
+            <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'const_marginal_effect'</span><span class="p">,</span> <span class="s1">'marginal_effect'</span><span class="p">,</span> <span class="s1">'effect'</span><span class="p">]:</span>
+                <span class="n">inf_type</span> <span class="o">=</span> <span class="s1">'effect'</span>
+            <span class="k">elif</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s1">'coef_'</span><span class="p">:</span>
+                <span class="n">inf_type</span> <span class="o">=</span> <span class="s1">'coefficient'</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'cate_feature_names'</span><span class="p">)</span> <span class="ow">and</span>
                         <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cate_feature_names</span><span class="p">)):</span>
                     <span class="k">def</span><span class="w"> </span><span class="nf">fname_transformer</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cate_feature_names</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s1">&#39;intercept_&#39;</span><span class="p">:</span>
-                <span class="n">inf_type</span> <span class="o">=</span> <span class="s1">&#39;intercept&#39;</span>
+            <span class="k">elif</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s1">'intercept_'</span><span class="p">:</span>
+                <span class="n">inf_type</span> <span class="o">=</span> <span class="s1">'intercept'</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Unsupported inference: &quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Unsupported inference: "</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
 
             <span class="n">d_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped</span><span class="o">.</span><span class="n">_d_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped</span><span class="o">.</span><span class="n">_d_t</span> <span class="k">else</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s1">&#39;effect&#39;</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">,</span> <span class="n">LinearModelFinalCateEstimatorDiscreteMixin</span><span class="p">)</span> <span class="ow">and</span>
-                                      <span class="p">(</span><span class="n">inf_type</span> <span class="o">==</span> <span class="s1">&#39;coefficient&#39;</span> <span class="ow">or</span> <span class="n">inf_type</span> <span class="o">==</span> <span class="s1">&#39;intercept&#39;</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s1">'effect'</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">,</span> <span class="n">LinearModelFinalCateEstimatorDiscreteMixin</span><span class="p">)</span> <span class="ow">and</span>
+                                      <span class="p">(</span><span class="n">inf_type</span> <span class="o">==</span> <span class="s1">'coefficient'</span> <span class="ow">or</span> <span class="n">inf_type</span> <span class="o">==</span> <span class="s1">'intercept'</span><span class="p">)):</span>
                 <span class="n">d_t</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">d_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped</span><span class="o">.</span><span class="n">_d_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped</span><span class="o">.</span><span class="n">_d_y</span> <span class="k">else</span> <span class="mi">1</span>
 
             <span class="n">can_call</span> <span class="o">=</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">prefix</span><span class="p">))</span>
 
             <span class="n">kind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap_type</span>
-            <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;percentile&#39;</span> <span class="ow">or</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;pivot&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">'percentile'</span> <span class="ow">or</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">'pivot'</span><span class="p">:</span>
                 <span class="k">def</span><span class="w"> </span><span class="nf">get_dist</span><span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="n">arr</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;percentile&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">'percentile'</span><span class="p">:</span>
                         <span class="k">return</span> <span class="n">arr</span>
-                    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;pivot&#39;</span><span class="p">:</span>
+                    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">'pivot'</span><span class="p">:</span>
                         <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">est</span> <span class="o">-</span> <span class="n">arr</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid kind, must be either &#39;percentile&#39; or &#39;pivot&#39;&quot;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid kind, must be either 'percentile' or 'pivot'"</span><span class="p">)</span>
 
                 <span class="k">def</span><span class="w"> </span><span class="nf">get_result</span><span class="p">():</span>
                     <span class="k">return</span> <span class="n">proxy</span><span class="p">(</span><span class="n">can_call</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span>
@@ -1112,13 +1113,13 @@
                 <span class="k">return</span> <span class="n">get_result</span><span class="p">()</span> <span class="k">if</span> <span class="n">can_call</span> <span class="k">else</span> <span class="n">get_result</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">assert</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span>
+                <span class="k">assert</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">'normal'</span>
 
                 <span class="k">def</span><span class="w"> </span><span class="nf">normal_inference</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
                     <span class="n">pred</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">can_call</span><span class="p">:</span>
                         <span class="n">pred</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                    <span class="n">stderr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;_std&#39;</span><span class="p">)</span>
+                    <span class="n">stderr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s1">'_std'</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">can_call</span><span class="p">:</span>
                         <span class="n">stderr</span> <span class="o">=</span> <span class="n">stderr</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">NormalInferenceResults</span><span class="p">(</span>
@@ -1134,15 +1135,15 @@
 
         <span class="n">caught</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">m</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_interval&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"_interval"</span><span class="p">):</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">get_interval</span>
-        <span class="k">elif</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_std&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"_std"</span><span class="p">):</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">get_std</span>
-        <span class="k">elif</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_inference&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"_inference"</span><span class="p">):</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">get_inference</span>
 
         <span class="c1"># try to get interval/std first if appropriate,</span>
-        <span class="c1"># since we don&#39;t prefer a wrapped method with this name</span>
+        <span class="c1"># since we don't prefer a wrapped method with this name</span>
         <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">m</span><span class="p">()</span>
@@ -1181,5 +1182,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>

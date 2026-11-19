@@ -1,0 +1,43 @@
+body {
+    padding-bottom: 11rem;
+}
+
+#econml-docs-versions {
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    max-width: min(100%, 28rem);
+    max-height: 40vh;
+    overflow: auto;
+    padding: .6rem 1rem;
+    background: #fcfcfc;
+    color: #24292f;
+    border: 1px solid #767676;
+    box-shadow: 0 0 .4rem #0003;
+    font: .85rem/1.5 sans-serif;
+}
+
+#econml-docs-versions strong,
+#econml-docs-versions a,
+#econml-docs-versions label,
+#econml-docs-versions [role="status"] {
+    display: block;
+}
+
+#econml-docs-versions a {
+    color: #075a9c;
+    text-decoration: underline;
+}
+
+#econml-docs-versions select {
+    max-width: 100%;
+    font: inherit;
+}
+
+@media print {
+    #econml-docs-versions {
+        position: static;
+    }
+}

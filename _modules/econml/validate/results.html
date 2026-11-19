@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>econml.validate.results &mdash; econml 0.16.0 documentation</title>
+  <title>econml.validate.results &mdash; econml 0.17.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=7de89ed4"></script>
+        <script src="../../../_static/documentation_options.js?v=a8455094"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../_static/econml-logo-inverse.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.16.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.SeparateModel"><code class="docutils literal notranslate"><span class="pre">SeparateModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.Summary"><code class="docutils literal notranslate"><span class="pre">Summary</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.WeightedModelWrapper"><code class="docutils literal notranslate"><span class="pre">WeightedModelWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_constant"><code class="docutils literal notranslate"><span class="pre">add_constant()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.add_intercept"><code class="docutils literal notranslate"><span class="pre">add_intercept()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.broadcast_unit_treatments"><code class="docutils literal notranslate"><span class="pre">broadcast_unit_treatments()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.check_input_arrays"><code class="docutils literal notranslate"><span class="pre">check_input_arrays()</span></code></a></li>
@@ -428,7 +429,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.issparse"><code class="docutils literal notranslate"><span class="pre">issparse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.jacify_featurizer"><code class="docutils literal notranslate"><span class="pre">jacify_featurizer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.ndim"><code class="docutils literal notranslate"><span class="pre">ndim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape"><code class="docutils literal notranslate"><span class="pre">reshape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_Y_T"><code class="docutils literal notranslate"><span class="pre">reshape_Y_T()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/econml.utilities.html#econml.utilities.reshape_arrays_2dim"><code class="docutils literal notranslate"><span class="pre">reshape_arrays_2dim()</span></code></a></li>
@@ -864,7 +864,7 @@
 <div class="viewcode-block" id="CalibrationEvaluationResults">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.CalibrationEvaluationResults.html#econml.validate.CalibrationEvaluationResults">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CalibrationEvaluationResults</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Results class for calibration test.</span>
 
 <span class="sd">    Parameters</span>
@@ -878,7 +878,7 @@
 
 <span class="sd">    treatments: list or numpy array of floats</span>
 <span class="sd">        Sequence of treatment labels</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="CalibrationEvaluationResults.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.CalibrationEvaluationResults.html#econml.validate.CalibrationEvaluationResults.__init__">[docs]</a>
@@ -896,7 +896,7 @@
 <div class="viewcode-block" id="CalibrationEvaluationResults.summary">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.CalibrationEvaluationResults.html#econml.validate.CalibrationEvaluationResults.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Construct a dataframe summarizing the results of the calibration test.</span>
 
 <span class="sd">        Parameters</span>
@@ -906,10 +906,10 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pandas dataframe containing summary of calibration test results</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-            <span class="s1">&#39;treatment&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
-            <span class="s1">&#39;cal_r_squared&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_r_squared</span><span class="p">,</span>
+            <span class="s1">'treatment'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+            <span class="s1">'cal_r_squared'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_r_squared</span><span class="p">,</span>
         <span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
@@ -917,7 +917,7 @@
 <div class="viewcode-block" id="CalibrationEvaluationResults.plot_cal">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.CalibrationEvaluationResults.html#econml.validate.CalibrationEvaluationResults.plot_cal">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_cal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmt</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot group average treatment effects (GATEs) and predicted GATEs by quantile-based group in validation sample.</span>
 
 <span class="sd">        Parameters</span>
@@ -928,21 +928,21 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib plot with predicted GATE on x-axis and GATE (and 95% CI) on y-axis</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">tmt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid treatment; must be one of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Invalid treatment; must be one of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_data_dict</span><span class="p">[</span><span class="n">tmt</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">rsq</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cal_r_squared</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treatments</span> <span class="o">==</span> <span class="n">tmt</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;95_err&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;se_gate&#39;</span><span class="p">]</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">'95_err'</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">'se_gate'</span><span class="p">]</span>
         <span class="n">fig</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-            <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span>
-            <span class="n">x</span><span class="o">=</span><span class="s1">&#39;g_cate&#39;</span><span class="p">,</span>
-            <span class="n">y</span><span class="o">=</span><span class="s1">&#39;gate&#39;</span><span class="p">,</span>
-            <span class="n">yerr</span><span class="o">=</span><span class="s1">&#39;95_err&#39;</span><span class="p">,</span>
-            <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Group Mean CATE&#39;</span><span class="p">,</span>
-            <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;GATE&#39;</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Treatment = </span><span class="si">{</span><span class="n">tmt</span><span class="si">}</span><span class="s2">, Calibration R^2 = </span><span class="si">{</span><span class="n">rsq</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">kind</span><span class="o">=</span><span class="s1">'scatter'</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="s1">'g_cate'</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="s1">'gate'</span><span class="p">,</span>
+            <span class="n">yerr</span><span class="o">=</span><span class="s1">'95_err'</span><span class="p">,</span>
+            <span class="n">xlabel</span><span class="o">=</span><span class="s1">'Group Mean CATE'</span><span class="p">,</span>
+            <span class="n">ylabel</span><span class="o">=</span><span class="s1">'GATE'</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Treatment = </span><span class="si">{</span><span class="n">tmt</span><span class="si">}</span><span class="s2">, Calibration R^2 = </span><span class="si">{</span><span class="n">rsq</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">fig</span></div>
@@ -953,7 +953,7 @@
 <div class="viewcode-block" id="BLPEvaluationResults">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.BLPEvaluationResults.html#econml.validate.BLPEvaluationResults">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BLPEvaluationResults</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Results class for BLP test.</span>
 
 <span class="sd">    Parameters</span>
@@ -969,7 +969,7 @@
 
 <span class="sd">    treatments: list or numpy array of floats</span>
 <span class="sd">       Sequence of treatment labels</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="BLPEvaluationResults.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.BLPEvaluationResults.html#econml.validate.BLPEvaluationResults.__init__">[docs]</a>
@@ -989,7 +989,7 @@
 <div class="viewcode-block" id="BLPEvaluationResults.summary">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.BLPEvaluationResults.html#econml.validate.BLPEvaluationResults.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Construct a dataframe summarizing the results of the BLP test.</span>
 
 <span class="sd">        Parameters</span>
@@ -999,12 +999,12 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pandas dataframe containing summary of BLP test results</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-            <span class="s1">&#39;treatment&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
-            <span class="s1">&#39;blp_est&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
-            <span class="s1">&#39;blp_se&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">errs</span><span class="p">,</span>
-            <span class="s1">&#39;blp_pval&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pvals</span>
+            <span class="s1">'treatment'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+            <span class="s1">'blp_est'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+            <span class="s1">'blp_se'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">errs</span><span class="p">,</span>
+            <span class="s1">'blp_pval'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pvals</span>
         <span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 </div>
@@ -1014,7 +1014,7 @@
 <div class="viewcode-block" id="UpliftEvaluationResults">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.UpliftEvaluationResults.html#econml.validate.UpliftEvaluationResults">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UpliftEvaluationResults</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Results class for uplift curve-based tests.</span>
 
 <span class="sd">    Parameters</span>
@@ -1034,7 +1034,7 @@
 <span class="sd">    curve_data_dict: dict</span>
 <span class="sd">        Dictionary mapping treatment levels to dataframes containing</span>
 <span class="sd">        necessary data for plotting uplift curves</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="UpliftEvaluationResults.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.UpliftEvaluationResults.html#econml.validate.UpliftEvaluationResults.__init__">[docs]</a>
@@ -1056,7 +1056,7 @@
 <div class="viewcode-block" id="UpliftEvaluationResults.summary">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.UpliftEvaluationResults.html#econml.validate.UpliftEvaluationResults.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Construct a dataframe summarizing the results of the QINI test.</span>
 
 <span class="sd">        Parameters</span>
@@ -1066,12 +1066,12 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pandas dataframe containing summary of QINI test results</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-            <span class="s1">&#39;treatment&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
-            <span class="s1">&#39;est&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
-            <span class="s1">&#39;se&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">errs</span><span class="p">,</span>
-            <span class="s1">&#39;pval&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pvals</span>
+            <span class="s1">'treatment'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+            <span class="s1">'est'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+            <span class="s1">'se'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">errs</span><span class="p">,</span>
+            <span class="s1">'pval'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pvals</span>
         <span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
@@ -1079,7 +1079,7 @@
 <div class="viewcode-block" id="UpliftEvaluationResults.plot_uplift">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.UpliftEvaluationResults.html#econml.validate.UpliftEvaluationResults.plot_uplift">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_uplift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmt</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">err_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot uplift curves.</span>
 
 <span class="sd">        Parameters</span>
@@ -1088,48 +1088,48 @@
 <span class="sd">            Name of treatment to plot.</span>
 
 <span class="sd">        err_type: str</span>
-<span class="sd">            Type of error to plot. Accepted values are normal (None), two-sided uniform confidence band (&#39;ucb2&#39;),</span>
-<span class="sd">            or 1-sided uniform confidence band (&#39;ucb1&#39;).</span>
+<span class="sd">            Type of error to plot. Accepted values are normal (None), two-sided uniform confidence band ('ucb2'),</span>
+<span class="sd">            or 1-sided uniform confidence band ('ucb1').</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib plot with percentage treated on x-axis and uplift metric (and 95% CI) on y-axis</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">tmt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid treatment; must be one of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Invalid treatment; must be one of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">treatments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="n">tmt</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">err_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;95_err&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;err&#39;</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">err_type</span> <span class="o">==</span> <span class="s1">&#39;ucb2&#39;</span><span class="p">:</span>
-            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;95_err&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;uniform_critical_value&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;err&#39;</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">err_type</span> <span class="o">==</span> <span class="s1">&#39;ucb1&#39;</span><span class="p">:</span>
-            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;95_err&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;uniform_one_side_critical_value&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;err&#39;</span><span class="p">]</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">'95_err'</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">'err'</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">err_type</span> <span class="o">==</span> <span class="s1">'ucb2'</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">'95_err'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'uniform_critical_value'</span><span class="p">]</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">'err'</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">err_type</span> <span class="o">==</span> <span class="s1">'ucb1'</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">'95_err'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'uniform_one_side_critical_value'</span><span class="p">]</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">'err'</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid error type </span><span class="si">{</span><span class="n">err_type</span><span class="si">!r}</span><span class="s2">; must be one of [None, &#39;ucb2&#39;, &#39;ucb1&#39;]&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid error type </span><span class="si">{</span><span class="n">err_type</span><span class="si">!r}</span><span class="s2">; must be one of [None, 'ucb2', 'ucb1']"</span><span class="p">)</span>
 
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
-        <span class="n">coeff</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tmt</span><span class="p">][</span><span class="s1">&#39;est&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="n">err</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tmt</span><span class="p">][</span><span class="s1">&#39;se&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">coeff</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="s1">'treatment'</span><span class="p">]</span> <span class="o">==</span> <span class="n">tmt</span><span class="p">][</span><span class="s1">'est'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="s1">'treatment'</span><span class="p">]</span> <span class="o">==</span> <span class="n">tmt</span><span class="p">][</span><span class="s1">'se'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">err_type</span> <span class="o">==</span> <span class="s1">&#39;ucb1&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">err_type</span> <span class="o">==</span> <span class="s1">'ucb1'</span><span class="p">:</span>
             <span class="n">fig</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-                <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span>
-                <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Percentage treated&#39;</span><span class="p">,</span>
-                <span class="n">y</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
-                <span class="n">yerr</span><span class="o">=</span><span class="p">[[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;95_err&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))]],</span>
-                <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Gain over Random&#39;</span><span class="p">,</span>
-                <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Treatment = </span><span class="si">{</span><span class="n">tmt</span><span class="si">}</span><span class="s2">, Integral = </span><span class="si">{</span><span class="n">coeff</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">kind</span><span class="o">=</span><span class="s1">'scatter'</span><span class="p">,</span>
+                <span class="n">x</span><span class="o">=</span><span class="s1">'Percentage treated'</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="s1">'value'</span><span class="p">,</span>
+                <span class="n">yerr</span><span class="o">=</span><span class="p">[[</span><span class="n">df</span><span class="p">[</span><span class="s1">'95_err'</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))]],</span>
+                <span class="n">ylabel</span><span class="o">=</span><span class="s1">'Gain over Random'</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Treatment = </span><span class="si">{</span><span class="n">tmt</span><span class="si">}</span><span class="s2">, Integral = </span><span class="si">{</span><span class="n">coeff</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fig</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-                <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span>
-                <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Percentage treated&#39;</span><span class="p">,</span>
-                <span class="n">y</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
-                <span class="n">yerr</span><span class="o">=</span><span class="s1">&#39;95_err&#39;</span><span class="p">,</span>
-                <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Gain over Random&#39;</span><span class="p">,</span>
-                <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Treatment = </span><span class="si">{</span><span class="n">tmt</span><span class="si">}</span><span class="s2">, Integral = </span><span class="si">{</span><span class="n">coeff</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">kind</span><span class="o">=</span><span class="s1">'scatter'</span><span class="p">,</span>
+                <span class="n">x</span><span class="o">=</span><span class="s1">'Percentage treated'</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="s1">'value'</span><span class="p">,</span>
+                <span class="n">yerr</span><span class="o">=</span><span class="s1">'95_err'</span><span class="p">,</span>
+                <span class="n">ylabel</span><span class="o">=</span><span class="s1">'Gain over Random'</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Treatment = </span><span class="si">{</span><span class="n">tmt</span><span class="si">}</span><span class="s2">, Integral = </span><span class="si">{</span><span class="n">coeff</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">fig</span></div>
@@ -1140,7 +1140,7 @@
 <div class="viewcode-block" id="EvaluationResults">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.EvaluationResults.html#econml.validate.EvaluationResults">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EvaluationResults</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Results class for combination of all tests.</span>
 
 <span class="sd">    Parameters</span>
@@ -1156,7 +1156,7 @@
 
 <span class="sd">    toc_res: UpliftEvaluationResults object</span>
 <span class="sd">       Results object for TOC test</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="EvaluationResults.__init__">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.EvaluationResults.html#econml.validate.EvaluationResults.__init__">[docs]</a>
@@ -1176,7 +1176,7 @@
 <div class="viewcode-block" id="EvaluationResults.summary">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.EvaluationResults.html#econml.validate.EvaluationResults.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Construct a dataframe summarizing the results of all 3 tests.</span>
 
 <span class="sd">        Parameters</span>
@@ -1186,16 +1186,16 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pandas dataframe containing summary of all test results</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blp</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">qini</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;est&#39;</span><span class="p">:</span> <span class="s1">&#39;qini_est&#39;</span><span class="p">,</span> <span class="s1">&#39;se&#39;</span><span class="p">:</span> <span class="s1">&#39;qini_se&#39;</span><span class="p">,</span> <span class="s1">&#39;pval&#39;</span><span class="p">:</span> <span class="s1">&#39;qini_pval&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-            <span class="n">on</span><span class="o">=</span><span class="s1">&#39;treatment&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qini</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">'est'</span><span class="p">:</span> <span class="s1">'qini_est'</span><span class="p">,</span> <span class="s1">'se'</span><span class="p">:</span> <span class="s1">'qini_se'</span><span class="p">,</span> <span class="s1">'pval'</span><span class="p">:</span> <span class="s1">'qini_pval'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">on</span><span class="o">=</span><span class="s1">'treatment'</span>
         <span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">toc</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;est&#39;</span><span class="p">:</span> <span class="s1">&#39;autoc_est&#39;</span><span class="p">,</span> <span class="s1">&#39;se&#39;</span><span class="p">:</span> <span class="s1">&#39;autoc_se&#39;</span><span class="p">,</span> <span class="s1">&#39;pval&#39;</span><span class="p">:</span> <span class="s1">&#39;autoc_pval&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-            <span class="n">on</span><span class="o">=</span><span class="s1">&#39;treatment&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">toc</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">'est'</span><span class="p">:</span> <span class="s1">'autoc_est'</span><span class="p">,</span> <span class="s1">'se'</span><span class="p">:</span> <span class="s1">'autoc_se'</span><span class="p">,</span> <span class="s1">'pval'</span><span class="p">:</span> <span class="s1">'autoc_pval'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">on</span><span class="o">=</span><span class="s1">'treatment'</span>
         <span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cal</span><span class="o">.</span><span class="n">summary</span><span class="p">(),</span>
-            <span class="n">on</span><span class="o">=</span><span class="s1">&#39;treatment&#39;</span>
+            <span class="n">on</span><span class="o">=</span><span class="s1">'treatment'</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
@@ -1203,7 +1203,7 @@
 <div class="viewcode-block" id="EvaluationResults.plot_cal">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.EvaluationResults.html#econml.validate.EvaluationResults.plot_cal">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_cal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmt</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot group average treatment effects (GATEs) and predicted GATEs by quantile-based group in validation sample.</span>
 
 <span class="sd">        Parameters</span>
@@ -1214,14 +1214,14 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib plot with predicted GATE on x-axis and GATE (and 95% CI) on y-axis</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal</span><span class="o">.</span><span class="n">plot_cal</span><span class="p">(</span><span class="n">tmt</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="EvaluationResults.plot_qini">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.EvaluationResults.html#econml.validate.EvaluationResults.plot_qini">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_qini</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">err_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot QINI curves.</span>
 
 <span class="sd">        Parameters</span>
@@ -1230,20 +1230,20 @@
 <span class="sd">            Treatment level to plot</span>
 
 <span class="sd">        err_type: str</span>
-<span class="sd">            Type of error to plot. Accepted values are normal (None), two-sided uniform confidence band (&#39;ucb2&#39;),</span>
-<span class="sd">            or 1-sided uniform confidence band (&#39;ucb1&#39;).</span>
+<span class="sd">            Type of error to plot. Accepted values are normal (None), two-sided uniform confidence band ('ucb2'),</span>
+<span class="sd">            or 1-sided uniform confidence band ('ucb1').</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib plot with percentage treated on x-axis and QINI value (and 95% CI) on y-axis</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">qini</span><span class="o">.</span><span class="n">plot_uplift</span><span class="p">(</span><span class="n">tmt</span><span class="p">,</span> <span class="n">err_type</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="EvaluationResults.plot_toc">
 <a class="viewcode-back" href="../../../_autosummary/econml.validate.EvaluationResults.html#econml.validate.EvaluationResults.plot_toc">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_toc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">err_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot TOC curves.</span>
 
 <span class="sd">        Parameters</span>
@@ -1252,13 +1252,13 @@
 <span class="sd">            Treatment level to plot</span>
 
 <span class="sd">        err_type: str</span>
-<span class="sd">            Type of error to plot. Accepted values are normal (None), two-sided uniform confidence band (&#39;ucb2&#39;),</span>
-<span class="sd">            or 1-sided uniform confidence band (&#39;ucb1&#39;).</span>
+<span class="sd">            Type of error to plot. Accepted values are normal (None), two-sided uniform confidence band ('ucb2'),</span>
+<span class="sd">            or 1-sided uniform confidence band ('ucb1').</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib plot with percentage treated on x-axis and TOC value (and 95% CI) on y-axis</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">toc</span><span class="o">.</span><span class="n">plot_uplift</span><span class="p">(</span><span class="n">tmt</span><span class="p">,</span> <span class="n">err_type</span><span class="p">)</span></div>
 </div>
 
@@ -1290,5 +1290,17 @@
       });
   </script> 
 
+
+<!-- econml-versions:start -->
+<link rel="stylesheet" href="../../../_versions/versions.css">
+<aside id="econml-docs-versions" aria-label="Documentation versions" data-version="v0.17.1">
+<strong>v0.17.1</strong>
+<a href="../../../versions.html">All documentation versions</a>
+<label for="econml-version-select">Switch version</label>
+<select id="econml-version-select" hidden></select>
+<span role="status"></span>
+</aside>
+<script src="../../../_versions/versions.js" defer></script>
+<!-- econml-versions:end -->
 </body>
 </html>
