@@ -29,8 +29,8 @@
   "versions": [
     {
       "build": {
-        "builder_sha": "ad9915fe0b8e183dac5951c22b28b1dc656e694f",
-        "built_at": "2026-11-19T19:23:33.575531+00:00",
+        "builder_sha": "d52632ed5496c1744e97bef71d15770fee6a7ed1",
+        "built_at": "2026-11-19T20:08:20.750361+00:00",
         "python": "3.12.16 (main, Oct 26 2026, 02:48:44) [GCC 15.2.0]",
         "requirements": [
           "alabaster==0.7.16",
