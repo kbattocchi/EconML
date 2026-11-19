@@ -694,38 +694,115 @@ The reStructuredText files that make up the documentation are stored in the [doc
 
 ### Publishing and testing documentation
 
-The `publish-documentation.yml` workflow deploys the generated HTML directly to GitHub Pages using
-GitHub's built-in token. It does not commit generated files to `gh-pages` or require Azure credentials.
-Before publishing, set **Settings > Pages > Build and deployment > Source** to **GitHub Actions** in
-the target repository. This setting affects only that repository, not other projects in the organization.
+The `publish-documentation.yml` workflow deploys a complete, multi-version HTML site through
+GitHub Actions Pages, using GitHub's built-in token. It needs no Azure credentials, external service,
+or multiversion Sphinx plugin.
 
-Publishing uses the `prod` deployment environment, preserving its existing approval requirements.
-Forks use their own environment and token; no upstream secrets are needed. If `prod` does not exist,
-GitHub creates it when the deployment job runs, without protection rules or secrets. Configure
-reviewers beforehand if approval is desired. Any deployment branch restrictions on `prod` must
-allow the branch running the workflow.
+| Site path (below `/EconML/`) | Contents |
+| --- | --- |
+| `/` | Approved stable documentation, retaining existing deep links |
+| `vX.Y.Z/` | An archived final release, not rebuilt on later publications |
+| `prerelease/` | Latest successfully published `main` build, visibly marked as unreleased |
+| `versions.json`, `versions.html`, `_versions/` | Shared manifest, fallback version list, and picker assets |
 
-To check the build without publishing, run the workflow with `publish: false`. The `docs` artifact
-contains the generated HTML and can be downloaded and inspected locally. The workflow also packages
-the `github-pages` deployment artifact, so build-only runs exercise Pages packaging without publishing.
-Pages settings need not be changed for a build-only run. CI also uses this mode.
+#### One-time repository setup
 
-For an end-to-end deployment test, push the changes to a branch in your fork, select GitHub Actions
-as that fork's Pages source, and dispatch the workflow from that branch. For example, substitute
-your fork's owner and branch below:
+Before enabling automatic publication, configure these settings **in the target repository**:
+
+- Set **Settings > Pages > Source** to **GitHub Actions**.
+- Protect `main` with PR reviews and required checks; require owner review of publication code.
+- Create the **`docs-prerelease` environment**, with **Selected branches and tags** allowing the
+  `main` branch only, and no required deployment reviewers.
+- Retain required reviewers on **`prod`** for release promotion. Restrict its deployment branches to
+  trusted workflow branches, normally `main`.
+- Permit the publishing workflow to write repository contents and Pages. Ordinary builds explicitly
+  use a read-only token; only the separate publisher can write the archive and deploy.
+
+Environment names do not enforce approvals by themselves: GitHub auto-creates missing environments
+without protection rules. Configure them before the workflow reaches `main`. Forks have independent
+settings, environments and tokens; upstream configuration is not inherited.
+
+#### Durable HTML archives and changing build environments
+
+The workflow stores the complete assembled site in a generated **`docs-archive` branch** in the
+same repository. That branch is storage, not the configured Pages publishing source. Ordinary code
+and PR checkouts do not fetch it. The initial publication bootstraps the existing `gh-pages` HTML,
+checks that it identifies itself as **0.16.0**, and preserves it as both the stable root and
+`v0.16.0/`. An unknown snapshot fails explicitly instead of being assigned a guessed version.
+The existing `gh-pages` branch remains unchanged.
+
+Each later release is built once, recording its source SHA, publisher-workflow SHA, interpreter,
+installed dependencies and build time in the manifest. Later Python/dependency/Sphinx changes do not
+rebuild old HTML. SHA-256 checks detect modified archived trees and unexpected stable-root changes.
+A named release cannot be overwritten with a different build; retrying the same candidate is safe.
+Corrective republishing requires an explicit maintenance decision, not an automatic overwrite.
+
+Only the selected release and current prerelease need usable build environments. For this initial
+implementation, new builds still use Python 3.12 and the workflow's Sphinx/dependency installation
+recipe. Update that recipe as supported environments change, or build a maintained release branch
+with its compatible publisher workflow. There is deliberately no promise to rebuild every old tag.
+Changing the publisher does not require migrating existing HTML.
+
+Generated prerelease commits grow Git history. Release ZIP assets on GitHub are a possible future
+archive backend if that becomes burdensome; expiring Actions artifacts are not permanent storage.
+Assembly enforces a 1 GB site budget; the archive also remains subject to ordinary Git file limits.
+
+#### Automatic prerelease and approved release publication
+
+Every push to `main` builds that event's exact commit, runs doctests, then publishes through
+`docs-prerelease` without a second approval. Superseded main builds are skipped visibly. Prerelease
+updates replace only the stored prerelease tree and shared navigation, not archived releases or the
+stable-root selection.
+
+For a final release, dispatch with **`publication: release`**, **`publish: true`**, and an explicit
+release tag or commit in **`ref`**. The build records the package's three-part final version.
+Review its source SHA and candidate artifact digest in the run summary before approving `prod`.
+The publisher consumes the already-built artifact by its immutable artifact ID; it does not resolve
+the tag again after approval. Release publication adds the named tree and promotes a copy to the root.
+Development, release-candidate, local and post-release version strings are not stable promotions.
+
+Both paths share one lock covering archive checkout, validation, assembly, persistence, and Pages
+deployment. The assembler updates `versions.json` automatically, validates every listed tree, and
+generates the static versions page. The archive commit is recorded in the run summary before its
+site is deployed. If deployment fails, rerun the failed job with the same candidate.
+
+The picker is a small, theme-independent HTML hook inserted during assembly, including once into
+the preserved 0.16.0 pages. Shared JavaScript fetches `versions.json` with cache revalidation; adding
+a release updates the picker on existing pages without rewriting them. Version switching initially
+goes to version landing pages, not corresponding API pages or anchors. Without JavaScript, or if
+the manifest cannot load, the static all-versions link remains available. Shared UI changes must
+remain compatible with retained hooks.
+
+**Environments are not directory-level isolation.** Pages replaces the entire site each time.
+Archive checks and promotion rules protect against mistakes in reviewed workflows, not a malicious
+actor with enough repository/workflow write access to bypass them. Stronger stable/prerelease
+isolation would require a separately controlled destination.
+
+#### Testing and rollback
+
+For a build-only run, set **`publish: false`** and optionally `ref`. This runs publisher regression
+checks, builds HTML, runs the selected doctests, uploads `docs` and an immutable `docs-candidate`,
+and tests Pages packaging as `docs-build-pages`. It does not read or write the archive or require
+Pages configuration. Reusable PR/nightly CI uses this mode.
+
+For an end-to-end fork test, configure that fork's Pages and environments first, then dispatch the
+workflow from the feature branch. Its `prod` environment must allow that branch. For example:
 
 ```sh
-gh workflow run publish-documentation.yml --repo YOUR-ACCOUNT/EconML --ref docs-pages-test -f publish=true
+gh workflow run publish-documentation.yml --repo YOUR-ACCOUNT/EconML --ref docs-pages-test \
+  -f publish=true -f publication=release -f ref=RELEASE-COMMIT-SHA
 ```
 
 The dispatchable workflow must already exist on the fork's default branch, but the updated version
-can run from the selected feature branch without merging it. The optional `ref` input selects the
-source revision to build; when omitted, it builds the revision running the workflow. Publishing
-updates the fork's Pages site, not the upstream site. There is no separate hosted test environment.
-For build-only testing, use `-f publish=false` instead.
+can run from the selected branch without merging it. A manual **`publication: prerelease`** test
+always builds current `main` and rejects a `ref` override; allow the workflow branch in the fork's
+`docs-prerelease` environment for that test. No production settings need changing.
 
-Keep the existing `gh-pages` branch unchanged during migration. To roll back, restore
-**Deploy from a branch** with `gh-pages` and `/(root)` as the publishing source.
+To undo the migration entirely, restore **Deploy from a branch**, `gh-pages`, `/(root)`.
+For a later stable-site rollback, restore a known-good `docs-archive` tree as a new archive commit
+(do not force-push away archive history), then run a prerelease publication to validate and deploy
+that stable tree with the current main preview. If main itself is faulty, revert it through the
+normal review process first. Keep archive commit IDs from deployment summaries for recovery.
 
 ## Release process
 
@@ -733,7 +810,8 @@ We use GitHub Actions to build and publish the package and documentation.  To cr
 
 1. Update the version number in `econml/_version.py` and add a mention of the new version in the news section of this file and commit the changes.
 2. Manually run the `publish-package.yml` workflow to build and publish the package to PyPI.
-3. Manually run the `publish-documentation.yml` workflow to build and publish the documentation.
+3. Manually run `publish-documentation.yml` with `publication: release`, `publish: true`, and the
+   exact release commit in `ref`; approve its `prod` deployment after reviewing the candidate.
 4. Under https://github.com/py-why/EconML/releases, create a new release with a corresponding tag, and update the release notes.
 
 # Blogs and Publications

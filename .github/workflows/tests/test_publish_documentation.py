@@ -3,6 +3,9 @@
 
 """Check Pages publishing and the build-only reusable workflow contract."""
 
+import os
+import shutil
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -29,11 +32,12 @@ def test_inputs_keep_build_only_without_azure_test_environment(trigger):
 
 
 def test_pages_deployment_uses_successful_build_artifact():
-    """Package the HTML even in build-only runs, but deploy only after a successful build."""
+    """Deploy an assembled site from an immutable candidate, not an arbitrary rebuild."""
     build = WORKFLOW["jobs"]["create_docs"]
     publish = WORKFLOW["jobs"]["publish-docs"]
+    assert build["needs"] == "check_site"
     assert publish["needs"] == "create_docs"
-    assert publish["if"] == "${{ inputs.publish }}"
+    assert publish["if"] == "${{ github.event_name == 'push' || inputs.publish }}"
     assert not any(
         step.get("uses", "").startswith(("actions/configure-pages@", "actions/deploy-pages@"))
         for step in build["steps"]
@@ -43,7 +47,7 @@ def test_pages_deployment_uses_successful_build_artifact():
     assert docs_artifact["with"]["if-no-files-found"] == "error"
     assert any("sphinx-build" in step.get("run", "") and "-W" in step["run"] for step in build_steps)
     assert any(
-        "-b doctest" in step.get("run", "") and step["if"] == "${{ inputs.run_doctests }}"
+        "-b doctest" in step.get("run", "") and "inputs.run_doctests" in step["if"]
         for step in build_steps
     )
     pages_artifact = next(
@@ -51,19 +55,31 @@ def test_pages_deployment_uses_successful_build_artifact():
     )
     assert pages_artifact["with"]["path"] == docs_artifact["with"]["path"]
     assert "if" not in pages_artifact
-    configure, deploy = publish["steps"]
+    steps = publish["steps"]
+    configure = next(step for step in steps if step.get("uses", "").startswith("actions/configure-pages@"))
+    deploy = next(step for step in steps if step.get("uses", "").startswith("actions/deploy-pages@"))
+    download = next(step for step in steps if step.get("uses", "").startswith("actions/download-artifact@"))
+    upload = next(step for step in steps if step.get("uses", "").startswith("actions/upload-pages-artifact@"))
+    assert download["with"]["artifact-ids"] == "${{ needs.create_docs.outputs.candidate-id }}"
+    assert "artifact-id" in build["outputs"]["candidate-id"]
+    assert "candidate-id" in build["outputs"]
     assert configure["uses"].startswith("actions/configure-pages@")
     assert deploy["uses"].startswith("actions/deploy-pages@")
-    assert pages_artifact["with"].get("name", "github-pages") == deploy.get("with", {}).get(
+    assert upload["with"]["path"] == "site"
+    assert upload["with"].get("name", "github-pages") == deploy.get("with", {}).get(
         "artifact_name", "github-pages"
     )
+    assert pages_artifact["with"]["name"] != upload["with"].get("name", "github-pages")
     assert publish["environment"]["url"] == "${{ steps." + deploy["id"] + ".outputs.page_url }}"
 
 
 def test_publishing_preserves_approval_and_serializes_deployments():
     """Retain production approval gates and avoid cancelling an in-progress site deployment."""
     publish = WORKFLOW["jobs"]["publish-docs"]
-    assert publish["environment"]["name"] == "prod"
+    assert publish["environment"]["name"] == (
+        "${{ (github.event_name == 'push' || inputs.publication == 'prerelease')"
+        " && 'docs-prerelease' || 'prod' }}"
+    )
     assert publish["concurrency"] == {"group": "github-pages", "cancel-in-progress": "false"}
 
 
@@ -71,7 +87,68 @@ def test_pages_permissions_are_scoped_and_supported_by_ci_caller():
     """Build read-only; permit only the deployment job to publish with the built-in token."""
     assert WORKFLOW["permissions"] == {"contents": "read"}
     publish = WORKFLOW["jobs"]["publish-docs"]
-    assert publish["permissions"] == {"pages": "write", "id-token": "write"}
-    assert CI["jobs"]["docs"]["permissions"] == {"contents": "read", **publish["permissions"]}
-    assert "permissions" not in WORKFLOW["jobs"]["create_docs"]
+    assert publish["permissions"] == {"contents": "write", "pages": "write", "id-token": "write"}
+    assert CI["jobs"]["docs"]["permissions"] == publish["permissions"]
+    assert WORKFLOW["jobs"]["create_docs"]["permissions"] == {"contents": "read"}
     assert all("secrets." not in str(step) for step in publish["steps"])
+
+
+def test_automatic_prerelease_builds_exact_push_without_arbitrary_ref_or_build_secrets():
+    """Pushes build the event SHA; candidate code is never checked out in the publisher."""
+    assert WORKFLOW["on"]["push"] == {"branches": ["main"]}
+    build = WORKFLOW["jobs"]["create_docs"]
+    checkout = next(step for step in build["steps"] if step.get("uses", "").startswith("actions/checkout@"))
+    assert checkout["with"]["ref"].startswith("${{ github.event_name == 'push' && github.sha ||")
+    assert checkout["with"]["persist-credentials"] == "false"
+    guard = build["steps"][0]
+    assert 'if [[ -z "$SOURCE_REF" ]]' in guard["run"]
+    assert 'if [[ -n "$SOURCE_REF" ]]' in guard["run"]
+    publisher = WORKFLOW["jobs"]["publish-docs"]
+    assert publisher["steps"][0]["with"]["ref"] == "${{ github.workflow_sha }}"
+    assert publisher["steps"][0]["with"]["persist-credentials"] == "false"
+
+
+def test_archive_assembly_persistence_and_deploy_share_lock_and_stale_guard():
+    """The full critical section shares one lock; stale main candidates cannot persist/deploy."""
+    publish = WORKFLOW["jobs"]["publish-docs"]
+    assert publish["concurrency"]["group"] == "github-pages"
+    steps = publish["steps"]
+    fresh_index = next(i for i, step in enumerate(steps) if step.get("id") == "fresh")
+    guard = steps[fresh_index]["run"]
+    assert "refs/heads/main" in guard
+    assert '"$SOURCE_SHA" != "$latest"' in guard
+    assert "current=false" in guard and "GITHUB_STEP_SUMMARY" in guard
+    for step in steps[fresh_index + 1:]:
+        assert step["if"] == "steps.fresh.outputs.current == 'true'"
+    assembly_index = next(i for i, step in enumerate(steps) if "--archive docs-store" in step.get("run", ""))
+    persist_index = next(i for i, step in enumerate(steps) if "refs/heads/docs-archive" in step.get("run", "")
+                         and "push origin" in step["run"])
+    deploy_index = next(i for i, step in enumerate(steps) if step.get("uses", "").startswith("actions/deploy-pages@"))
+    assert fresh_index < assembly_index < persist_index < deploy_index
+    assert '--expected-sha "$SOURCE_SHA"' in steps[assembly_index]["run"]
+    assert "rsync -a --delete --exclude=.git site/ docs-store/" in steps[persist_index]["run"]
+
+
+@pytest.mark.parametrize(
+    "mode,source,latest,current",
+    [("prerelease", "a" * 40, "a" * 40, "true"),
+     ("prerelease", "a" * 40, "b" * 40, "false"),
+     ("release", "a" * 40, "b" * 40, "true")],
+)
+def test_stale_guard_executes_for_current_superseded_and_release_builds(tmp_path, mode, source, latest, current):
+    """Execute the actual workflow guard; only superseded prereleases should be skipped."""
+    guard = next(step["run"] for step in WORKFLOW["jobs"]["publish-docs"]["steps"] if step.get("id") == "fresh")
+    output, summary = tmp_path / "output", tmp_path / "summary"
+    output.touch()
+    summary.touch()
+    result = subprocess.run(
+        [
+            shutil.which("bash"), "-c",
+            'set -euo pipefail; git() { printf "%s\\trefs/heads/main\\n" "$LATEST"; }\n' + guard,
+        ],
+        env={**os.environ, "MODE": mode, "SOURCE_SHA": source, "LATEST": latest,
+             "GITHUB_OUTPUT": output.as_posix(), "GITHUB_STEP_SUMMARY": summary.as_posix()},
+        capture_output=True, text=True, check=True,
+    )
+    assert f"current={current}" in output.read_text()
+    assert ("Skipping superseded" in result.stdout) == (current == "false")

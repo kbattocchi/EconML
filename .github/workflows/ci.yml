@@ -109,6 +109,12 @@ jobs:
       run: 'pip install ruff && ruff check'
     - name: Test workflow helpers
       run: pip install pytest pyyaml tomli packaging && pytest .github/workflows/tests/ -q -o addopts=""
+    - name: Setup Node for documentation picker tests
+      uses: actions/setup-node@v6
+      with:
+        node-version: '24'
+    - name: Test shared documentation picker
+      run: node --test .github/workflows/tests/versions.test.cjs
 
   notebooks:
     name: Run notebooks
@@ -488,7 +494,7 @@ jobs:
     if: ${{ needs.eval.outputs.buildDocs == 'True' }}
     # The caller must allow the reusable workflow's publish job, even though CI skips it.
     permissions:
-      contents: read
+      contents: write
       pages: write
       id-token: write
     uses: ./.github/workflows/publish-documentation.yml
